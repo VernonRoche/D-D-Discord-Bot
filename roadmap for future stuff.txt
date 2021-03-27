@@ -1,0 +1,36 @@
+@@@CLASSES@@@
+Will not be a python class, and it's definitions will be in a text file including HP/Hit Dice, Proficiencies and abilities.
+Functions with it:
+-Choose class proficiencies
+-Show abilities and use if possible
+
+
+
+
+
+@@@ABILITIES AND SPELLS@@@
+A weapon will be a class with name,cost,damage dice,damage type, weight and properties attributes.
+For weapons, they will be initialized in a dictionary at the start of the bot.
+There will be a function to search and a function to throw a dice with it's stats.
+There will be a text file with custom weapons, which will be loaded at the end of dictionary initialization.
+
+Spells will be stocked in a folder, with each text file stocking a spell.
+There will be a function to add/remove a spell (to ensemble), search and use a spell. 
+There will be also a function to list spells. 
+
+
+
+
+@@@PLAYERS@@@
+Will be a class with 2 attributes: userID and list of ensembles.
+Will have  methods to set default character, create/modify/delete characters userID created.
+
+
+
+Methods:
+-Save  (expands character save and writes after @ in file)
+-Level up  (updates abilities available by class and adds spells if necessary. Adds max HP dependent to class. Checks if attributes or feat must be added)
+-Rest	(checks if it's long or short and throws a hit dice according to class)
+-Spell functions
+-Weapon functions
+-Class functions

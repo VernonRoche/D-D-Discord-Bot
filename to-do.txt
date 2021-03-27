@@ -1,0 +1,52 @@
+INFOINFOINFOINFO
+
+file (character file)
+0:Name
+1:Race
+2:Class
+3:Level
+4:HP
+5:Coin
+6:Attributes ==> Strength, Dexterity, Constitution, Intellect, Wisdom, Charisma
+7:Weapons
+8:Items
+9:Initiative
+10:Proficiencies ==>array
+@
+11: spells
+12: feats
+13: spell slots ==>Level 1, Level 2....etc. up to 9
+
+
+
+Return order of passive skills: perception, investigation, insight
+
+@@@@@EASY@@@@@
+Add passive perception
+
+Add damage function
+-Show deal damage
+-Secret damage (backend)
+
+Add utility functions
+-
+
+
+
+@@@@@VISUAL@@@@@
+Add emotes to character tab
+
+Add colors to certain messages
+
+
+
+
+@@@@@COMPLICATED@@@@@
+Add class functions (abilities etc.)
+-Add subclass functions
+-Add spellcaster functions
+
+Add weapon functions
+
+
+
