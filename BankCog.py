@@ -1,5 +1,7 @@
 from discord.ext import commands
 from Utilities import open_character, save_char_file
+from Messaging import *
+import Globals
 
 
 class Bank(commands.Cog):
@@ -16,6 +18,11 @@ class Bank(commands.Cog):
         def check(msg):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
+        # Check if the command is called in the private discussion
+        if not (is_private_channel(ctx)):
+            await ctx.send("``Send this command in our little private chit chat ;)``")
+            await private_DM(ctx, "Please execute this command here.")
+            return
         for ar in args:
             if ar != "":
                 character = character + " " + ar
@@ -29,18 +36,27 @@ class Bank(commands.Cog):
             try:
                 response = (await self.bot.wait_for("message", check=check)).content
                 if response.lower() == "yes":
-                    await ctx.send(f"``What change in your coins do you wish to make? Deposit/Withdraw``")
+                    await send_cancelable_message(ctx,f"``What change in your coins do you wish to make? Deposit/Withdraw``")
                     response = (await self.bot.wait_for("message", check=check)).content
+                    if Globals.is_cancel_requested:
+                        Globals.is_cancel_requested = False
+                        return
                     if response.lower() == "deposit":
-                        await ctx.send(f"``Enter the amount of coins you want to deposit``")
+                        await send_cancelable_message(ctx,f"``Enter the amount of coins you want to deposit``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if Globals.is_cancel_requested:
+                            Globals.is_cancel_requested = False
+                            return
                         file[5] = file[5] + int(response)
                         save_char_file(file)
                         await ctx.send("```💰Current Coins: " + str(coins) + "```")
 
                     else:
-                        await ctx.send(f"``Enter the amount of coins you want to withdraw``")
+                        await send_cancelable_message(ctx,f"``Enter the amount of coins you want to withdraw``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if Globals.is_cancel_requested:
+                            Globals.is_cancel_requested = False
+                            return
                         file[5] = file[5] - int(response)
                         await self.is_valid(ctx, file[5], "coins")
                         save_char_file(file)
