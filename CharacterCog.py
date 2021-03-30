@@ -7,6 +7,7 @@ from Utilities import separate_long_text
 from Utilities import save_char_file
 import os
 from Messaging import *
+import Globals
 
 
 class CharacterCommands(commands.Cog):
@@ -60,9 +61,18 @@ class CharacterCommands(commands.Cog):
         def check(msg):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
+        #Check if the command is called in the private discussion
+        if not(is_private_channel(ctx)):
+            await ctx.send("``Send this command in our little private chit chat ;)``")
+            await private_DM(ctx,"Please execute this command here.")
+            return
+
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx,f"``Enter your character's name: ``")
         result = (await self.bot.wait_for("message", check=check)).content
+        if Globals.is_cancel_requested:
+            Globals.is_cancel_requested=False
+            return
         if ' ' in result:
             name = ""
             result = result.split(' ')

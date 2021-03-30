@@ -5,6 +5,7 @@ from BankCog import Bank
 from BagCog import Bag
 from Weapon import WeaponCommands
 from Messaging import *
+import Globals
 
 import random
 
@@ -35,10 +36,11 @@ async def on_ready():
         print(e)
 
 
+#Check if we want to cancel a command
 @bot.event
 async def on_reaction_add(reaction,user):
     if reaction.emoji=="❌" and reaction.count>1:
-        print("VALHALLA")
+        Globals.is_cancel_requested=True
 
 
 @bot.command(name="help")
