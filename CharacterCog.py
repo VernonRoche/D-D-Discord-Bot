@@ -6,6 +6,7 @@ from Utilities import open_character
 from Utilities import separate_long_text
 from Utilities import save_char_file
 import os
+from Messaging import *
 
 
 class CharacterCommands(commands.Cog):
@@ -60,7 +61,8 @@ class CharacterCommands(commands.Cog):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
         # checks name and capitalizes all words of the name
-        await ctx.send(f"``Enter your character's name: ``")
+        await send_cancelable_message(ctx,f"``Enter your character's name: ``")
+        #await ctx.send(f"``Enter your character's name: ``")
         result = (await self.bot.wait_for("message", check=check)).content
         if ' ' in result:
             name = ""

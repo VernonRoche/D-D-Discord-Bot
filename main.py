@@ -4,6 +4,7 @@ from DiceCog import DiceRoller
 from BankCog import Bank
 from BagCog import Bag
 from Weapon import WeaponCommands
+from Messaging import *
 
 import random
 
@@ -32,6 +33,12 @@ async def on_ready():
         print(bot.user.id)
     except Exception as e:
         print(e)
+
+
+@bot.event
+async def on_reaction_add(reaction,user):
+    if reaction.emoji=="❌" and reaction.count>1:
+        print("VALHALLA")
 
 
 @bot.command(name="help")
