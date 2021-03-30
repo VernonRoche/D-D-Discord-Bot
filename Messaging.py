@@ -1,3 +1,4 @@
+import discord
 from discord.utils import get
 
 
@@ -17,3 +18,8 @@ async def create_exit_reactions(ctx, message):
 async def send_cancelable_message(ctx,message):
     sent_message=await private_DM(ctx,message)
     await create_exit_reactions(ctx,sent_message)
+
+def is_private_channel(ctx):
+    if isinstance(ctx.channel, discord.channel.DMChannel):
+        return True
+    return False

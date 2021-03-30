@@ -62,7 +62,6 @@ class CharacterCommands(commands.Cog):
 
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx,f"``Enter your character's name: ``")
-        #await ctx.send(f"``Enter your character's name: ``")
         result = (await self.bot.wait_for("message", check=check)).content
         if ' ' in result:
             name = ""
@@ -75,7 +74,7 @@ class CharacterCommands(commands.Cog):
             name = result.capitalize()
 
         # checks race and capitalizes everything
-        await ctx.send(f"``Enter your character's race: ``")
+        await send_cancelable_message(ctx, f"``Enter your character's race: ``")
         result = (await self.bot.wait_for("message", check=check)).content
         if ' ' in result:
             race = ""
@@ -88,7 +87,7 @@ class CharacterCommands(commands.Cog):
             race = result.capitalize()
 
         # checks class and capitalizes everything
-        await ctx.send(f"``Enter your character's class: ``")
+        await send_cancelable_message(ctx, f"``Enter your character's class: ``")
         while True:
             try:
                 result = (await self.bot.wait_for("message", check=check)).content
@@ -107,7 +106,7 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``Enter a correct class!``")
 
         # takes and checks level
-        await ctx.send(f"``Enter your starting level: ``")
+        await send_cancelable_message(ctx, f"``Enter your starting level: ``")
         while True:
             try:
                 level = int((await self.bot.wait_for("message", check=check)).content)
@@ -117,7 +116,7 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
         # takes and checks initiative
-        await ctx.send(f"``Enter your Initiative: ``")
+        await send_cancelable_message(ctx, f"``Enter your Initiative: ``")
         while True:
             try:
                 initiative = int((await self.bot.wait_for("message", check=check)).content)
@@ -127,7 +126,7 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
         # takes and checks hp
-        await ctx.send(f"``Enter your starting hp: ``")
+        await send_cancelable_message(ctx, f"``Enter your starting hp: ``")
         while True:
             try:
                 hp = int((await self.bot.wait_for("message", check=check)).content)
@@ -137,7 +136,7 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
         # takes and checks coins
-        await ctx.send(f"``Enter your starting coins: ``")
+        await send_cancelable_message(ctx, f"``Enter your starting coins: ``")
         while True:
             try:
                 coin = int((await self.bot.wait_for("message", check=check)).content)
@@ -147,7 +146,7 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
         # checks attributes
-        await ctx.send(f"``Enter your strength: ``")
+        await send_cancelable_message(ctx, f"``Enter your strength: ``")
         while True:
             try:
                 str = int((await self.bot.wait_for("message", check=check)).content)
@@ -156,7 +155,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
-        await ctx.send(f"``Enter your dexterity: ``")
+        await send_cancelable_message(ctx, f"``Enter your dexterity: ``")
         while True:
             try:
                 dex = int((await self.bot.wait_for("message", check=check)).content)
@@ -165,7 +164,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
-        await ctx.send(f"``Enter your constitution: ``")
+        await send_cancelable_message(ctx, f"``Enter your constitution: ``")
         while True:
             try:
                 con = int((await self.bot.wait_for("message", check=check)).content)
@@ -174,7 +173,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
-        await ctx.send(f"``Enter your intellect: ``")
+        await send_cancelable_message(ctx, f"``Enter your intellect: ``")
         while True:
             try:
                 intel = int((await self.bot.wait_for("message", check=check)).content)
@@ -183,7 +182,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
-        await ctx.send(f"``Enter your wisdom: ``")
+        await send_cancelable_message(ctx, f"``Enter your wisdom: ``")
         while True:
             try:
                 wis = int((await self.bot.wait_for("message", check=check)).content)
@@ -192,7 +191,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``You must put a number you donkey! Try again.``")
 
-        await ctx.send(f"``Enter your charisma: ``")
+        await send_cancelable_message(ctx, f"``Enter your charisma: ``")
         while True:
             try:
                 cha = int((await self.bot.wait_for("message", check=check)).content)
@@ -204,7 +203,7 @@ class CharacterCommands(commands.Cog):
         attributes = [str, dex, con, intel, wis, cha]
         proficiencies = []
 
-        await ctx.send(f"``Are you proficient with a skill?? When finished type dnd (Example: Acrobatics)``")
+        await send_cancelable_message(ctx, f"``Are you proficient with a skill?? When finished type dnd (Example: Acrobatics)``")
         while True:
             try:
                 if proficiencies == []:
@@ -212,8 +211,7 @@ class CharacterCommands(commands.Cog):
                     await self.is_valid(ctx, response.lower(), "skill")
                     proficiencies = [response.capitalize()]
                 while proficiencies[-1] != "Dnd":
-                    await ctx.send(
-                        f"``Are you proficient with another skill?? When finished type dnd (Example: Acrobatics)``")
+                    await send_cancelable_message(ctx, f"``Are you proficient with another skill?? When finished type dnd (Example: Acrobatics)``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     await self.is_valid(ctx, response.lower(), "skill")
                     if response.capitalize() in proficiencies:
@@ -225,16 +223,14 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``You must put a skillname!``")
 
-        await ctx.send(
-            f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+        await send_cancelable_message(ctx, f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
         response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
 
         weapons = response[0] + " " + response[1].capitalize()
         while "Dnd" not in weapons:
-            await ctx.send(
-                f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+            await send_cancelable_message(ctx, f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
             response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
                 response.insert(0, "1")
@@ -243,16 +239,14 @@ class CharacterCommands(commands.Cog):
         weapons = weapons.replace("1 Dnd", "")
         weapons = weapons[:-1]
 
-        await ctx.send(
-            f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
+        await send_cancelable_message(ctx, f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
         response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
 
         items = response[0] + " " + response[1].capitalize()
         while "Dnd" not in items:
-            await ctx.send(
-                f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
+            await send_cancelable_message(ctx, f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
             response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
                 response.insert(0, "1")
@@ -262,7 +256,7 @@ class CharacterCommands(commands.Cog):
         items = items[:-1]
 
         # Checks if spell is in file list, lowercases everything and capitalizes each separate word.
-        await ctx.send(f"``Do you know any spells? Yes/No``")
+        await send_cancelable_message(ctx, f"``Do you know any spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
         listspells = []
         spells = ""
@@ -272,8 +266,7 @@ class CharacterCommands(commands.Cog):
             while True:
                 try:
                     if listspells == []:
-                        await ctx.send(
-                            f"``Which spell do you know?? When finished type dnd (Example: Astral-Projection)``")
+                        await send_cancelable_message(ctx, f"``Which spell do you know?? When finished type dnd (Example: Astral-Projection)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         await self.is_valid(ctx, response.lower(), "spell")
                         if "-" not in response:
@@ -286,8 +279,7 @@ class CharacterCommands(commands.Cog):
                             listspells[-1] = listspells[-1][:-1]
 
                     while "Dnd" not in listspells:
-                        await ctx.send(
-                            f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
+                        await send_cancelable_message(ctx, f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         await self.is_valid(ctx, response.lower(), "spell")
                         if response.lower() in listspells:
@@ -310,7 +302,7 @@ class CharacterCommands(commands.Cog):
             for i in listspells:
                 spells = spells + i + ","
             spells = spells[:-1]
-        """"
+        """
         await ctx.send(f"``Do you have any feat? Yes/No")
         response = (await self.bot.wait_for("message", check=check)).content
         feats = ""
@@ -342,15 +334,14 @@ class CharacterCommands(commands.Cog):
         feats = ""
 
         spellslots = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        await ctx.send(f"``Can you cast Level 1+ spells? Yes/No``")
+        await send_cancelable_message(ctx, f"``Can you cast Level 1+ spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
         if response.lower() == "no":
             None
         else:
             while True:
                 try:
-                    await ctx.send(
-                        "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots)``")
+                    await send_cancelable_message(ctx, "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots)``")
                     response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
                     await self.is_valid(ctx, response[1], "attribute")
                     if response[0] >= 1 and response[0] <= 9:
