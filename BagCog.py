@@ -1,5 +1,7 @@
 from discord.ext import commands
 from Utilities import open_character, save_char_file
+from Messaging import *
+import Globals
 
 
 class Bag(commands.Cog):
@@ -10,6 +12,12 @@ class Bag(commands.Cog):
     async def bag_management(self, ctx, character, *args):
         def check(msg):
             return msg.author == ctx.author and msg.channel == ctx.channel
+
+        # Check if the command is called in the private discussion
+        if not (is_private_channel(ctx)):
+            await ctx.send("``Send this command in our little private chit chat ;)``")
+            await private_DM(ctx, "Please execute this command here.")
+            return
 
         for ar in args:
             if ar != "":
@@ -27,20 +35,32 @@ class Bag(commands.Cog):
             try:
                 response = (await self.bot.wait_for("message", check=check)).content
                 if response.lower() == "yes":
-                    await ctx.send(f"``Do you want to edit your weapons or items? Weapons/Items``")
+                    await send_cancelable_message(ctx,f"``Do you want to edit your weapons or items? Weapons/Items``")
                     response = (await self.bot.wait_for("message", check=check)).content
+                    if Globals.is_cancel_requested:
+                        Globals.is_cancel_requested = False
+                        return
 
                     # weapons here
                     if response.lower() == "weapons":
-                        await ctx.send(f"``Do you want to remove or add a weapon? Add/Remove``")
+                        await send_cancelable_message(ctx,f"``Do you want to remove or add a weapon? Add/Remove``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if Globals.is_cancel_requested:
+                            Globals.is_cancel_requested = False
+                            return
 
                         # add weapon
                         if response.lower() == "add":
-                            await ctx.send(f"``Enter the weapon you want to add``")
+                            await send_cancelable_message(ctx,f"``Enter the weapon you want to add``")
                             response = (await self.bot.wait_for("message", check=check)).content
-                            await ctx.send("In what quantity?")
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
+                            await send_cancelable_message(ctx,"In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
                             if quantity == 0:
                                 return
                             if response.lower() in weapons.lower():
@@ -70,10 +90,16 @@ class Bag(commands.Cog):
 
                         # remove weapon
                         elif response.lower() == "remove":
-                            await ctx.send(f"``Enter the weapon you want to remove``")
+                            await send_cancelable_message(ctx,f"``Enter the weapon you want to remove``")
                             response = (await self.bot.wait_for("message", check=check)).content
-                            await ctx.send("In what quantity?")
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
+                            await send_cancelable_message(ctx,"In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
                             if quantity == 0:
                                 return
                             if response.lower() in weapons.lower():
@@ -101,15 +127,24 @@ class Bag(commands.Cog):
 
                     # items here
                     elif response.lower() == "items":
-                        await ctx.send(f"``Do you want to remove or add an item? Add/Remove``")
+                        await send_cancelable_message(ctx,f"``Do you want to remove or add an item? Add/Remove``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if Globals.is_cancel_requested:
+                            Globals.is_cancel_requested = False
+                            return
 
                         # add item
                         if response.lower() == "add":
-                            await ctx.send(f"``Enter the item you want to add``")
+                            await send_cancelable_message(ctx,f"``Enter the item you want to add``")
                             response = (await self.bot.wait_for("message", check=check)).content
-                            await ctx.send("In what quantity?")
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
+                            await send_cancelable_message(ctx,"In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
                             if quantity == 0:
                                 return
                             if response.lower() in items.lower():
@@ -136,10 +171,16 @@ class Bag(commands.Cog):
 
                         # remove item
                         elif response.lower() == "remove":
-                            await ctx.send(f"``Enter the item you want to remove``")
+                            await send_cancelable_message(ctx,f"``Enter the item you want to remove``")
                             response = (await self.bot.wait_for("message", check=check)).content
-                            await ctx.send("In what quantity?")
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
+                            await send_cancelable_message(ctx,"In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
+                            if Globals.is_cancel_requested:
+                                Globals.is_cancel_requested = False
+                                return
                             if quantity == 0:
                                 return
                             if response.lower() in items.lower():
