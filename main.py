@@ -6,6 +6,7 @@ from BagCog import Bag
 from Weapon import WeaponCommands
 from Messaging import *
 import Globals
+import Token
 
 import random
 
@@ -126,4 +127,4 @@ async def fuck_you(ctx):
 
 
 # start bot
-bot.run("NzY2NjQyMjU3NDczNDM3NzE2.X4mVPQ.KtnqUWBlSGKan2VcR5Y4TJiMe2k")
+bot.run(Token.bot_token)
