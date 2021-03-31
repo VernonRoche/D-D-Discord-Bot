@@ -16,7 +16,7 @@ file (character file)
 11: spells
 12: feats
 13: spell slots ==>Level 1, Level 2....etc. up to 9
-
+lll
 
 
 Return order of passive skills: perception, investigation, insight
