@@ -1,4 +1,4 @@
-from Utilities import open_character
+from Source.Utility.Utilities import open_character
 
 
 def calculate_passive_skills(character, *args):

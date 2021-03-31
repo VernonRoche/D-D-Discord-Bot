@@ -1,14 +1,5 @@
 
 from discord.ext import commands
-from Utilities import open_character
-from Weapon import Weapons
-
-
-
-
-
-
-
 
 
 class Player(commands.Cog):

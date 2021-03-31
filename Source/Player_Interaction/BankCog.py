@@ -1,7 +1,7 @@
 from discord.ext import commands
-from Utilities import open_character, save_char_file
-from Messaging import *
-import Globals
+from Source.Utility.Utilities import open_character, save_char_file
+from Source.Utility.Messaging import *
+from Source.Utility import Globals
 
 
 class Bank(commands.Cog):

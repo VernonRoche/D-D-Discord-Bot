@@ -1,8 +1,8 @@
 import random
 from discord.ext import commands
-from Utilities import open_character
-from Skills import skill_modifier
-from Utilities import separate_long_text
+from Source.Utility.Utilities import open_character
+from Player_Information.Skills import skill_modifier
+from Source.Utility.Utilities import separate_long_text
 
 
 class DiceRoller(commands.Cog):

@@ -1,6 +1,6 @@
 import sys
 
-from Character import Character
+from Source.Player_Information.Character import Character
 
 
 # transforms character file to array with usable values

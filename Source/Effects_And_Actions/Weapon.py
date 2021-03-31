@@ -1,7 +1,6 @@
 import difflib
-import asyncio
 from discord.ext import commands
-from Utilities import separate_long_text
+from Source.Utility.Utilities import separate_long_text
 
 
 class Weapon:

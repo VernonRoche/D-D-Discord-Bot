@@ -1,13 +1,13 @@
 import glob
 from discord.ext import commands
-from Character import Character
-from Skills import calculate_passive_skills
-from Utilities import open_character
-from Utilities import separate_long_text
-from Utilities import save_char_file
+from Source.Player_Information.Character import Character
+from Source.Player_Information.Skills import calculate_passive_skills
+from Source.Utility.Utilities import open_character
+from Source.Utility.Utilities import separate_long_text
+from Source.Utility.Utilities import save_char_file
 import os
-from Messaging import *
-import Globals
+from Source.Utility.Messaging import *
+from Source.Utility import Globals
 
 
 class CharacterCommands(commands.Cog):

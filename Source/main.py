@@ -1,19 +1,18 @@
 from discord.ext import commands
-from CharacterCog import CharacterCommands
+from Player_Interaction.CharacterCog import CharacterCommands
 from DiceCog import DiceRoller
-from BankCog import Bank
-from BagCog import Bag
-from Weapon import WeaponCommands
-from Messaging import *
-import Globals
+from Player_Interaction.BankCog import Bank
+from Player_Interaction.BagCog import Bag
+from Source.Effects_And_Actions.Weapon import WeaponCommands
+from Source.Utility import Globals
 import Token
 
 import random
 
 import glob
 
-from Utilities import this_is_some_alien_bababouy
-from Utilities import separate_long_text
+from Source.Utility.Utilities import this_is_some_alien_bababouy
+from Source.Utility.Utilities import separate_long_text
 
 bot = commands.Bot(command_prefix="!")
 
