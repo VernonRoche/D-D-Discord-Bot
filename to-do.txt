@@ -21,27 +21,39 @@ file (character file)
 
 Return order of passive skills: perception, investigation, insight
 
+@@@@@BUGFIXING@@@@@@
+
+Solve errors concerning spells
+
+@@@@@VERIFICATION@@@@@
+Move value testing in ChecksAndHelp class
+
+Verify values for:
+-Race
+-Class
+-Weapon
+-Feat
+-Numerical values
+
+
 @@@@@EASY@@@@@
-Add passive perception
+
+Implement feats
 
 Add damage function
 -Show deal damage
 -Secret damage (backend)
 
-Add utility functions
--
-
 
 
 @@@@@VISUAL@@@@@
-Add emotes to character tab
-
 Add colors to certain messages
 
 
 
-
 @@@@@COMPLICATED@@@@@
+Procedure to level up character
+
 Add class functions (abilities etc.)
 -Add subclass functions
 -Add spellcaster functions
