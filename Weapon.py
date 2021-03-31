@@ -139,7 +139,7 @@ class WeaponCommands(commands.Cog):
         print(weaplist.weapon_dictionary)
         for i in weaplist.weapon_dictionary.values():
            result=result+(await i.to_string())+"\n"
-        result=separate_long_text(result)
+        result=separate_long_text(result,True)
         for i in result:
             await ctx.send(i)
 

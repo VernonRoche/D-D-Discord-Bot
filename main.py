@@ -46,23 +46,9 @@ async def on_reaction_add(reaction,user):
 
 @bot.command(name="help")
 async def help(ctx):
-    await ctx.send("```This is a list of possible commands:\n"
-                   "!help  (Bring up this message)\n"
-                   "!create  (Create a character)\n"
-                   "!delete <character>  (Deletes a character)\n"
-                   "!list  (List all created characters)\n"
-                   "!show <character>  (Shows the character's sheet)\n"
-                   "!dice <amount>d<sides> <modifier>  (Throws the given amount of dices, with specific sides. Modifier parameter is optional. Example: 3d6)\n"
-                   "!dice  (Throws 1d20)\n"
-                   "!init <character> or !initiative <character> (Rolls an initiative roll for the given character)\n"
-                   "!roll <skill> <character>  (Rolls 1d20 for a specific skill with the given character)\n"
-                   "!bag <character>  (Opens up the bag management tab for the character)\n"
-                   "!bank <character> or !money <character> (Opens up the bank)\n"
-                   "!spells  (Lists all available spells)\n"
-                   "!spellbook <character>  (Shows all the spells the character knows)\n"
-                   "!spell <name of spell>  (Shows information on the asked spell)\n"
-                   "!cast <spell> <character>  (Casts a given spell for the specific character. He must know it and have enough spell slots)\n"
-                   "!bababouy  (Vibe check)```")
+    bot_manual=separate_long_text(Globals.bot_manual)
+    for i in bot_manual:
+        await ctx.send(i)
 
 
 @bot.command(name="bababouy")
@@ -102,7 +88,7 @@ async def list_spells(ctx):
     tempspells = [f for f in glob.glob("Spells/" + "**/*.txt", recursive=True)]
     spells = ""
     for f in tempspells:
-        spells = spells + "," + f[7:-4]
+        spells = spells + ", " + f[7:-4]
     spells = spells[1:]
     spells = separate_long_text(spells)
     for i in spells:

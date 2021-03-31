@@ -1,4 +1,32 @@
+# Global variable to check if a command needs to be cancelled
+is_cancel_requested = False
 
-
-#Global variable to check if a command needs to be cancelled
-is_cancel_requested=False
+bot_manual = ("```This is a list of possible commands:\n"
+              "!help  |||  Bring up this panel\n"
+              "\n"
+              "Dice Commands: \n"
+              "!dice <amount>d<sides> <modifier>  |||  Throws the given amount of dices, with specific sides. Modifier parameter is optional. Example: 3d6\n"
+              "!dice  |||  Throws 1d20\n"
+              "!init <character> or !initiative <character>  |||  Rolls an initiative roll for the given character\n"
+              "!roll <skill> <character>  |||  Rolls 1d20 for a specific skill with the given character\n"
+              "\n"
+              "Listing Commands: \n"
+              "!list  |||  List all created characters\n"
+              "!show <character>  |||  Shows the character's sheet\n"
+              "!delete <character>  |||  Deletes a character\n"
+              "!weapons ||| Shows the available weapons and their stats"
+              "!spells  |||  Lists all available spells\n"
+              "!spellbook <character>  |||  Shows all the spells the character knows\n"
+              "!spell <name of spell>  |||  Shows information on the asked spell\n"
+              "!cast <spell> <character>  |||  Casts a given spell for the specific character. He must know it and have enough spell slots\n"
+              "\n"
+              "Private Chat Commands: \n" \
+              "!create  |||  Create a character\n"
+              "!bag <character>  |||  Opens up the bag management tab for the character\n"
+              "!bank <character> or !money <character> |||  Opens up the bank\n"
+              "\n"
+              "Miscellaneous Commands: \n"
+              "!bababouy  |||  Vibe check\n"
+              "\n"
+              "|||Brought to you by Alex Stergiou|||"
+              "```")
