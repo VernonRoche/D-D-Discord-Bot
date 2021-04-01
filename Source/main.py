@@ -74,20 +74,20 @@ async def shifoumi(ctx, finger=False):
 
 @bot.command(aliases=["list"], help="Example: !characters")
 async def list_characters(ctx):
-    files = [f for f in glob.glob("Characters/" + "**/*.txt", recursive=True)]
+    files = [f for f in glob.glob("../Characters/" + "*.txt")]
     result = ""
     for f in files:
-        result = result + "," + f[11:-4]
+        result = result + "," + f[14:-4]
     result = result[1:]
     await ctx.send(f"```" + result + "```")
 
 
 @bot.command(aliases=["spells"], help="Example: !spells")
 async def list_spells(ctx):
-    tempspells = [f for f in glob.glob("Spells/" + "**/*.txt", recursive=True)]
+    tempspells = [f for f in glob.glob("../Spells/" + "*.txt")]
     spells = ""
     for f in tempspells:
-        spells = spells + ", " + f[7:-4]
+        spells = spells + ", " + f[10:-4]
     spells = spells[1:]
     spells = separate_long_text(spells)
     for i in spells:
@@ -96,7 +96,7 @@ async def list_spells(ctx):
 
 @bot.command(aliases=["spell"], help="Example: !spell eldritch-blast")
 async def show_spell(ctx, spellname):
-    path = "Spells/" + spellname + ".txt"
+    path = "../Spells/" + spellname + ".txt"
     ftemp = open(path, "r")
     file = ftemp.read()
     ftemp.close()
