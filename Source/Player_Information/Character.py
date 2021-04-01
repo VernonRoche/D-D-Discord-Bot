@@ -15,7 +15,7 @@ class Character():
         self.feats=feats
         self.spellslots=spellslots
     async def save(self):
-        filename = "Characters/" + self.name + ".txt"
+        filename = "../../Characters/" + self.name + ".txt"
         saves = open(filename, "w+")
         saves.write(self.name + "$")
         saves.write(self.race + "$")

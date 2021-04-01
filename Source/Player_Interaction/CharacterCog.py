@@ -15,14 +15,14 @@ class CharacterCommands(commands.Cog):
         self.bot = bot
 
     async def is_valid(self, ctx, arg, name):
-        tempspells = [f for f in glob.glob("Spells/" + "**/*.txt", recursive=True)]
+        tempspells = [f for f in glob.glob("../../Spells/" + "**/*.txt", recursive=True)]
         spells = ""
         for f in tempspells:
             f = f.lower()
             spells = spells + "," + f[7:-4]
         spells = spells[1:]
 
-        tempclasses = [f for f in glob.glob("Character Classes/" + "**/*.txt", recursive=True)]
+        tempclasses = [f for f in glob.glob("../../Character Classes/" + "**/*.txt", recursive=True)]
         classes = ""
         for f in tempclasses:
             f = f.lower()
@@ -374,7 +374,7 @@ class CharacterCommands(commands.Cog):
         for ar in args:
             if ar != "":
                 character = character + " " + ar
-        filename = "Characters/" + character + ".txt"
+        filename = "../../Characters/" + character + ".txt"
         ftemp = open(filename, "r")
         file = ftemp.read()
         ftemp.close()
@@ -416,8 +416,8 @@ class CharacterCommands(commands.Cog):
             if ar != "":
                 print(ar)
                 character = character + " " + ar
-        if os.path.exists("Characters/" + character + ".txt"):
-            os.remove("Characters/" + character + ".txt")
+        if os.path.exists("../../Characters/" + character + ".txt"):
+            os.remove("../../Characters/" + character + ".txt")
             await ctx.send("``Good riddance``")
         else:
             await ctx.send("``This character does not exist``")
@@ -442,7 +442,7 @@ class CharacterCommands(commands.Cog):
             await ctx.send("You do not have this spell!")
         else:
             slots = file[13]
-            path = "Spells/" + spellname + ".txt"
+            path = "../../Spells/" + spellname + ".txt"
             ftemp = open(path, "r")
             tfile = ftemp.read()
             ftemp.close()
