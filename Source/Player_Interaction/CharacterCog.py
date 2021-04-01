@@ -93,6 +93,9 @@ class CharacterCommands(commands.Cog):
         response = (await self.bot.wait_for("message", check=check)).content
         if is_command_rerun_requested("!create", response):
             return
+        if Globals.is_cancel_requested:
+            Globals.is_cancel_requested = False
+            return
         if ' ' in response:
             race = ""
             response = response.split(' ')
@@ -110,6 +113,9 @@ class CharacterCommands(commands.Cog):
                 response = (await self.bot.wait_for("message", check=check)).content
                 if is_command_rerun_requested("!create", response):
                     return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
+                    return
                 if ' ' in response:
                     myclass = ""
                     response = response.split(' ')
@@ -122,7 +128,7 @@ class CharacterCommands(commands.Cog):
                 await self.is_valid(ctx, myclass.lower(), "class")
                 break
             except ValueError:
-                await ctx.send("``Enter a correct class!``")
+                await send_cancelable_message(ctx,"``Enter a correct class!``")
 
         # takes and checks level
         await send_cancelable_message(ctx, f"``Enter your starting level: ``")
@@ -130,6 +136,9 @@ class CharacterCommands(commands.Cog):
             try:
                 level = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", level):
+                    return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
                     return
                 level = int(level)
                 await self.is_valid(ctx, level, "level")
@@ -144,6 +153,9 @@ class CharacterCommands(commands.Cog):
                 initiative = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", initiative):
                     return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
+                    return
                 initiative = int(initiative)
                 await self.is_valid(ctx, initiative, "initiative")
                 break
@@ -156,6 +168,9 @@ class CharacterCommands(commands.Cog):
             try:
                 hp = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", hp):
+                    return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
                     return
                 hp = int(hp)
                 await self.is_valid(ctx, hp, "hp")
@@ -170,6 +185,9 @@ class CharacterCommands(commands.Cog):
                 coin = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", coin):
                     return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
+                    return
                 coin = int(coin)
                 await self.is_valid(ctx, coin, "coins")
                 break
@@ -183,6 +201,9 @@ class CharacterCommands(commands.Cog):
                 str = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", str):
                     return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
+                    return
                 str = int(str)
                 await self.is_valid(ctx, str, "attribute")
                 break
@@ -194,6 +215,9 @@ class CharacterCommands(commands.Cog):
             try:
                 dex = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", dex):
+                    return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
                     return
                 dex = int(dex)
                 await self.is_valid(ctx, dex, "attribute")
@@ -207,6 +231,9 @@ class CharacterCommands(commands.Cog):
                 con = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", con):
                     return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
+                    return
                 con = int(con)
                 await self.is_valid(ctx, con, "attribute")
                 break
@@ -218,6 +245,9 @@ class CharacterCommands(commands.Cog):
             try:
                 intel = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", intel):
+                    return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
                     return
                 intel = int(intel)
                 await self.is_valid(ctx, intel, "attribute")
@@ -231,6 +261,9 @@ class CharacterCommands(commands.Cog):
                 wis = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", wis):
                     return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
+                    return
                 wis = int(wis)
                 await self.is_valid(ctx, wis, "attribute")
                 break
@@ -242,6 +275,9 @@ class CharacterCommands(commands.Cog):
             try:
                 cha = (await self.bot.wait_for("message", check=check).content)
                 if is_command_rerun_requested("!create", cha):
+                    return
+                if Globals.is_cancel_requested:
+                    Globals.is_cancel_requested = False
                     return
                 cha = int(cha)
                 await self.is_valid(ctx, cha, "attribute")
@@ -268,6 +304,9 @@ class CharacterCommands(commands.Cog):
                     response = (await self.bot.wait_for("message", check=check)).content
                     if is_command_rerun_requested("!create", response):
                         return
+                    if Globals.is_cancel_requested:
+                        Globals.is_cancel_requested = False
+                        return
                     await self.is_valid(ctx, response.lower(), "skill")
                     if response.capitalize() in proficiencies:
                         None
@@ -283,6 +322,9 @@ class CharacterCommands(commands.Cog):
         response = (await self.bot.wait_for("message", check=check)).content
         if is_command_rerun_requested("!create", response):
             return
+        if Globals.is_cancel_requested:
+            Globals.is_cancel_requested = False
+            return
         response = response.split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
@@ -293,6 +335,9 @@ class CharacterCommands(commands.Cog):
                                           f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
             response = (await self.bot.wait_for("message", check=check)).content
             if is_command_rerun_requested("!create", response):
+                return
+            if Globals.is_cancel_requested:
+                Globals.is_cancel_requested = False
                 return
             response = response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
@@ -307,6 +352,9 @@ class CharacterCommands(commands.Cog):
         response = (await self.bot.wait_for("message", check=check)).content
         if is_command_rerun_requested("!create", response):
             return
+        if Globals.is_cancel_requested:
+            Globals.is_cancel_requested = False
+            return
         response = response.split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
@@ -317,6 +365,9 @@ class CharacterCommands(commands.Cog):
                                           f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
             response = (await self.bot.wait_for("message", check=check)).content
             if is_command_rerun_requested("!create", response):
+                return
+            if Globals.is_cancel_requested:
+                Globals.is_cancel_requested = False
                 return
             response = response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
@@ -331,6 +382,9 @@ class CharacterCommands(commands.Cog):
         response = (await self.bot.wait_for("message", check=check)).content
         if is_command_rerun_requested("!create", response):
             return
+        if Globals.is_cancel_requested:
+            Globals.is_cancel_requested = False
+            return
         listspells = []
         spells = ""
         if response.lower() == "no":
@@ -343,6 +397,9 @@ class CharacterCommands(commands.Cog):
                                                       f"``Which spell do you know?? When finished type dnd (Example: Astral-Projection)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if is_command_rerun_requested("!create", response):
+                            return
+                        if Globals.is_cancel_requested:
+                            Globals.is_cancel_requested = False
                             return
                         await self.is_valid(ctx, response.lower(), "spell")
                         if "-" not in response:
@@ -359,6 +416,9 @@ class CharacterCommands(commands.Cog):
                                                       f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if is_command_rerun_requested("!create", response):
+                            return
+                        if Globals.is_cancel_requested:
+                            Globals.is_cancel_requested = False
                             return
                         await self.is_valid(ctx, response.lower(), "spell")
                         if response.lower() in listspells:
@@ -417,6 +477,9 @@ class CharacterCommands(commands.Cog):
         response = (await self.bot.wait_for("message", check=check)).content
         if is_command_rerun_requested("!create", response):
             return
+        if Globals.is_cancel_requested:
+            Globals.is_cancel_requested = False
+            return
         if response.lower() == "no":
             None
         else:
@@ -426,6 +489,9 @@ class CharacterCommands(commands.Cog):
                                                   "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots)``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if is_command_rerun_requested("!create", response):
+                        return
+                    if Globals.is_cancel_requested:
+                        Globals.is_cancel_requested = False
                         return
                     response = response.split(' ')
                     await self.is_valid(ctx, response[1], "attribute")
