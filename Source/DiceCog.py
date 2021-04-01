@@ -64,4 +64,4 @@ class DiceRoller(commands.Cog):
                 character = character + " " + ar
 
         modifier = skill_modifier(character, skill)
-        await self.dice_roll(ctx, 1, 20, modifier)
+        await self.dice_roll(ctx,"1d20", modifier)

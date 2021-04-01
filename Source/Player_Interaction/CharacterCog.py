@@ -374,7 +374,7 @@ class CharacterCommands(commands.Cog):
         for ar in args:
             if ar != "":
                 character = character + " " + ar
-        filename = "../../Characters/" + character + ".txt"
+        filename = "../Characters/" + character + ".txt"
         ftemp = open(filename, "r")
         file = ftemp.read()
         ftemp.close()
@@ -416,8 +416,8 @@ class CharacterCommands(commands.Cog):
             if ar != "":
                 print(ar)
                 character = character + " " + ar
-        if os.path.exists("../../Characters/" + character + ".txt"):
-            os.remove("../../Characters/" + character + ".txt")
+        if os.path.exists("../Characters/" + character + ".txt"):
+            os.remove("../Characters/" + character + ".txt")
             await ctx.send("``Good riddance``")
         else:
             await ctx.send("``This character does not exist``")
@@ -442,7 +442,7 @@ class CharacterCommands(commands.Cog):
             await ctx.send("You do not have this spell!")
         else:
             slots = file[13]
-            path = "../../Spells/" + spellname + ".txt"
+            path = "../Spells/" + spellname + ".txt"
             ftemp = open(path, "r")
             tfile = ftemp.read()
             ftemp.close()

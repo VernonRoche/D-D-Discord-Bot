@@ -10,7 +10,7 @@ def open_character(character, *args):
             print(ar)
             character = character + " " + ar
 
-    path = "../../Characters/" + character + ".txt"
+    path = "../Characters/" + character + ".txt"
     ftemp = open(path, "r")
     file = ftemp.read()
     ftemp.close()
@@ -81,7 +81,7 @@ def separate_long_text(text, look_for_format=False):
 
 # takes an array representing a character and saves it in a text file form
 def save_char_file(file):
-    filename = "../../Characters/" + file[0] + ".txt"
+    filename = "../Characters/" + file[0] + ".txt"
     saves = open(filename, "w+")
     saves.write(file[0] + "$")
     saves.write(file[1] + "$")
