@@ -8,6 +8,7 @@ from Source.Utility.Utilities import save_char_file
 import os
 from Source.Utility.Messaging import *
 from Source.Utility import Globals
+from Source.Utility.ChecksAndHelp import is_command_rerun_requested
 
 
 class CharacterCommands(commands.Cog):
@@ -69,47 +70,53 @@ class CharacterCommands(commands.Cog):
 
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx,f"``Enter your character's name: ``")
-        result = (await self.bot.wait_for("message", check=check)).content
+        response = (await self.bot.wait_for("message", check=check)).content
+        if is_command_rerun_requested("!create",response):
+            return
         if Globals.is_cancel_requested:
             Globals.is_cancel_requested=False
             return
-        if ' ' in result:
+        if ' ' in response:
             name = ""
-            result = result.split(' ')
-            for i in result:
+            response = response.split(' ')
+            for i in response:
                 i.capitalize()
                 name = name + i + " "
             name = name[:-1]
         else:
-            name = result.capitalize()
+            name = response.capitalize()
 
         # checks race and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's race: ``")
-        result = (await self.bot.wait_for("message", check=check)).content
-        if ' ' in result:
+        response = (await self.bot.wait_for("message", check=check)).content
+        if is_command_rerun_requested("!create",response):
+            return
+        if ' ' in response:
             race = ""
-            result = result.split(' ')
-            for i in result:
+            response = response.split(' ')
+            for i in response:
                 i.capitalize()
                 race = race + i + " "
             race = race[:-1]
         else:
-            race = result.capitalize()
+            race = response.capitalize()
 
         # checks class and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's class: ``")
         while True:
             try:
-                result = (await self.bot.wait_for("message", check=check)).content
-                if ' ' in result:
+                response = (await self.bot.wait_for("message", check=check)).content
+                if is_command_rerun_requested("!create", response):
+                    return
+                if ' ' in response:
                     myclass = ""
-                    result = result.split(' ')
-                    for i in result:
+                    response = response.split(' ')
+                    for i in response:
                         (i.lower()).capitalize()
                         myclass = myclass + i + " "
                     myclass = myclass[:-1]
                 else:
-                    myclass = (result.lower()).capitalize()
+                    myclass = (response.lower()).capitalize()
                 await self.is_valid(ctx, myclass.lower(), "class")
                 break
             except ValueError:
@@ -119,7 +126,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your starting level: ``")
         while True:
             try:
-                level = int((await self.bot.wait_for("message", check=check)).content)
+                level = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", level):
+                    return
+                level=int(level)
                 await self.is_valid(ctx, level, "level")
                 break
             except ValueError:
@@ -129,7 +139,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your Initiative: ``")
         while True:
             try:
-                initiative = int((await self.bot.wait_for("message", check=check)).content)
+                initiative = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", initiative):
+                    return
+                initiative=int(initiative)
                 await self.is_valid(ctx, initiative, "initiative")
                 break
             except ValueError:
@@ -139,7 +152,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your starting hp: ``")
         while True:
             try:
-                hp = int((await self.bot.wait_for("message", check=check)).content)
+                hp = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", hp):
+                    return
+                hp=int(hp)
                 await self.is_valid(ctx, hp, "hp")
                 break
             except ValueError:
@@ -149,7 +165,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your starting coins: ``")
         while True:
             try:
-                coin = int((await self.bot.wait_for("message", check=check)).content)
+                coin = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", coin):
+                    return
+                coin=int(coin)
                 await self.is_valid(ctx, coin, "coins")
                 break
             except ValueError:
@@ -159,7 +178,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your strength: ``")
         while True:
             try:
-                str = int((await self.bot.wait_for("message", check=check)).content)
+                str = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", str):
+                    return
+                str=int(str)
                 await self.is_valid(ctx, str, "attribute")
                 break
             except ValueError:
@@ -168,7 +190,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your dexterity: ``")
         while True:
             try:
-                dex = int((await self.bot.wait_for("message", check=check)).content)
+                dex = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", dex):
+                    return
+                dex=int(dex)
                 await self.is_valid(ctx, dex, "attribute")
                 break
             except ValueError:
@@ -177,7 +202,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your constitution: ``")
         while True:
             try:
-                con = int((await self.bot.wait_for("message", check=check)).content)
+                con = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", con):
+                    return
+                con=int(con)
                 await self.is_valid(ctx, con, "attribute")
                 break
             except ValueError:
@@ -186,7 +214,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your intellect: ``")
         while True:
             try:
-                intel = int((await self.bot.wait_for("message", check=check)).content)
+                intel = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", intel):
+                    return
+                intel=int(intel)
                 await self.is_valid(ctx, intel, "attribute")
                 break
             except ValueError:
@@ -195,7 +226,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your wisdom: ``")
         while True:
             try:
-                wis = int((await self.bot.wait_for("message", check=check)).content)
+                wis = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", wis):
+                    return
+                wis=int(wis)
                 await self.is_valid(ctx, wis, "attribute")
                 break
             except ValueError:
@@ -204,7 +238,10 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your charisma: ``")
         while True:
             try:
-                cha = int((await self.bot.wait_for("message", check=check)).content)
+                cha = (await self.bot.wait_for("message", check=check).content)
+                if is_command_rerun_requested("!create", cha):
+                    return
+                cha=int(cha)
                 await self.is_valid(ctx, cha, "attribute")
                 break
             except ValueError:
@@ -218,11 +255,15 @@ class CharacterCommands(commands.Cog):
             try:
                 if proficiencies == []:
                     response = (await self.bot.wait_for("message", check=check)).content
+                    if is_command_rerun_requested("!create", response):
+                        return
                     await self.is_valid(ctx, response.lower(), "skill")
                     proficiencies = [response.capitalize()]
                 while proficiencies[-1] != "Dnd":
                     await send_cancelable_message(ctx, f"``Are you proficient with another skill?? When finished type dnd (Example: Acrobatics)``")
                     response = (await self.bot.wait_for("message", check=check)).content
+                    if is_command_rerun_requested("!create", response):
+                        return
                     await self.is_valid(ctx, response.lower(), "skill")
                     if response.capitalize() in proficiencies:
                         None
@@ -234,14 +275,20 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``You must put a skillname!``")
 
         await send_cancelable_message(ctx, f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
-        response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
+        response = (await self.bot.wait_for("message", check=check)).content
+        if is_command_rerun_requested("!create",response):
+            return
+        response=response.split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
 
         weapons = response[0] + " " + response[1].capitalize()
         while "Dnd" not in weapons:
             await send_cancelable_message(ctx, f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
-            response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
+            response = (await self.bot.wait_for("message", check=check)).content
+            if is_command_rerun_requested("!create", response):
+                return
+            response=response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
                 response.insert(0, "1")
             weapons = weapons + "," + response[0] + " " + response[1].capitalize()
@@ -250,14 +297,20 @@ class CharacterCommands(commands.Cog):
         weapons = weapons[:-1]
 
         await send_cancelable_message(ctx, f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
-        response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
+        response = (await self.bot.wait_for("message", check=check)).content
+        if is_command_rerun_requested("!create",response):
+            return
+        response=response.split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
 
         items = response[0] + " " + response[1].capitalize()
         while "Dnd" not in items:
             await send_cancelable_message(ctx, f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
-            response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
+            response = (await self.bot.wait_for("message", check=check)).content
+            if is_command_rerun_requested("!create", response):
+                return
+            response=response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
                 response.insert(0, "1")
             items = items + "," + response[0] + " " + response[1].capitalize()
@@ -268,6 +321,8 @@ class CharacterCommands(commands.Cog):
         # Checks if spell is in file list, lowercases everything and capitalizes each separate word.
         await send_cancelable_message(ctx, f"``Do you know any spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
+        if is_command_rerun_requested("!create",response):
+            return
         listspells = []
         spells = ""
         if response.lower() == "no":
@@ -278,6 +333,8 @@ class CharacterCommands(commands.Cog):
                     if listspells == []:
                         await send_cancelable_message(ctx, f"``Which spell do you know?? When finished type dnd (Example: Astral-Projection)``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if is_command_rerun_requested("!create", response):
+                            return
                         await self.is_valid(ctx, response.lower(), "spell")
                         if "-" not in response:
                             listspells.append((response.lower()).capitalize())
@@ -291,6 +348,8 @@ class CharacterCommands(commands.Cog):
                     while "Dnd" not in listspells:
                         await send_cancelable_message(ctx, f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if is_command_rerun_requested("!create", response):
+                            return
                         await self.is_valid(ctx, response.lower(), "spell")
                         if response.lower() in listspells:
                             None
@@ -346,13 +405,18 @@ class CharacterCommands(commands.Cog):
         spellslots = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         await send_cancelable_message(ctx, f"``Can you cast Level 1+ spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
+        if is_command_rerun_requested("!create",response):
+            return
         if response.lower() == "no":
             None
         else:
             while True:
                 try:
                     await send_cancelable_message(ctx, "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots)``")
-                    response = ((await self.bot.wait_for("message", check=check)).content).split(' ')
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if is_command_rerun_requested("!create", response):
+                        return
+                    response=response.split(' ')
                     await self.is_valid(ctx, response[1], "attribute")
                     if response[0] >= 1 and response[0] <= 9:
                         spellslots[response[0] - 1] = response[1]
