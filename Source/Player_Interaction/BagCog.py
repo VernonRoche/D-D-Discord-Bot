@@ -1,7 +1,8 @@
 from discord.ext import commands
-from Source.Utility.Utilities import open_character, save_char_file
-from Source.Utility.Messaging import *
+
 from Source.Utility import Globals
+from Source.Utility.Messaging import *
+from Source.Utility.Utilities import open_character, save_char_file
 
 
 class Bag(commands.Cog):
@@ -35,7 +36,7 @@ class Bag(commands.Cog):
             try:
                 response = (await self.bot.wait_for("message", check=check)).content
                 if response.lower() == "yes":
-                    await send_cancelable_message(ctx,f"``Do you want to edit your weapons or items? Weapons/Items``")
+                    await send_cancelable_message(ctx, f"``Do you want to edit your weapons or items? Weapons/Items``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if Globals.is_cancel_requested:
                         Globals.is_cancel_requested = False
@@ -43,7 +44,7 @@ class Bag(commands.Cog):
 
                     # weapons here
                     if response.lower() == "weapons":
-                        await send_cancelable_message(ctx,f"``Do you want to remove or add a weapon? Add/Remove``")
+                        await send_cancelable_message(ctx, f"``Do you want to remove or add a weapon? Add/Remove``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if Globals.is_cancel_requested:
                             Globals.is_cancel_requested = False
@@ -51,12 +52,12 @@ class Bag(commands.Cog):
 
                         # add weapon
                         if response.lower() == "add":
-                            await send_cancelable_message(ctx,f"``Enter the weapon you want to add``")
+                            await send_cancelable_message(ctx, f"``Enter the weapon you want to add``")
                             response = (await self.bot.wait_for("message", check=check)).content
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
                                 return
-                            await send_cancelable_message(ctx,"In what quantity?")
+                            await send_cancelable_message(ctx, "In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
@@ -90,12 +91,12 @@ class Bag(commands.Cog):
 
                         # remove weapon
                         elif response.lower() == "remove":
-                            await send_cancelable_message(ctx,f"``Enter the weapon you want to remove``")
+                            await send_cancelable_message(ctx, f"``Enter the weapon you want to remove``")
                             response = (await self.bot.wait_for("message", check=check)).content
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
                                 return
-                            await send_cancelable_message(ctx,"In what quantity?")
+                            await send_cancelable_message(ctx, "In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
@@ -127,7 +128,7 @@ class Bag(commands.Cog):
 
                     # items here
                     elif response.lower() == "items":
-                        await send_cancelable_message(ctx,f"``Do you want to remove or add an item? Add/Remove``")
+                        await send_cancelable_message(ctx, f"``Do you want to remove or add an item? Add/Remove``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if Globals.is_cancel_requested:
                             Globals.is_cancel_requested = False
@@ -135,12 +136,12 @@ class Bag(commands.Cog):
 
                         # add item
                         if response.lower() == "add":
-                            await send_cancelable_message(ctx,f"``Enter the item you want to add``")
+                            await send_cancelable_message(ctx, f"``Enter the item you want to add``")
                             response = (await self.bot.wait_for("message", check=check)).content
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
                                 return
-                            await send_cancelable_message(ctx,"In what quantity?")
+                            await send_cancelable_message(ctx, "In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
@@ -171,12 +172,12 @@ class Bag(commands.Cog):
 
                         # remove item
                         elif response.lower() == "remove":
-                            await send_cancelable_message(ctx,f"``Enter the item you want to remove``")
+                            await send_cancelable_message(ctx, f"``Enter the item you want to remove``")
                             response = (await self.bot.wait_for("message", check=check)).content
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False
                                 return
-                            await send_cancelable_message(ctx,"In what quantity?")
+                            await send_cancelable_message(ctx, "In what quantity?")
                             quantity = int((await self.bot.wait_for("message", check=check)).content)
                             if Globals.is_cancel_requested:
                                 Globals.is_cancel_requested = False

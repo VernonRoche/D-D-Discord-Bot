@@ -1,5 +1,3 @@
-import sys
-
 from Source.Player_Information.Character import Character
 
 
@@ -59,14 +57,13 @@ def detect_endof_word(text, position, look_for_format):
 
     else:
         counter = position
-        format_counter=0
+        format_counter = 0
         for char in text[position:]:
             if char == '`':
-                format_counter+=1
+                format_counter += 1
             counter += 1
-            if format_counter==3:
+            if format_counter == 3:
                 return counter
-
 
 
 # recursively separates a long text into an array of texts with 1900 or less words

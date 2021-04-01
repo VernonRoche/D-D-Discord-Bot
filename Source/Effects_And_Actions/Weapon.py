@@ -1,5 +1,7 @@
 import difflib
+
 from discord.ext import commands
+
 from Source.Utility.Utilities import separate_long_text
 
 
@@ -132,19 +134,19 @@ class WeaponCommands(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["weapons"], help="Example: !weapons")
-    async def list_weapons(self,ctx):
-        weaplist=Weapons()
-        result=""
+    async def list_weapons(self, ctx):
+        weaplist = Weapons()
+        result = ""
         print(weaplist.weapon_dictionary)
         for i in weaplist.weapon_dictionary.values():
-           result=result+(await i.to_string())+"\n"
-        result=separate_long_text(result,True)
+            result = result + (await i.to_string()) + "\n"
+        result = separate_long_text(result, True)
         for i in result:
             await ctx.send(i)
 
     @commands.command(aliases=["weapon"], help="Example: !weapon mace")
-    async def search_weapon(self,ctx,weapon):
-        weaplist=Weapons()
-        dict_entry=await weaplist.search(weapon)
-        result=await dict_entry.to_string()
+    async def search_weapon(self, ctx, weapon):
+        weaplist = Weapons()
+        dict_entry = await weaplist.search(weapon)
+        result = await dict_entry.to_string()
         await ctx.send(result)

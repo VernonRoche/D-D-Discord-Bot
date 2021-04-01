@@ -1,7 +1,8 @@
 from discord.ext import commands
-from Source.Utility.Utilities import open_character, save_char_file
-from Source.Utility.Messaging import *
+
 from Source.Utility import Globals
+from Source.Utility.Messaging import *
+from Source.Utility.Utilities import open_character, save_char_file
 
 
 class Bank(commands.Cog):
@@ -36,13 +37,14 @@ class Bank(commands.Cog):
             try:
                 response = (await self.bot.wait_for("message", check=check)).content
                 if response.lower() == "yes":
-                    await send_cancelable_message(ctx,f"``What change in your coins do you wish to make? Deposit/Withdraw``")
+                    await send_cancelable_message(ctx,
+                                                  f"``What change in your coins do you wish to make? Deposit/Withdraw``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if Globals.is_cancel_requested:
                         Globals.is_cancel_requested = False
                         return
                     if response.lower() == "deposit":
-                        await send_cancelable_message(ctx,f"``Enter the amount of coins you want to deposit``")
+                        await send_cancelable_message(ctx, f"``Enter the amount of coins you want to deposit``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if Globals.is_cancel_requested:
                             Globals.is_cancel_requested = False
@@ -52,7 +54,7 @@ class Bank(commands.Cog):
                         await ctx.send("```💰Current Coins: " + str(coins) + "```")
 
                     else:
-                        await send_cancelable_message(ctx,f"``Enter the amount of coins you want to withdraw``")
+                        await send_cancelable_message(ctx, f"``Enter the amount of coins you want to withdraw``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if Globals.is_cancel_requested:
                             Globals.is_cancel_requested = False

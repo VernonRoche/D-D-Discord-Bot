@@ -1,5 +1,6 @@
 class Character():
-    def __init__(self, name, race, myclass, level, hp, coin, attributes, weapons, items, initiative, proficiencies,spells,feats,spellslots):
+    def __init__(self, name, race, myclass, level, hp, coin, attributes, weapons, items, initiative, proficiencies,
+                 spells, feats, spellslots):
         self.name = name
         self.race = race
         self.myclass = myclass
@@ -11,9 +12,10 @@ class Character():
         self.items = items
         self.initiative = initiative
         self.proficiencies = proficiencies
-        self.spells=spells
-        self.feats=feats
-        self.spellslots=spellslots
+        self.spells = spells
+        self.feats = feats
+        self.spellslots = spellslots
+
     async def save(self):
         filename = "../Characters/" + self.name + ".txt"
         saves = open(filename, "w+")
@@ -34,8 +36,8 @@ class Character():
         saves.write("$")
         saves.write("@")
 
-        saves.write(self.spells +"$")
-        saves.write(self.feats +"$")
+        saves.write(self.spells + "$")
+        saves.write(self.feats + "$")
         for i in self.spellslots:
-            saves.write(str(i)+",")
+            saves.write(str(i) + ",")
         saves.close()

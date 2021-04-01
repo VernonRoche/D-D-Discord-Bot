@@ -1,12 +1,11 @@
-
 from discord.ext import commands
 
 
 class Player(commands.Cog):
-    def __init__(self, bot,id,ensembles):
+    def __init__(self, bot, id, ensembles):
         self.bot = bot
-        self.id=id
-        self.ensembles=ensembles
+        self.id = id
+        self.ensembles = ensembles
 
     # Roll a dice
     @commands.command(aliases=["player"],

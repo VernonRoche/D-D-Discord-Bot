@@ -6,7 +6,7 @@ def calculate_passive_skills(character, *args):
         if ar != "":
             character = character + " " + ar
     file = open_character(character)
-    proficiency = calculate_level_proficiency(file[3])+10
+    proficiency = calculate_level_proficiency(file[3]) + 10
     attributes = file[6]
     return [proficiency + calculate_attribute_bonus(attributes[4]),
             proficiency + calculate_attribute_bonus(attributes[3])]

@@ -1,18 +1,17 @@
-from discord.ext import commands
-from Player_Interaction.CharacterCog import CharacterCommands
-from DiceCog import DiceRoller
-from Player_Interaction.BankCog import Bank
-from Player_Interaction.BagCog import Bag
-from Source.Effects_And_Actions.Weapon import WeaponCommands
-from Source.Utility import Globals
-import Token
-
+import glob
 import random
 
-import glob
+from discord.ext import commands
 
-from Source.Utility.Utilities import this_is_some_alien_bababouy
+import Token
+from DiceCog import DiceRoller
+from Player_Interaction.BagCog import Bag
+from Player_Interaction.BankCog import Bank
+from Player_Interaction.CharacterCog import CharacterCommands
+from Source.Effects_And_Actions.Weapon import WeaponCommands
+from Source.Utility import Globals
 from Source.Utility.Utilities import separate_long_text
+from Source.Utility.Utilities import this_is_some_alien_bababouy
 
 bot = commands.Bot(command_prefix="!")
 
@@ -36,16 +35,16 @@ async def on_ready():
         print(e)
 
 
-#Check if we want to cancel a command
+# Check if we want to cancel a command
 @bot.event
-async def on_reaction_add(reaction,user):
-    if reaction.emoji=="❌" and reaction.count>1:
-        Globals.is_cancel_requested=True
+async def on_reaction_add(reaction, user):
+    if reaction.emoji == "❌" and reaction.count > 1:
+        Globals.is_cancel_requested = True
 
 
 @bot.command(name="help")
 async def help(ctx):
-    bot_manual=separate_long_text(Globals.bot_manual)
+    bot_manual = separate_long_text(Globals.bot_manual)
     for i in bot_manual:
         await ctx.send(i)
 
@@ -58,7 +57,7 @@ async def bababouy(ctx):
 @bot.command(name="roshambo")
 async def shifoumi(ctx, finger=False):
     Lp = [random.randint(1, 4), random.randint(1, 4)]
-    Lshif = ["",""]
+    Lshif = ["", ""]
     for i in range(0, 2):
         if Lp[i] == 1:
             Lshif[i] = "✊"

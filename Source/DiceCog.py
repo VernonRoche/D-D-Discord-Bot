@@ -1,7 +1,9 @@
 import random
+
 from discord.ext import commands
-from Source.Utility.Utilities import open_character
+
 from Player_Information.Skills import skill_modifier
+from Source.Utility.Utilities import open_character
 from Source.Utility.Utilities import separate_long_text
 
 
@@ -64,4 +66,4 @@ class DiceRoller(commands.Cog):
                 character = character + " " + ar
 
         modifier = skill_modifier(character, skill)
-        await self.dice_roll(ctx,"1d20", modifier)
+        await self.dice_roll(ctx, "1d20", modifier)
