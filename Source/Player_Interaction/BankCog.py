@@ -2,7 +2,7 @@ from discord.ext import commands
 
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
-from Source.Utility.Utilities import open_character, save_char_file
+from Source.Utility.Utilities import open_character_file, save_char_file
 from Source.Utility.ChecksAndHelp import is_command_rerun_requested
 
 
@@ -29,8 +29,8 @@ class Bank(commands.Cog):
             if ar != "":
                 character = character + " " + ar
 
-        file = open_character(character)
-        coins = file[5]
+        char_dictionary = open_character_file(character)
+        coins = char_dictionary['coins']
         await ctx.send("```💰Current Coins: " + str(coins) + "```")
 
         await ctx.send(f"``Do you want to deposit or withdraw coins? Yes/No``")
@@ -54,8 +54,8 @@ class Bank(commands.Cog):
                         if Globals.is_cancel_requested:
                             Globals.is_cancel_requested = False
                             return
-                        file[5] = file[5] + int(response)
-                        save_char_file(file)
+                        char_dictionary['coins'] = char_dictionary['coins'] + int(response)
+                        save_char_file(char_dictionary)
                         await ctx.send("```💰Current Coins: " + str(coins) + "```")
 
                     else:
@@ -66,9 +66,9 @@ class Bank(commands.Cog):
                         if Globals.is_cancel_requested:
                             Globals.is_cancel_requested = False
                             return
-                        file[5] = file[5] - int(response)
-                        await self.is_valid(ctx, file[5], "coins")
-                        save_char_file(file)
+                        char_dictionary['coins'] = char_dictionary['coins'] - int(response)
+                        await self.is_valid(ctx, char_dictionary['coins'], "coins")
+                        save_char_file(char_dictionary)
                         await ctx.send("```💰Current Coins: " + str(coins) + "```")
 
                 else:

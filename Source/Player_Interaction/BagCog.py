@@ -2,7 +2,7 @@ from discord.ext import commands
 
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
-from Source.Utility.Utilities import open_character, save_char_file
+from Source.Utility.Utilities import open_character_file, save_char_file
 from Source.Utility.ChecksAndHelp import is_command_rerun_requested
 
 
@@ -25,9 +25,9 @@ class Bag(commands.Cog):
             if ar != "":
                 character = character + " " + ar
 
-        file = open_character(character)
-        items = file[8]
-        weapons = file[7]
+        char_dictionary = open_character_file(character)
+        items = char_dictionary['items']
+        weapons = char_dictionary['weapons']
 
         await ctx.send("```🏹Current Weapons: " + weapons + "```")
         await ctx.send("```👜Current Items: " + items + "```")
@@ -87,15 +87,15 @@ class Bag(commands.Cog):
                                 for i in weapons:
                                     result = result + "," + i
                                     print(i)
-                                file[7] = result[1:]
-                                save_char_file(file)
+                                char_dictionary['weapons'] = result[1:]
+                                save_char_file(char_dictionary)
                                 await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
 
                             else:
                                 response = str(quantity) + " " + response.capitalize()
                                 weapons = weapons + "," + response
-                                file[7] = weapons
-                                save_char_file(file)
+                                char_dictionary['weapons'] = weapons
+                                save_char_file(char_dictionary)
                                 await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
 
                         # remove weapon
@@ -133,8 +133,8 @@ class Bag(commands.Cog):
                             result = ""
                             for i in weapons:
                                 result = result + "," + i
-                            file[7] = result[1:]
-                            save_char_file(file)
+                            char_dictionary['weapons'] = result[1:]
+                            save_char_file(char_dictionary)
                             await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
                         else:
                             raise ValueError("bad entry")
@@ -178,15 +178,15 @@ class Bag(commands.Cog):
                                 result = ""
                                 for i in items:
                                     result = result + "," + i
-                                file[8] = result[1:]
-                                save_char_file(file)
+                                char_dictionary['items'] = result[1:]
+                                save_char_file(char_dictionary)
                                 await ctx.send("```👜Current Items: " + items + "```")
 
                             else:
                                 response = str(quantity) + " " + response.capitalize()
                                 items = items + "," + response
-                                file[8] = items
-                                save_char_file(file)
+                                char_dictionary['items'] = items
+                                save_char_file(char_dictionary)
                                 await ctx.send("```👜Current Items: " + items + "```")
 
                         # remove item
@@ -224,8 +224,8 @@ class Bag(commands.Cog):
                             result = ""
                             for i in items:
                                 result = result + "," + i
-                            file[8] = result[1:]
-                            save_char_file(file)
+                            char_dictionary['items'] = result[1:]
+                            save_char_file(char_dictionary)
                             await ctx.send("```👜Current Items: " + items + "```")
                         else:
                             raise ValueError("bad entry")

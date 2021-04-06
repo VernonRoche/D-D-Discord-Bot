@@ -3,14 +3,14 @@ import os
 
 from discord.ext import commands
 
-from Source.Player_Information.Character import Character
 from Source.Player_Information.Skills import calculate_passive_skills
 from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import is_command_rerun_requested
 from Source.Utility.Messaging import *
-from Source.Utility.Utilities import open_character
+from Source.Utility.Utilities import open_character_file
 from Source.Utility.Utilities import save_char_file
 from Source.Utility.Utilities import separate_long_text
+from Source.Utility.Utilities import populate_character_dictionary
 
 
 class CharacterCommands(commands.Cog):
@@ -128,7 +128,7 @@ class CharacterCommands(commands.Cog):
                 await self.is_valid(ctx, myclass.lower(), "class")
                 break
             except ValueError:
-                await send_cancelable_message(ctx,"``Enter a correct class!``")
+                await send_cancelable_message(ctx, "``Enter a correct class!``")
 
         # takes and checks level
         await send_cancelable_message(ctx, f"``Enter your starting level: ``")
@@ -377,7 +377,7 @@ class CharacterCommands(commands.Cog):
         items = items.replace("1 Dnd", "")
         items = items[:-1]
 
-        # Checks if spell is in file list, lowercases everything and capitalizes each separate word.
+        # Checks if spell is in char_dictionary list, lowercases everything and capitalizes each separate word.
         await send_cancelable_message(ctx, f"``Do you know any spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
         if is_command_rerun_requested("!create", response):
@@ -494,6 +494,7 @@ class CharacterCommands(commands.Cog):
                         Globals.is_cancel_requested = False
                         return
                     response = response.split(' ')
+                    response=[int(x) for x in response]
                     await self.is_valid(ctx, response[1], "attribute")
                     if response[0] >= 1 and response[0] <= 9:
                         spellslots[response[0] - 1] = response[1]
@@ -504,9 +505,9 @@ class CharacterCommands(commands.Cog):
                 except ValueError:
                     await ctx.send("``You must put a number you donkey! Try again.``")
 
-        char = Character(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative, proficiencies,
-                         spells, feats, spellslots)
-        await char.save()
+        save_char_file(
+            populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
+                                          proficiencies, spells, feats, spellslots))
         await self.char_display(ctx, name)
         return
 
@@ -565,7 +566,7 @@ class CharacterCommands(commands.Cog):
 
     @commands.command(aliases=["spellbook"], help="Example: !spellbook Ulric")
     async def spell_book(self, ctx, character, *args):
-        file = open_character(character, *args)
+        file = open_character_file(character, *args)
         result = "```\n"
         result = result + file[11] + "\n"
         result = result + "Spell Slots: ["
@@ -576,7 +577,7 @@ class CharacterCommands(commands.Cog):
 
     @commands.command(aliases=["cast"], help="Example: !cast eldritch-blast Gandalf")
     async def cast_spell(self, ctx, spellname, character, *args):
-        file = open_character(character, *args)
+        file = open_character_file(character, *args)
         file[11] = file[11].split(',')
         is_owned = map(lambda i: i.lower(), file[11])
         if spellname.lower() not in is_owned:

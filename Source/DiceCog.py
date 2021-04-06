@@ -3,7 +3,7 @@ import random
 from discord.ext import commands
 
 from Player_Information.Skills import skill_modifier
-from Source.Utility.Utilities import open_character
+from Source.Utility.Utilities import open_character_file
 from Source.Utility.Utilities import separate_long_text
 
 
@@ -54,7 +54,7 @@ class DiceRoller(commands.Cog):
             if ar != "":
                 character = character + " " + ar
 
-        file = open_character(character)
+        file = open_character_file(character)
         await self.dice_roll(ctx, 1, 20, file[9])
 
     @commands.command(aliases=["roll"],

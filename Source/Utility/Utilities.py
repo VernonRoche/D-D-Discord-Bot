@@ -1,41 +1,55 @@
-from Source.Player_Information.Character import Character
+import json
 
 
-# transforms character file to array with usable values
-def open_character(character, *args):
+# pass character name to return a dictionary containing his information
+def open_character_file(character, *args):
     for ar in args:
         if ar != "":
             print(ar)
             character = character + " " + ar
 
     path = "../Characters/" + character + ".txt"
-    ftemp = open(path, "r")
-    file = ftemp.read()
-    ftemp.close()
-
-    file = file.split('$')
-    file[6] = file[6].split(',')
-    file[6] = file[6][:-1]
-    file[6] = [int(i) for i in file[6]]
-    file[3] = int(file[3])
-    file[4] = int(file[4])
-    file[5] = int(file[5])
-    file[9] = int(file[9])
-    file[10] = file[10].split(',')
-    file[10] = file[10][:-1]
-    file[11] = file[11][1:]
-    file[13] = file[13].split(',')
-    file[13] = file[13][:-1]
-    file[13] = [int(i) for i in file[13]]
-
-    return file
+    with open(path) as input_file:
+        return json.load(input_file)
 
 
-# transforms an array representing a character into a Character Class instance
-def file_to_character(character_file):
-    return Character(character_file[0], character_file[1], character_file[2], character_file[3], character_file[4],
-                     character_file[5], character_file[6], character_file[7], character_file[8], character_file[9],
-                     character_file[10], character_file[11], character_file[12], character_file[13])
+# takes a dictionary with character information and saves it into a .json file
+def save_char_file(char_dictionary):
+    filename = "../Characters/" + char_dictionary['name'] + ".txt"
+    with open(filename, 'w') as output_file:
+        json.dump(char_dictionary, output_file)
+
+def populate_character_dictionary(name,race,myclass,level,hp,coin,attributes,weapons,items,initiative,proficiences
+                                  ,spells,feats,spellslots):
+    #convert array of attributes into dictionary
+    attributes = [int(x) for x in attributes]
+    attributes_dict = {}
+    attributes_dict.append({'strength': attributes[0]})
+    attributes_dict.append({'dexterity': attributes[1]})
+    attributes_dict.append({'constitution': attributes[2]})
+    attributes_dict.append({'intelligence': attributes[3]})
+    attributes_dict.append({'wisdom': attributes[4]})
+    attributes_dict.append({'charisma': attributes[5]})
+
+    #populate dictionary
+    char_dictionary={}
+    char_dictionary['name']=name
+    char_dictionary['race']=race
+    char_dictionary['myclass']=myclass
+    char_dictionary['level']=int(level)
+    char_dictionary['hp']=int(hp)
+    char_dictionary['coin']=int(coin)
+    char_dictionary['attributes']=attributes_dict
+    char_dictionary['weapons']=weapons
+    char_dictionary['items']=items
+    char_dictionary['initiative']=int(initiative)
+    char_dictionary['profiencies']=proficiences
+    char_dictionary['spells']=spells
+    char_dictionary['feats']=feats
+    char_dictionary['spellslots']=spellslots
+    print(char_dictionary)
+    return char_dictionary
+
 
 
 # checks if a text is too long for a single discord message
@@ -76,36 +90,6 @@ def separate_long_text(text, look_for_format=False):
         return [text]
 
 
-# takes an array representing a character and saves it in a text file form
-def save_char_file(file):
-    filename = "../Characters/" + file[0] + ".txt"
-    saves = open(filename, "w+")
-    saves.write(file[0] + "$")
-    saves.write(file[1] + "$")
-    saves.write(file[2] + "$")
-    saves.write(str(file[3]) + "$")
-    saves.write(str(file[4]) + "$")
-    saves.write(str(file[5]) + "$")
-    for i in file[6]:
-        saves.write(str(i) + ",")
-    saves.write("$")
-    saves.write(file[7] + "$")
-    saves.write(file[8] + "$")
-    saves.write(str(file[9]) + "$")
-    for i in file[10]:
-        saves.write(i + ",")
-    saves.write("$")
-
-    saves.write("@")
-    for i in file[11]:
-        saves.write(i + ",")
-    saves.write("$")
-
-    saves.write(file[12] + "$")
-    for i in file[13]:
-        saves.write(str(i) + ",")
-
-    saves.close()
 
 
 async def this_is_some_alien_bababouy(ctx):
