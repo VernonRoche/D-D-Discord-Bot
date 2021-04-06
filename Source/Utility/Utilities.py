@@ -8,28 +8,28 @@ def open_character_file(character, *args):
             print(ar)
             character = character + " " + ar
 
-    path = "../Characters/" + character + ".txt"
-    with open(path) as input_file:
+    path = "../Characters/" + character + ".json"
+    with open(path, 'r') as input_file:
         return json.load(input_file)
 
 
 # takes a dictionary with character information and saves it into a .json file
 def save_char_file(char_dictionary):
-    filename = "../Characters/" + char_dictionary['name'] + ".txt"
-    with open(filename, 'w') as output_file:
+    filename = "../Characters/" + char_dictionary['name'] + ".json"
+    with open(filename, "w+") as output_file:
         json.dump(char_dictionary, output_file)
 
-def populate_character_dictionary(name,race,myclass,level,hp,coin,attributes,weapons,items,initiative,proficiences
+def populate_character_dictionary(name,race,myclass,level,hp,coins,attributes,weapons,items,initiative,proficiences
                                   ,spells,feats,spellslots):
     #convert array of attributes into dictionary
     attributes = [int(x) for x in attributes]
     attributes_dict = {}
-    attributes_dict['strength']: attributes[0]
-    attributes_dict['dexterity']: attributes[1]
-    attributes_dict['constitution']: attributes[2]
-    attributes_dict['intelligence']: attributes[3]
-    attributes_dict['wisdom']: attributes[4]
-    attributes_dict['charisma']: attributes[5]
+    attributes_dict['strength']= attributes[0]
+    attributes_dict['dexterity']= attributes[1]
+    attributes_dict['constitution']= attributes[2]
+    attributes_dict['intelligence']= attributes[3]
+    attributes_dict['wisdom']= attributes[4]
+    attributes_dict['charisma']= attributes[5]
 
     #populate dictionary
     char_dictionary={}
@@ -38,12 +38,12 @@ def populate_character_dictionary(name,race,myclass,level,hp,coin,attributes,wea
     char_dictionary['class']=myclass
     char_dictionary['level']=int(level)
     char_dictionary['hp']=int(hp)
-    char_dictionary['coin']=int(coin)
+    char_dictionary['coins']=int(coins)
     char_dictionary['attributes']=attributes_dict
     char_dictionary['weapons']=weapons
     char_dictionary['items']=items
     char_dictionary['initiative']=int(initiative)
-    char_dictionary['profiencies']=proficiences
+    char_dictionary['proficiencies']=proficiences
     char_dictionary['spells']=spells
     char_dictionary['feats']=feats
     char_dictionary['spellslots']=spellslots

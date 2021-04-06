@@ -25,7 +25,7 @@ class CharacterCommands(commands.Cog):
             await ctx.send("``Send this command in our little private chit chat ;)``")
             await private_DM(ctx, "Please execute this command here.")
             return
-
+        """
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx, f"``Enter your character's name: ``")
         response = (await self.bot.wait_for("message", check=check)).content
@@ -35,7 +35,7 @@ class CharacterCommands(commands.Cog):
             name = ""
             response = response.split(' ')
             for i in response:
-                i=(i.lower()).capitalize()
+                i = (i.lower()).capitalize()
                 name = name + i + " "
             name = name[:-1]
         else:
@@ -52,7 +52,7 @@ class CharacterCommands(commands.Cog):
                     race = ""
                     response = response.split(' ')
                     for i in response:
-                        i=(i.lower()).capitalize()
+                        i = (i.lower()).capitalize()
                         race = race + i + " "
                     race = race[:-1]
                 else:
@@ -74,7 +74,7 @@ class CharacterCommands(commands.Cog):
                     myclass = ""
                     response = response.split(' ')
                     for i in response:
-                        i=(i.lower()).capitalize()
+                        i = (i.lower()).capitalize()
                         myclass = myclass + i + " "
                     myclass = myclass[:-1]
                 else:
@@ -181,7 +181,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``Put a correct value!``")
 
-        await send_cancelable_message(ctx, f"``Enter your intellect: ``")
+        await send_cancelable_message(ctx, f"``Enter your intelligence: ``")
         while True:
             try:
                 intel = (await self.bot.wait_for("message", check=check)).content
@@ -250,35 +250,93 @@ class CharacterCommands(commands.Cog):
                 break
             except ValueError:
                 await ctx.send("``You must put a correct skillname!``")
+        """
+        weapons = ""
+        weapon_dictionary = Weapons().weapon_dictionary
+        while True:
+            try:
+                await send_cancelable_message(ctx,
+                                              f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+                response = (await self.bot.wait_for("message", check=check)).content
+                if should_exit_command("!create", response):
+                    return
 
-        await send_cancelable_message(ctx,
-                                      f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
-        response = (await self.bot.wait_for("message", check=check)).content
-        if should_exit_command("!create", response):
-            return
-        response = response.split(' ')
-        weapon_dictionary=Weapons().weapon_dictionary
-        if not is_weapon_valid(response[1],weapon_dictionary):
-            raise ValueError
-        if len(response) == 1 or response[0].isnumeric() == False:
-            response.insert(0, "1")
+                index = 0
+                quantity_index = []
+                quantity = 0
+                if not response[0].isnumeric():
+                    response = "1 " + response
+                while response[index].isnumeric():
+                    quantity_index.append(int(response[index]))
+                    index += 1
 
-        weapons = response[0] + " " + (response[1].lower()).capitalize()
-        while "Dnd" not in weapons:
-            await send_cancelable_message(ctx,
-                                          f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
-            response = (await self.bot.wait_for("message", check=check)).content
-            if should_exit_command("!create", response):
-                return
-            response = response.split(' ')
-            if not is_weapon_valid(response[1], weapon_dictionary):
-                raise ValueError
-            if len(response) == 1 or response[0].isnumeric() == False:
-                response.insert(0, "1")
-            weapons = weapons + "," + response[0] + " " + (response[1].lower()).capitalize()
+                response = response[index + 1:]
+                for x in quantity_index:
+                    quantity = quantity + x * (10 ** (index + 1))
+                    index -= 1
 
-        weapons = weapons.replace("1 Dnd", "")
-        weapons = weapons[:-1]
+                print(response)
+                if not is_weapon_valid(response, weapon_dictionary):
+                    raise ValueError
+
+                weapons = str(quantity) + " " + (response.lower()).capitalize()
+
+                while "Dnd" not in weapons:
+                    await send_cancelable_message(ctx,
+                                                  f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if should_exit_command("!create", response):
+                        return
+
+                    index = 0
+                    quantity_index = []
+                    quantity = 0
+
+                    if not response[0].isnumeric():
+                        response = "1 " + response
+
+                    while response[index].isnumeric():
+                        quantity_index.append(int(response[index]))
+                        index += 1
+
+                    response = response[index + 1:]
+                    for x in quantity_index:
+                        quantity = quantity + x * (10 ** (index + 1))
+                        index -= 1
+
+                    print(response)
+                    if not is_weapon_valid(response, weapon_dictionary):
+                        raise ValueError
+
+                    if (response.lower()).capitalize() in weapons:
+                        quantity_index=weapons.find((response.lower()).capitalize())
+                        x = weapons[quantity_index - 2]
+                        quantity=int(x)
+
+                        temp_index = 1
+                        if quantity_index-2==0:
+                            None
+                        else:
+                            x=weapons[quantity_index -2 -temp_index ]
+                            while x.isnumeric():
+                                quantity=quantity+int(x)*(10**(temp_index))
+                                temp_index+=1
+                                if quantity_index-2-temp_index==0:
+                                    break
+                                else:
+                                    x = weapons[quantity_index - 2 - temp_index]
+
+                        weapons=weapons[:quantity_index-2-temp_index]+str(quantity)+weapons[quantity_index:]
+
+                    else:
+                        weapons = weapons + "," + str(quantity)+ " " + (response.lower()).capitalize()
+
+                weapons = weapons.replace("1 Dnd", "")
+                weapons = weapons[:-1]
+                print(weapons)
+                break
+            except ValueError:
+                await ctx.send("``You must enter a correct weapon!``")
 
         await send_cancelable_message(ctx,
                                       f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
@@ -367,7 +425,7 @@ class CharacterCommands(commands.Cog):
         if should_exit_command("!create", response):
             return
         feats = ""
-        if response == "No":
+        if response.lower() == "no":
             None
         else:
             while True:
@@ -393,7 +451,7 @@ class CharacterCommands(commands.Cog):
                             None
                         else:
                             feats = feats + "," + (response.lower()).capitalize()
-                    feats = feats[:-4]
+                    feats = feats[1:-4]
                     break
                 except ValueError:
                     await ctx.send("``You must put a correct feat!``")
@@ -409,10 +467,12 @@ class CharacterCommands(commands.Cog):
             while True:
                 try:
                     await send_cancelable_message(ctx,
-                                                  "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots)``")
+                                                  "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots). When finished type dnd``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
+                    if response.lower() == "dnd":
+                        break
                     response = response.split(' ')
                     response = [int(x) for x in response]
                     if not is_value_valid(response[1], "spellslot"):
@@ -422,7 +482,7 @@ class CharacterCommands(commands.Cog):
                     else:
                         await ctx.send("Enter a correct spell slot level!")
                         raise ValueError
-                    break
+
                 except ValueError:
                     await ctx.send("``Put a correct value!``")
 
@@ -477,10 +537,9 @@ class CharacterCommands(commands.Cog):
     async def delete_character(self, ctx, character, *args):
         for ar in args:
             if ar != "":
-                print(ar)
                 character = character + " " + ar
-        if os.path.exists("../Characters/" + character + ".txt"):
-            os.remove("../Characters/" + character + ".txt")
+        if os.path.exists("../Characters/" + character + ".json"):
+            os.remove("../Characters/" + character + ".json")
             await ctx.send("``Good riddance``")
         else:
             await ctx.send("``This character does not exist``")

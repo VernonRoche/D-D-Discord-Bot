@@ -57,6 +57,8 @@ def is_spell_valid(name):
         f = f.lower()
         spells = spells + "," + f[7:-4]
     spells = spells[1:]
+    if name.lower()=="dnd":
+        return True
     if name.lower() not in spells:
         return False
     return True
@@ -85,6 +87,7 @@ def is_value_valid(arg, name):
                             arg != "perception" and arg != "survival" and arg != "deception" and arg != "intimidation" and
                             arg != "performance" and arg != "persuasion"):
         return False
+    return True
 
 #verifies if weapon name exists in keys of the weapons dictionary
 def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
@@ -97,7 +100,9 @@ def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
         newname=newname[:-1]
     else:
         newname=(name.lower()).capitalize()
-    if weapon_dictionary.has_key(newname):
+    if newname=="Dnd":
+        return True
+    if newname in weapon_dictionary.keys():
         return True
     return False
 

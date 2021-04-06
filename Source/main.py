@@ -79,10 +79,10 @@ async def shifoumi(ctx, finger=False):
 
 @bot.command(aliases=["list"], help="Example: !characters")
 async def list_characters(ctx):
-    files = [f for f in glob.glob("../Characters/" + "*.txt")]
+    files = [f for f in glob.glob("../Characters/" + "*.json")]
     result = ""
     for f in files:
-        result = result + "," + f[14:-4]
+        result = result + "," + f[14:-5]
     result = result[1:]
     await ctx.send(f"```" + result + "```")
 
