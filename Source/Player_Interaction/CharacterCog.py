@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from Source.Player_Information.Skills import calculate_passive_skills
 from Source.Utility import Globals
-from Source.Utility.ChecksAndHelp import is_command_rerun_requested
+from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file
 from Source.Utility.Utilities import save_char_file
@@ -73,10 +73,7 @@ class CharacterCommands(commands.Cog):
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx, f"``Enter your character's name: ``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if is_command_rerun_requested("!create", response):
-            return
-        if Globals.is_cancel_requested:
-            Globals.is_cancel_requested = False
+        if should_exit_command("!create", response):
             return
         if ' ' in response:
             name = ""
@@ -91,10 +88,7 @@ class CharacterCommands(commands.Cog):
         # checks race and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's race: ``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if is_command_rerun_requested("!create", response):
-            return
-        if Globals.is_cancel_requested:
-            Globals.is_cancel_requested = False
+        if should_exit_command("!create", response):
             return
         if ' ' in response:
             race = ""
@@ -111,10 +105,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 response = (await self.bot.wait_for("message", check=check)).content
-                if is_command_rerun_requested("!create", response):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", response):
                     return
                 if ' ' in response:
                     myclass = ""
@@ -135,10 +126,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 level = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", level):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", level):
                     return
                 level = int(level)
                 await self.is_valid(ctx, level, "level")
@@ -151,10 +139,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 initiative = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", initiative):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", initiative):
                     return
                 initiative = int(initiative)
                 await self.is_valid(ctx, initiative, "initiative")
@@ -167,10 +152,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 hp = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", hp):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", hp):
                     return
                 hp = int(hp)
                 await self.is_valid(ctx, hp, "hp")
@@ -183,10 +165,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 coin = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", coin):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", coin):
                     return
                 coin = int(coin)
                 await self.is_valid(ctx, coin, "coins")
@@ -199,10 +178,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 str = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", str):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", str):
                     return
                 str = int(str)
                 await self.is_valid(ctx, str, "attribute")
@@ -214,10 +190,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 dex = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", dex):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", dex):
                     return
                 dex = int(dex)
                 await self.is_valid(ctx, dex, "attribute")
@@ -229,10 +202,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 con = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", con):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", con):
                     return
                 con = int(con)
                 await self.is_valid(ctx, con, "attribute")
@@ -244,10 +214,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 intel = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", intel):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", intel):
                     return
                 intel = int(intel)
                 await self.is_valid(ctx, intel, "attribute")
@@ -259,10 +226,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 wis = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", wis):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", wis):
                     return
                 wis = int(wis)
                 await self.is_valid(ctx, wis, "attribute")
@@ -274,10 +238,7 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 cha = (await self.bot.wait_for("message", check=check).content)
-                if is_command_rerun_requested("!create", cha):
-                    return
-                if Globals.is_cancel_requested:
-                    Globals.is_cancel_requested = False
+                if should_exit_command("!create", cha):
                     return
                 cha = int(cha)
                 await self.is_valid(ctx, cha, "attribute")
@@ -294,7 +255,7 @@ class CharacterCommands(commands.Cog):
             try:
                 if proficiencies == []:
                     response = (await self.bot.wait_for("message", check=check)).content
-                    if is_command_rerun_requested("!create", response):
+                    if should_exit_command("!create", response):
                         return
                     await self.is_valid(ctx, response.lower(), "skill")
                     proficiencies = [response.capitalize()]
@@ -302,10 +263,7 @@ class CharacterCommands(commands.Cog):
                     await send_cancelable_message(ctx,
                                                   f"``Are you proficient with another skill?? When finished type dnd (Example: Acrobatics)``")
                     response = (await self.bot.wait_for("message", check=check)).content
-                    if is_command_rerun_requested("!create", response):
-                        return
-                    if Globals.is_cancel_requested:
-                        Globals.is_cancel_requested = False
+                    if should_exit_command("!create", response):
                         return
                     await self.is_valid(ctx, response.lower(), "skill")
                     if response.capitalize() in proficiencies:
@@ -320,10 +278,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx,
                                       f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if is_command_rerun_requested("!create", response):
-            return
-        if Globals.is_cancel_requested:
-            Globals.is_cancel_requested = False
+        if should_exit_command("!create", response):
             return
         response = response.split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
@@ -334,10 +289,7 @@ class CharacterCommands(commands.Cog):
             await send_cancelable_message(ctx,
                                           f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
             response = (await self.bot.wait_for("message", check=check)).content
-            if is_command_rerun_requested("!create", response):
-                return
-            if Globals.is_cancel_requested:
-                Globals.is_cancel_requested = False
+            if should_exit_command("!create", response):
                 return
             response = response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
@@ -350,10 +302,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx,
                                       f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if is_command_rerun_requested("!create", response):
-            return
-        if Globals.is_cancel_requested:
-            Globals.is_cancel_requested = False
+        if should_exit_command("!create", response):
             return
         response = response.split(' ')
         if len(response) == 1 or response[0].isnumeric() == False:
@@ -364,10 +313,7 @@ class CharacterCommands(commands.Cog):
             await send_cancelable_message(ctx,
                                           f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
             response = (await self.bot.wait_for("message", check=check)).content
-            if is_command_rerun_requested("!create", response):
-                return
-            if Globals.is_cancel_requested:
-                Globals.is_cancel_requested = False
+            if should_exit_command("!create", response):
                 return
             response = response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
@@ -380,10 +326,7 @@ class CharacterCommands(commands.Cog):
         # Checks if spell is in char_dictionary list, lowercases everything and capitalizes each separate word.
         await send_cancelable_message(ctx, f"``Do you know any spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if is_command_rerun_requested("!create", response):
-            return
-        if Globals.is_cancel_requested:
-            Globals.is_cancel_requested = False
+        if should_exit_command("!create", response):
             return
         listspells = []
         spells = ""
@@ -396,10 +339,7 @@ class CharacterCommands(commands.Cog):
                         await send_cancelable_message(ctx,
                                                       f"``Which spell do you know?? When finished type dnd (Example: Astral-Projection)``")
                         response = (await self.bot.wait_for("message", check=check)).content
-                        if is_command_rerun_requested("!create", response):
-                            return
-                        if Globals.is_cancel_requested:
-                            Globals.is_cancel_requested = False
+                        if should_exit_command("!create", response):
                             return
                         await self.is_valid(ctx, response.lower(), "spell")
                         if "-" not in response:
@@ -415,10 +355,7 @@ class CharacterCommands(commands.Cog):
                         await send_cancelable_message(ctx,
                                                       f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
                         response = (await self.bot.wait_for("message", check=check)).content
-                        if is_command_rerun_requested("!create", response):
-                            return
-                        if Globals.is_cancel_requested:
-                            Globals.is_cancel_requested = False
+                        if should_exit_command("!create", response):
                             return
                         await self.is_valid(ctx, response.lower(), "spell")
                         if response.lower() in listspells:
@@ -441,9 +378,11 @@ class CharacterCommands(commands.Cog):
             for i in listspells:
                 spells = spells + i + ","
             spells = spells[:-1]
-        """
-        await ctx.send(f"``Do you have any feat? Yes/No")
+
+        await send_cancelable_message(ctx,f"``Do you have any feat? Yes/No")
         response = (await self.bot.wait_for("message", check=check)).content
+        if should_exit_command("!create",response):
+            return
         feats = ""
         if response == "No":
             None
@@ -451,34 +390,34 @@ class CharacterCommands(commands.Cog):
             while True:
                 try:
                     if feats == "":
-                        await ctx.send(
+                        await send_cancelable_message(ctx,
                             f"``Which feat do you have?? When finished type dnd (Example: )``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if should_exit_command("!create",response):
+                            return
                         await self.is_valid(ctx, response.lower(), "feat")
-                        spells = spells + "," + response.capitalize()
-                    while "Dnd" not in spells:
-                        await ctx.send(
+                        feats = feats + "," + response.capitalize()
+                    while "Dnd" not in feats:
+                        await send_cancelable_message(ctx,
                             f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
                         response = (await self.bot.wait_for("message", check=check)).content
+                        if should_exit_command("!create",response):
+                            return
                         await self.is_valid(ctx, response.lower(), "feat")
-                        if response.capitalize() in spells:
+                        if response.capitalize() in feats:
                             None
                         else:
-                            spells = spells + "," + response.capitalize()
-                    spells = spells[:-4]
+                            feats = feats + "," + response.capitalize()
+                    feats = feats[:-4]
                     break
                 except ValueError:
                     await ctx.send("``You must put a feat!``")
-        """
-        feats = ""
+
 
         spellslots = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         await send_cancelable_message(ctx, f"``Can you cast Level 1+ spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if is_command_rerun_requested("!create", response):
-            return
-        if Globals.is_cancel_requested:
-            Globals.is_cancel_requested = False
+        if should_exit_command("!create", response):
             return
         if response.lower() == "no":
             None
@@ -488,10 +427,7 @@ class CharacterCommands(commands.Cog):
                     await send_cancelable_message(ctx,
                                                   "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots)``")
                     response = (await self.bot.wait_for("message", check=check)).content
-                    if is_command_rerun_requested("!create", response):
-                        return
-                    if Globals.is_cancel_requested:
-                        Globals.is_cancel_requested = False
+                    if should_exit_command("!create", response):
                         return
                     response = response.split(' ')
                     response=[int(x) for x in response]
@@ -516,39 +452,37 @@ class CharacterCommands(commands.Cog):
         for ar in args:
             if ar != "":
                 character = character + " " + ar
-        filename = "../Characters/" + character + ".txt"
-        ftemp = open(filename, "r")
-        file = ftemp.read()
-        ftemp.close()
+        char_dictionary=open_character_file(character)
         result = f"```ml\n"
-        file = file.split('$')
         passive_skills = calculate_passive_skills(character)
 
         # Name level, race and class
-        result = result + "     '" + file[0] + "'     \n" + "🔰Level " + file[3] + " " + file[1] + " " + file[2] + "\n"
+        result = result + "     '" + char_dictionary['name'] + "'     \n" + "🔰Level " + str(char_dictionary['level']) \
+                 + " " + char_dictionary['race'] + " " + char_dictionary['class'] + "\n"
 
         # HP, Initiative and Coins
-        result = result + "🩸Current HP: " + file[4] + "\n🔱Initiative: " + file[9] + "\n💰Current Coins: " + file[
-            5] + "\n"
+        result = result + "🩸Current HP: " + str(char_dictionary['hp']) + "\n🔱Initiative: " \
+                 + str(char_dictionary['initiative']) + "\n💰Current Coins: " \
+                 + str(char_dictionary['coins']) + "\n"
 
         # Attributes and passive skills to the right side
-        attributes = file[6].split(',')
-        result = result + "💥Strength: " + attributes[0] + "\n🎯Dexterity: " \
-                 + attributes[1] + "\n💖Constitution: " + \
-                 attributes[2] + "\n💫Intellect: " + attributes[
-                     3] + "\n💡Wisdom: " + attributes[4] + "\n🎭Charisma: " + \
-                 attributes[5] + "\n"
+        attributes = char_dictionary['attributes']
+        result = result + "💥Strength: " + str(attributes['strength']) + "\n🎯Dexterity: " \
+                 + str(attributes['dexterity']) + "\n💖Constitution: " + \
+                 str(attributes['constitution']) + "\n💫Intelligence: " + str(attributes[
+                     'intelligence']) + "\n💡Wisdom: " + str(attributes['wisdom']) + "\n🎭Charisma: " + \
+                 str(attributes['charisma']) + "\n"
         # Proficiencies
-        result = result + "🎲Proficiencies: " + file[10][:-1] + "\n" + "🔍Passive Investigation: " + str(
+        result = result + "🎲Proficiencies: " + char_dictionary['proficiencies'][:-1] + "\n" + "🔍Passive Investigation: " + str(
             passive_skills[1]) + "\n" + \
                  "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \
                  "❗Passive Perception: " + str(passive_skills[0]) + "\n"
 
         # Weapons and Items
-        result = result + "🏹Weapons: " + file[7] + "\n👜Items: " + file[8] + "\n"
+        result = result + "🏹Weapons: " + char_dictionary['weapons'] + "\n👜Items: " + char_dictionary['items'] + "\n"
 
         # Feats
-        result = result + "🔰Feats: " + file[12] + "```"
+        result = result + "🔰Feats: " + char_dictionary['feats'] + "```"
 
         await ctx.send(result)
 
@@ -566,24 +500,24 @@ class CharacterCommands(commands.Cog):
 
     @commands.command(aliases=["spellbook"], help="Example: !spellbook Ulric")
     async def spell_book(self, ctx, character, *args):
-        file = open_character_file(character, *args)
+        char_dictionary = open_character_file(character, *args)
         result = "```\n"
-        result = result + file[11] + "\n"
+        result = result + char_dictionary['spells'] + "\n"
         result = result + "Spell Slots: ["
-        for i in file[13]:
+        for i in char_dictionary['spellslots']:
             result = result + str(i) + ", "
         result = result[:-2] + "]```\n"
         await ctx.send(result)
 
     @commands.command(aliases=["cast"], help="Example: !cast eldritch-blast Gandalf")
     async def cast_spell(self, ctx, spellname, character, *args):
-        file = open_character_file(character, *args)
-        file[11] = file[11].split(',')
-        is_owned = map(lambda i: i.lower(), file[11])
+        char_dictionary = open_character_file(character, *args)
+        char_dictionary['spells'] = char_dictionary['spells'].split(',')
+        is_owned = map(lambda i: i.lower(), char_dictionary['spells'])
         if spellname.lower() not in is_owned:
             await ctx.send("You do not have this spell!")
         else:
-            slots = file[13]
+            slots = char_dictionary['spellslots']
             path = "../Spells/" + spellname + ".txt"
             ftemp = open(path, "r")
             tfile = ftemp.read()
@@ -605,8 +539,8 @@ class CharacterCommands(commands.Cog):
                     return
 
             # values are good and spell can be shown
-            file[13] = slots
-            save_char_file(file)
+            char_dictionary['spellslots'] = slots
+            save_char_file(char_dictionary)
             tfile = separate_long_text(tfile)
             for i in tfile:
                 await ctx.send("```diff\n-" + i + "```")

@@ -54,8 +54,8 @@ class DiceRoller(commands.Cog):
             if ar != "":
                 character = character + " " + ar
 
-        file = open_character_file(character)
-        await self.dice_roll(ctx, 1, 20, file[9])
+        char_dictionary = open_character_file(character)
+        await self.dice_roll(ctx, 1, 20, char_dictionary['initiative'])
 
     @commands.command(aliases=["roll"],
                       help="Example: !roll Perception Sauron or !roll skill stealth Gandalf")

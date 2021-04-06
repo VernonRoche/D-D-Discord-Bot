@@ -3,7 +3,7 @@ from discord.ext import commands
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file
-from Source.Utility.ChecksAndHelp import is_command_rerun_requested
+from Source.Utility.ChecksAndHelp import should_exit_command
 
 
 class Bank(commands.Cog):
@@ -41,18 +41,12 @@ class Bank(commands.Cog):
                     await send_cancelable_message(ctx,
                                                   f"``What change in your coins do you wish to make? Deposit/Withdraw``")
                     response = (await self.bot.wait_for("message", check=check)).content
-                    if is_command_rerun_requested("!bank", response):
-                        return
-                    if Globals.is_cancel_requested:
-                        Globals.is_cancel_requested = False
+                    if should_exit_command("!bank", response):
                         return
                     if response.lower() == "deposit":
                         await send_cancelable_message(ctx, f"``Enter the amount of coins you want to deposit``")
                         response = (await self.bot.wait_for("message", check=check)).content
-                        if is_command_rerun_requested("!bank", response):
-                            return
-                        if Globals.is_cancel_requested:
-                            Globals.is_cancel_requested = False
+                        if should_exit_command("!bank", response):
                             return
                         char_dictionary['coins'] = char_dictionary['coins'] + int(response)
                         save_char_file(char_dictionary)
@@ -61,10 +55,7 @@ class Bank(commands.Cog):
                     else:
                         await send_cancelable_message(ctx, f"``Enter the amount of coins you want to withdraw``")
                         response = (await self.bot.wait_for("message", check=check)).content
-                        if is_command_rerun_requested("!bank", response):
-                            return
-                        if Globals.is_cancel_requested:
-                            Globals.is_cancel_requested = False
+                        if should_exit_command("!bank", response):
                             return
                         char_dictionary['coins'] = char_dictionary['coins'] - int(response)
                         await self.is_valid(ctx, char_dictionary['coins'], "coins")

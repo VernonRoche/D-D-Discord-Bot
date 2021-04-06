@@ -35,7 +35,7 @@ def populate_character_dictionary(name,race,myclass,level,hp,coin,attributes,wea
     char_dictionary={}
     char_dictionary['name']=name
     char_dictionary['race']=race
-    char_dictionary['myclass']=myclass
+    char_dictionary['class']=myclass
     char_dictionary['level']=int(level)
     char_dictionary['hp']=int(hp)
     char_dictionary['coin']=int(coin)
