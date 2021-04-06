@@ -3,17 +3,12 @@ from discord.ext import commands
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file
-from Source.Utility.ChecksAndHelp import should_exit_command
+from Source.Utility.ChecksAndHelp import should_exit_command,is_value_valid
 
 
 class Bank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    async def is_valid(self, ctx, arg, name):
-        if name == "coins" and arg < 0:
-            await ctx.send("``You can't afford this you pleb! You try to buy something too expensive!``")
-            raise ValueError("bad coins")
 
     @commands.command(aliases=["money", "banker", "bank"], help="Example: !banker Gimli or !money Gimli")
     async def bank_management(self, ctx, character, *args):
@@ -57,8 +52,10 @@ class Bank(commands.Cog):
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!bank", response):
                             return
+                        if not is_value_valid(char_dictionary['coins']-int(response),"coins"):
+                            await ctx.send("``This is way more than what you can afford!``")
+                            raise ValueError
                         char_dictionary['coins'] = char_dictionary['coins'] - int(response)
-                        await self.is_valid(ctx, char_dictionary['coins'], "coins")
                         save_char_file(char_dictionary)
                         await ctx.send("```💰Current Coins: " + str(coins) + "```")
 
@@ -66,4 +63,4 @@ class Bank(commands.Cog):
                     break
 
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")

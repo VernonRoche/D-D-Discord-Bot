@@ -60,29 +60,28 @@ def is_spell_valid(name):
         return False
     return True
 
+#verify if feat exists
+def is_feat_valid(name):
+    return True
+
 
 
 #verify if a numerical value is valid, depending on the category it is
 #name=type of value checked, arg=value to check
-async def is_value_valid(ctx, arg, name):
+async def is_value_valid(arg, name):
     if name == "hp" and arg <= 0:
-        await ctx.send("``You donkey! You are not dead yet!``")
-        raise ValueError("bad hp")
-    if (name == "attribute" or name == "level") and (arg <= 0 or arg > 20):
-        await ctx.send("``You master donkey! Put an attribute value between 0 and 20!``")
-        raise ValueError("bad attr or level")
+        return False
+    if (name == "attribute" or name == "level" or name == "spellslot") and (arg <= 0 or arg > 20):
+        return False
     if name == "coins" and arg < 0:
-        await ctx.send("``Good news for you, you are not indebted, so get that negative money away from my eyes!``")
-        raise ValueError("bad coins")
+        return False
     if name == "initiative" and (arg < -10 or arg > 10):
-        await ctx.send("``What is even this initiative value you donkey?!``")
-        raise ValueError("bad init")
+        return False
     if name == "skill" and (arg != "dnd" and
                             arg != "acrobatics" and arg != "athletics" and arg != "sleight of hand" and arg != "stealth" and
                             arg != "arcana" and arg != "history" and arg != "investigation" and arg != "nature" and
                             arg != "religion" and arg != "animal handling" and arg != "insight" and arg != "medicine" and
                             arg != "perception" and arg != "survival" and arg != "deception" and arg != "intimidation" and
                             arg != "performance" and arg != "persuasion"):
-        await ctx.send("``Enter a correct skill name!``")
-        raise ValueError("bad skillname")
+        return False
 

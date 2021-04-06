@@ -1,63 +1,19 @@
-import glob
 import os
 
 from discord.ext import commands
 
 from Source.Player_Information.Skills import calculate_passive_skills
-from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file
+from Source.Utility.Utilities import populate_character_dictionary
 from Source.Utility.Utilities import save_char_file
 from Source.Utility.Utilities import separate_long_text
-from Source.Utility.Utilities import populate_character_dictionary
 
 
 class CharacterCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    async def is_valid(self, ctx, arg, name):
-        tempspells = [f for f in glob.glob("../Spells/" + "**/*.txt", recursive=True)]
-        spells = ""
-        for f in tempspells:
-            f = f.lower()
-            spells = spells + "," + f[7:-4]
-        spells = spells[1:]
-
-        tempclasses = [f for f in glob.glob("../Character Classes/" + "**/*.txt", recursive=True)]
-        classes = ""
-        for f in tempclasses:
-            f = f.lower()
-            classes = classes + "," + f[18:-4]
-        classes = classes[1:]
-
-        if name == "hp" and arg <= 0:
-            await ctx.send("``You donkey! You are not dead yet!``")
-            raise ValueError("bad hp")
-        if (name == "attribute" or name == "level") and (arg <= 0 or arg > 20):
-            await ctx.send("``You master donkey! Put an attribute value between 0 and 20!``")
-            raise ValueError("bad attr or level")
-        if name == "coins" and arg < 0:
-            await ctx.send("``Good news for you, you are not indebted, so get that negative money away from my eyes!``")
-            raise ValueError("bad coins")
-        if name == "initiative" and (arg < -10 or arg > 10):
-            await ctx.send("``What is even this initiative value you donkey?!``")
-            raise ValueError("bad init")
-        if name == "skill" and (arg != "dnd" and
-                                arg != "acrobatics" and arg != "athletics" and arg != "sleight of hand" and arg != "stealth" and
-                                arg != "arcana" and arg != "history" and arg != "investigation" and arg != "nature" and
-                                arg != "religion" and arg != "animal handling" and arg != "insight" and arg != "medicine" and
-                                arg != "perception" and arg != "survival" and arg != "deception" and arg != "intimidation" and
-                                arg != "performance" and arg != "persuasion"):
-            await ctx.send("``Enter a correct skill name!``")
-            raise ValueError("bad skillname")
-        if name == "spell" and (arg not in spells) and arg != "dnd":
-            await ctx.send("``This spell does not exist! If your spell has 2 or more words, separate them with -``")
-            raise ValueError("bad spell")
-        if name == "class" and (arg not in classes):
-            await ctx.send("``This class does not exist!``")
-            raise ValueError("bad class")
 
     @commands.command(aliases=["create character", "create"], help="Example: !create character or !create")
     async def char_creation(self, ctx):
@@ -103,10 +59,9 @@ class CharacterCommands(commands.Cog):
                     race = response.capitalize()
                 if is_race_valid(race):
                     break
-                raise(ValueError)
+                raise ValueError
             except ValueError:
-                await send_cancelable_message(ctx,"``Enter a correct race``")
-
+                await send_cancelable_message(ctx, "``Enter a correct race!``")
 
         # checks class and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's class: ``")
@@ -126,7 +81,7 @@ class CharacterCommands(commands.Cog):
                     myclass = (response.lower()).capitalize()
                 if is_class_valid(myclass):
                     break
-                raise(ValueError)
+                raise ValueError
             except ValueError:
                 await send_cancelable_message(ctx, "``Enter a correct class!``")
 
@@ -138,10 +93,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", level):
                     return
                 level = int(level)
-                await self.is_valid(ctx, level, "level")
+                if not is_value_valid(level, "level"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct level!``")
 
         # takes and checks initiative
         await send_cancelable_message(ctx, f"``Enter your Initiative: ``")
@@ -151,10 +107,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", initiative):
                     return
                 initiative = int(initiative)
-                await self.is_valid(ctx, initiative, "initiative")
+                if not is_value_valid(initiative, "initiative"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct initiative!``")
 
         # takes and checks hp
         await send_cancelable_message(ctx, f"``Enter your starting hp: ``")
@@ -164,10 +121,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", hp):
                     return
                 hp = int(hp)
-                await self.is_valid(ctx, hp, "hp")
+                if not is_value_valid(hp, "hp"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct HP value!``")
 
         # takes and checks coins
         await send_cancelable_message(ctx, f"``Enter your starting coins: ``")
@@ -177,10 +135,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", coin):
                     return
                 coin = int(coin)
-                await self.is_valid(ctx, coin, "coins")
+                if not is_value_valid(coin, "coins"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put some correct coin amount!``")
 
         # checks attributes
         await send_cancelable_message(ctx, f"``Enter your strength: ``")
@@ -190,10 +149,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", str):
                     return
                 str = int(str)
-                await self.is_valid(ctx, str, "attribute")
+                if not is_value_valid(str, "attribute"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")
 
         await send_cancelable_message(ctx, f"``Enter your dexterity: ``")
         while True:
@@ -202,10 +162,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", dex):
                     return
                 dex = int(dex)
-                await self.is_valid(ctx, dex, "attribute")
+                if not is_value_valid(dex, "attribute"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")
 
         await send_cancelable_message(ctx, f"``Enter your constitution: ``")
         while True:
@@ -214,10 +175,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", con):
                     return
                 con = int(con)
-                await self.is_valid(ctx, con, "attribute")
+                if not is_value_valid(con, "attribute"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")
 
         await send_cancelable_message(ctx, f"``Enter your intellect: ``")
         while True:
@@ -226,10 +188,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", intel):
                     return
                 intel = int(intel)
-                await self.is_valid(ctx, intel, "attribute")
+                if not is_value_valid(intel, "attribute"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")
 
         await send_cancelable_message(ctx, f"``Enter your wisdom: ``")
         while True:
@@ -238,10 +201,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", wis):
                     return
                 wis = int(wis)
-                await self.is_valid(ctx, wis, "attribute")
+                if not is_value_valid(wis, "attribute"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")
 
         await send_cancelable_message(ctx, f"``Enter your charisma: ``")
         while True:
@@ -250,10 +214,11 @@ class CharacterCommands(commands.Cog):
                 if should_exit_command("!create", cha):
                     return
                 cha = int(cha)
-                await self.is_valid(ctx, cha, "attribute")
+                if not is_value_valid(cha, "attribute"):
+                    raise ValueError
                 break
             except ValueError:
-                await ctx.send("``You must put a number you donkey! Try again.``")
+                await ctx.send("``Put a correct value!``")
 
         attributes = [str, dex, con, intel, wis, cha]
         proficiencies = []
@@ -266,7 +231,8 @@ class CharacterCommands(commands.Cog):
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
-                    await self.is_valid(ctx, response.lower(), "skill")
+                    if not is_value_valid(response.lower(), "skill"):
+                        raise ValueError
                     proficiencies = [response.capitalize()]
                 while proficiencies[-1] != "Dnd":
                     await send_cancelable_message(ctx,
@@ -274,7 +240,8 @@ class CharacterCommands(commands.Cog):
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
-                    await self.is_valid(ctx, response.lower(), "skill")
+                    if not is_value_valid(response.lower(), "skill"):
+                        raise ValueError
                     if response.capitalize() in proficiencies:
                         None
                     else:
@@ -282,7 +249,7 @@ class CharacterCommands(commands.Cog):
                 del proficiencies[-1]
                 break
             except ValueError:
-                await ctx.send("``You must put a skillname!``")
+                await ctx.send("``You must put a correct skillname!``")
 
         await send_cancelable_message(ctx,
                                       f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
@@ -350,7 +317,8 @@ class CharacterCommands(commands.Cog):
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create", response):
                             return
-                        await self.is_valid(ctx, response.lower(), "spell")
+                        if not is_spell_valid(response):
+                            raise ValueError
                         if "-" not in response:
                             listspells.append((response.lower()).capitalize())
                         else:
@@ -366,7 +334,8 @@ class CharacterCommands(commands.Cog):
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create", response):
                             return
-                        await self.is_valid(ctx, response.lower(), "spell")
+                        if not is_spell_valid(response):
+                            raise ValueError
                         if response.lower() in listspells:
                             None
                         else:
@@ -382,15 +351,15 @@ class CharacterCommands(commands.Cog):
                     del listspells[-1]
                     break
                 except ValueError:
-                    await ctx.send("``You must put a spell!``")
+                    await ctx.send("``You must put a correct spell!``")
             listspells = list(set(listspells))
             for i in listspells:
                 spells = spells + i + ","
             spells = spells[:-1]
 
-        await send_cancelable_message(ctx,f"``Do you have any feat? Yes/No``")
+        await send_cancelable_message(ctx, f"``Do you have any feat? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
-        if should_exit_command("!create",response):
+        if should_exit_command("!create", response):
             return
         feats = ""
         if response == "No":
@@ -400,19 +369,21 @@ class CharacterCommands(commands.Cog):
                 try:
                     if feats == "":
                         await send_cancelable_message(ctx,
-                            f"``Which feat do you have?? When finished type dnd (Example: Polearm Master)``")
+                                                      f"``Which feat do you have?? When finished type dnd (Example: Polearm Master)``")
                         response = (await self.bot.wait_for("message", check=check)).content
-                        if should_exit_command("!create",response):
+                        if should_exit_command("!create", response):
                             return
-                        await self.is_valid(ctx, response.lower(), "feat")
+                        if not is_feat_valid(response):
+                            raise ValueError
                         feats = feats + "," + response.capitalize()
                     while "Dnd" not in feats:
                         await send_cancelable_message(ctx,
-                            f"``Do you know any other feat?? When finished type dnd (Example: War Caster)``")
+                                                      f"``Do you know any other feat?? When finished type dnd (Example: War Caster)``")
                         response = (await self.bot.wait_for("message", check=check)).content
-                        if should_exit_command("!create",response):
+                        if should_exit_command("!create", response):
                             return
-                        await self.is_valid(ctx, response.lower(), "feat")
+                        if not is_feat_valid(response):
+                            raise ValueError
                         if response.capitalize() in feats:
                             None
                         else:
@@ -420,8 +391,7 @@ class CharacterCommands(commands.Cog):
                     feats = feats[:-4]
                     break
                 except ValueError:
-                    await ctx.send("``You must put a feat!``")
-
+                    await ctx.send("``You must put a correct feat!``")
 
         spellslots = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         await send_cancelable_message(ctx, f"``Can you cast Level 1+ spells? Yes/No``")
@@ -439,8 +409,9 @@ class CharacterCommands(commands.Cog):
                     if should_exit_command("!create", response):
                         return
                     response = response.split(' ')
-                    response=[int(x) for x in response]
-                    await self.is_valid(ctx, response[1], "attribute")
+                    response = [int(x) for x in response]
+                    if not is_value_valid(response[1], "spellslot"):
+                        raise ValueError
                     if response[0] >= 1 and response[0] <= 9:
                         spellslots[response[0] - 1] = response[1]
                     else:
@@ -448,7 +419,7 @@ class CharacterCommands(commands.Cog):
                         raise ValueError
                     break
                 except ValueError:
-                    await ctx.send("``You must put a number you donkey! Try again.``")
+                    await ctx.send("``Put a correct value!``")
 
         save_char_file(
             populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
@@ -461,7 +432,7 @@ class CharacterCommands(commands.Cog):
         for ar in args:
             if ar != "":
                 character = character + " " + ar
-        char_dictionary=open_character_file(character)
+        char_dictionary = open_character_file(character)
         result = f"```ml\n"
         passive_skills = calculate_passive_skills(character)
 
@@ -479,10 +450,12 @@ class CharacterCommands(commands.Cog):
         result = result + "💥Strength: " + str(attributes['strength']) + "\n🎯Dexterity: " \
                  + str(attributes['dexterity']) + "\n💖Constitution: " + \
                  str(attributes['constitution']) + "\n💫Intelligence: " + str(attributes[
-                     'intelligence']) + "\n💡Wisdom: " + str(attributes['wisdom']) + "\n🎭Charisma: " + \
+                                                                                  'intelligence']) + "\n💡Wisdom: " + str(
+            attributes['wisdom']) + "\n🎭Charisma: " + \
                  str(attributes['charisma']) + "\n"
         # Proficiencies
-        result = result + "🎲Proficiencies: " + char_dictionary['proficiencies'][:-1] + "\n" + "🔍Passive Investigation: " + str(
+        result = result + "🎲Proficiencies: " + char_dictionary['proficiencies'][
+                                                :-1] + "\n" + "🔍Passive Investigation: " + str(
             passive_skills[1]) + "\n" + \
                  "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \
                  "❗Passive Perception: " + str(passive_skills[0]) + "\n"
