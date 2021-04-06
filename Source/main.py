@@ -10,6 +10,7 @@ from Player_Interaction.BankCog import Bank
 from Player_Interaction.CharacterCog import CharacterCommands
 from Source.Effects_And_Actions.Weapon import WeaponCommands
 from Source.Utility import Globals
+from Source.Utility.ChecksAndHelp import is_spell_valid
 from Source.Utility.Utilities import separate_long_text
 from Source.Utility.Utilities import this_is_some_alien_bababouy
 
@@ -95,6 +96,9 @@ async def list_spells(ctx):
 
 @bot.command(aliases=["spell"], help="Example: !spell eldritch-blast")
 async def show_spell(ctx, spellname):
+    if not is_spell_valid(spellname):
+        await ctx.send("``This spell does not exist!``")
+        return
     path = "../Spells/" + spellname + ".txt"
     ftemp = open(path, "r")
     file = ftemp.read()

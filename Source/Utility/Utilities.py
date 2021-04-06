@@ -24,12 +24,12 @@ def populate_character_dictionary(name,race,myclass,level,hp,coin,attributes,wea
     #convert array of attributes into dictionary
     attributes = [int(x) for x in attributes]
     attributes_dict = {}
-    attributes_dict.append({'strength': attributes[0]})
-    attributes_dict.append({'dexterity': attributes[1]})
-    attributes_dict.append({'constitution': attributes[2]})
-    attributes_dict.append({'intelligence': attributes[3]})
-    attributes_dict.append({'wisdom': attributes[4]})
-    attributes_dict.append({'charisma': attributes[5]})
+    attributes_dict['strength']: attributes[0]
+    attributes_dict['dexterity']: attributes[1]
+    attributes_dict['constitution']: attributes[2]
+    attributes_dict['intelligence']: attributes[3]
+    attributes_dict['wisdom']: attributes[4]
+    attributes_dict['charisma']: attributes[5]
 
     #populate dictionary
     char_dictionary={}

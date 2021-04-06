@@ -18,14 +18,14 @@ class CharacterCommands(commands.Cog):
         self.bot = bot
 
     async def is_valid(self, ctx, arg, name):
-        tempspells = [f for f in glob.glob("../../Spells/" + "**/*.txt", recursive=True)]
+        tempspells = [f for f in glob.glob("../Spells/" + "**/*.txt", recursive=True)]
         spells = ""
         for f in tempspells:
             f = f.lower()
             spells = spells + "," + f[7:-4]
         spells = spells[1:]
 
-        tempclasses = [f for f in glob.glob("../../Character Classes/" + "**/*.txt", recursive=True)]
+        tempclasses = [f for f in glob.glob("../Character Classes/" + "**/*.txt", recursive=True)]
         classes = ""
         for f in tempclasses:
             f = f.lower()
@@ -86,19 +86,27 @@ class CharacterCommands(commands.Cog):
             name = response.capitalize()
 
         # checks race and capitalizes everything
-        await send_cancelable_message(ctx, f"``Enter your character's race: ``")
-        response = (await self.bot.wait_for("message", check=check)).content
-        if should_exit_command("!create", response):
-            return
-        if ' ' in response:
-            race = ""
-            response = response.split(' ')
-            for i in response:
-                i.capitalize()
-                race = race + i + " "
-            race = race[:-1]
-        else:
-            race = response.capitalize()
+        while True:
+            try:
+                await send_cancelable_message(ctx, f"``Enter your character's race: ``")
+                response = (await self.bot.wait_for("message", check=check)).content
+                if should_exit_command("!create", response):
+                    return
+                if ' ' in response:
+                    race = ""
+                    response = response.split(' ')
+                    for i in response:
+                        i.capitalize()
+                        race = race + i + " "
+                    race = race[:-1]
+                else:
+                    race = response.capitalize()
+                if is_race_valid(race):
+                    break
+                raise(ValueError)
+            except ValueError:
+                await send_cancelable_message(ctx,"``Enter a correct race``")
+
 
         # checks class and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's class: ``")
@@ -116,8 +124,9 @@ class CharacterCommands(commands.Cog):
                     myclass = myclass[:-1]
                 else:
                     myclass = (response.lower()).capitalize()
-                await self.is_valid(ctx, myclass.lower(), "class")
-                break
+                if is_class_valid(myclass):
+                    break
+                raise(ValueError)
             except ValueError:
                 await send_cancelable_message(ctx, "``Enter a correct class!``")
 
@@ -125,7 +134,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your starting level: ``")
         while True:
             try:
-                level = (await self.bot.wait_for("message", check=check).content)
+                level = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", level):
                     return
                 level = int(level)
@@ -138,7 +147,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your Initiative: ``")
         while True:
             try:
-                initiative = (await self.bot.wait_for("message", check=check).content)
+                initiative = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", initiative):
                     return
                 initiative = int(initiative)
@@ -151,7 +160,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your starting hp: ``")
         while True:
             try:
-                hp = (await self.bot.wait_for("message", check=check).content)
+                hp = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", hp):
                     return
                 hp = int(hp)
@@ -164,7 +173,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your starting coins: ``")
         while True:
             try:
-                coin = (await self.bot.wait_for("message", check=check).content)
+                coin = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", coin):
                     return
                 coin = int(coin)
@@ -177,7 +186,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your strength: ``")
         while True:
             try:
-                str = (await self.bot.wait_for("message", check=check).content)
+                str = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", str):
                     return
                 str = int(str)
@@ -189,7 +198,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your dexterity: ``")
         while True:
             try:
-                dex = (await self.bot.wait_for("message", check=check).content)
+                dex = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", dex):
                     return
                 dex = int(dex)
@@ -201,7 +210,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your constitution: ``")
         while True:
             try:
-                con = (await self.bot.wait_for("message", check=check).content)
+                con = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", con):
                     return
                 con = int(con)
@@ -213,7 +222,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your intellect: ``")
         while True:
             try:
-                intel = (await self.bot.wait_for("message", check=check).content)
+                intel = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", intel):
                     return
                 intel = int(intel)
@@ -225,7 +234,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your wisdom: ``")
         while True:
             try:
-                wis = (await self.bot.wait_for("message", check=check).content)
+                wis = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", wis):
                     return
                 wis = int(wis)
@@ -237,7 +246,7 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your charisma: ``")
         while True:
             try:
-                cha = (await self.bot.wait_for("message", check=check).content)
+                cha = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", cha):
                     return
                 cha = int(cha)
@@ -379,7 +388,7 @@ class CharacterCommands(commands.Cog):
                 spells = spells + i + ","
             spells = spells[:-1]
 
-        await send_cancelable_message(ctx,f"``Do you have any feat? Yes/No")
+        await send_cancelable_message(ctx,f"``Do you have any feat? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
         if should_exit_command("!create",response):
             return
@@ -391,7 +400,7 @@ class CharacterCommands(commands.Cog):
                 try:
                     if feats == "":
                         await send_cancelable_message(ctx,
-                            f"``Which feat do you have?? When finished type dnd (Example: )``")
+                            f"``Which feat do you have?? When finished type dnd (Example: Polearm Master)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create",response):
                             return
@@ -399,7 +408,7 @@ class CharacterCommands(commands.Cog):
                         feats = feats + "," + response.capitalize()
                     while "Dnd" not in feats:
                         await send_cancelable_message(ctx,
-                            f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
+                            f"``Do you know any other feat?? When finished type dnd (Example: War Caster)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create",response):
                             return

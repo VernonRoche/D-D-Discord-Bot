@@ -8,8 +8,8 @@ def calculate_passive_skills(character, *args):
     char_dictionary = open_character_file(character)
     proficiency = calculate_level_proficiency(char_dictionary['level']) + 10
     attributes = char_dictionary['attributes']
-    return [proficiency + calculate_attribute_bonus(attributes[4]),
-            proficiency + calculate_attribute_bonus(attributes[3])]
+    return [proficiency + calculate_attribute_bonus(attributes['wisdom']),
+            proficiency + calculate_attribute_bonus(attributes['intelligence'])]
 
 
 def calculate_level_proficiency(level):
