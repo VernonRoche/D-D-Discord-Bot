@@ -256,7 +256,9 @@ class CharacterCommands(commands.Cog):
         while True:
             try:
                 await send_cancelable_message(ctx,
-                                              f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+                                              f"``Enter your weapons if you have any and it's quantity, "
+                                              f"you will be prompted again if you have another weapon. "
+                                              f"When finished type dnd (example: 2 Mace): ``")
                 response = (await self.bot.wait_for("message", check=check)).content
                 if should_exit_command("!create", response):
                     return
@@ -272,7 +274,7 @@ class CharacterCommands(commands.Cog):
 
                 response = response[index + 1:]
                 for x in quantity_index:
-                    quantity = quantity + x * (10 ** (index + 1))
+                    quantity = quantity + x * (10 ** (index - 1))
                     index -= 1
 
                 print(response)
@@ -301,7 +303,7 @@ class CharacterCommands(commands.Cog):
 
                     response = response[index + 1:]
                     for x in quantity_index:
-                        quantity = quantity + x * (10 ** (index + 1))
+                        quantity = quantity + x * (10 ** (index - 1))
                         index -= 1
 
                     print(response)
@@ -309,27 +311,36 @@ class CharacterCommands(commands.Cog):
                         raise ValueError
 
                     if (response.lower()).capitalize() in weapons:
-                        quantity_index=weapons.find((response.lower()).capitalize())
-                        x = weapons[quantity_index - 2]
-                        quantity=int(x)
+                        pivot_char = weapons.find(
+                            (response.lower()).capitalize())  # pivot_char einai to m apo to "326 mace"
+                        last_int = pivot_char - 2 # last_int to prwto int pou sunandame to 6 apo to "3256 mace"
+                        shift_char = []  # shift_char ta psifia pou theloyume na alla3oume
+                        old_quantity = int(response[0])
 
                         temp_index = 1
-                        if quantity_index-2==0:
+                        if last_int == 0:
                             None
                         else:
-                            x=weapons[quantity_index -2 -temp_index ]
-                            while x.isnumeric():
-                                quantity=quantity+int(x)*(10**(temp_index))
-                                temp_index+=1
-                                if quantity_index-2-temp_index==0:
+                            search_int = weapons[pivot_char - 2 - temp_index]  # search_int 3ekiname me afto na
+                                                                               # phgainoume pros ta pisw sto string
+                            while search_int.isnumeric():
+                                shift_char.append(weapons[search_int])
+                                temp_index += 1
+                                if pivot_char - 2 -temp_index <0:
                                     break
-                                else:
-                                    x = weapons[quantity_index - 2 - temp_index]
+                                search_int = weapons[pivot_char - 2 - temp_index]
+                        shift_char.reverse()
 
-                        weapons=weapons[:quantity_index-2-temp_index]+str(quantity)+weapons[quantity_index:]
+                        index=len(shift_char)
+                        for x in quantity_index:
+                            old_quantity = old_quantity + x * (10 ** (index-1))
+                            index -= 1
+                        quantity=quantity+old_quantity
+
+                        weapons = weapons[:pivot_char - 2 - temp_index] + str(quantity) + weapons[pivot_char:]
 
                     else:
-                        weapons = weapons + "," + str(quantity)+ " " + (response.lower()).capitalize()
+                        weapons = weapons + "," + str(quantity) + " " + (response.lower()).capitalize()
 
                 weapons = weapons.replace("1 Dnd", "")
                 weapons = weapons[:-1]
