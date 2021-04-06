@@ -1,5 +1,6 @@
 import glob
 
+from Source.Effects_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
 from Source.Utility.Messaging import send_cancelable_message
 
@@ -68,7 +69,7 @@ def is_feat_valid(name):
 
 #verify if a numerical value is valid, depending on the category it is
 #name=type of value checked, arg=value to check
-async def is_value_valid(arg, name):
+def is_value_valid(arg, name):
     if name == "hp" and arg <= 0:
         return False
     if (name == "attribute" or name == "level" or name == "spellslot") and (arg <= 0 or arg > 20):
@@ -84,4 +85,19 @@ async def is_value_valid(arg, name):
                             arg != "perception" and arg != "survival" and arg != "deception" and arg != "intimidation" and
                             arg != "performance" and arg != "persuasion"):
         return False
+
+#verifies if weapon name exists in keys of the weapons dictionary
+def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
+    if " " in name:
+        name=name.split(' ')
+        newname=""
+        for i in name:
+            i=(i.lower()).capitalize()
+            newname=newname+i+" "
+        newname=newname[:-1]
+    else:
+        newname=(name.lower()).capitalize()
+    if weapon_dictionary.has_key(newname):
+        return True
+    return False
 

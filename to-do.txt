@@ -1,6 +1,6 @@
 INFOINFOINFOINFO
 
-file (character file)
+file (deprecated, moved to .json)
 0:Name
 1:Race
 2:Class
@@ -29,12 +29,11 @@ Solve errors concerning spells
 Move value testing in ChecksAndHelp class
 
 Verify values for:
--Race
--Class
+-Race (to be expanded)
+-Class (to be expanded)
 -Weapon
 -Feat
--Numerical values
--Names
+-Numerical values (DONE!)
 
 
 @@@@@EASY@@@@@

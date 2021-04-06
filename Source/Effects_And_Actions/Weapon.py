@@ -34,9 +34,9 @@ class Weapons:
     def __init__(self):
         self.weapon_dictionary = {}
 
-        self.populate_dicitonary()
+        self.populate_dictionary()
 
-    def populate_dicitonary(self):
+    def populate_dictionary(self):
         club = Weapon("Club", "1sp", "1d4", "bludgeoning", "2 lb", "Light")
         self.weapon_dictionary[club.name] = club
         dagger = Weapon("Dagger", "2gp", "1d4", "piercing", "1 lb", "Finesse, light, thrown (range 20/60)")
@@ -135,10 +135,9 @@ class WeaponCommands(commands.Cog):
 
     @commands.command(aliases=["weapons"], help="Example: !weapons")
     async def list_weapons(self, ctx):
-        weaplist = Weapons()
+        weaplist = Weapons().weapon_dictionary
         result = ""
-        print(weaplist.weapon_dictionary)
-        for i in weaplist.weapon_dictionary.values():
+        for i in weaplist.values():
             result = result + (await i.to_string()) + "\n"
         result = separate_long_text(result, True)
         for i in result:

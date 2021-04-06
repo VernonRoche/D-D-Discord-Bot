@@ -35,11 +35,11 @@ class CharacterCommands(commands.Cog):
             name = ""
             response = response.split(' ')
             for i in response:
-                i.capitalize()
+                i=(i.lower()).capitalize()
                 name = name + i + " "
             name = name[:-1]
         else:
-            name = response.capitalize()
+            name = (response.lower()).capitalize()
 
         # checks race and capitalizes everything
         while True:
@@ -52,11 +52,11 @@ class CharacterCommands(commands.Cog):
                     race = ""
                     response = response.split(' ')
                     for i in response:
-                        i.capitalize()
+                        i=(i.lower()).capitalize()
                         race = race + i + " "
                     race = race[:-1]
                 else:
-                    race = response.capitalize()
+                    race = (response.lower()).capitalize()
                 if is_race_valid(race):
                     break
                 raise ValueError
@@ -74,7 +74,7 @@ class CharacterCommands(commands.Cog):
                     myclass = ""
                     response = response.split(' ')
                     for i in response:
-                        (i.lower()).capitalize()
+                        i=(i.lower()).capitalize()
                         myclass = myclass + i + " "
                     myclass = myclass[:-1]
                 else:
@@ -233,7 +233,7 @@ class CharacterCommands(commands.Cog):
                         return
                     if not is_value_valid(response.lower(), "skill"):
                         raise ValueError
-                    proficiencies = [response.capitalize()]
+                    proficiencies = [(response.lower()).capitalize()]
                 while proficiencies[-1] != "Dnd":
                     await send_cancelable_message(ctx,
                                                   f"``Are you proficient with another skill?? When finished type dnd (Example: Acrobatics)``")
@@ -242,10 +242,10 @@ class CharacterCommands(commands.Cog):
                         return
                     if not is_value_valid(response.lower(), "skill"):
                         raise ValueError
-                    if response.capitalize() in proficiencies:
+                    if (response.lower()).capitalize() in proficiencies:
                         None
                     else:
-                        proficiencies.append(response.capitalize())
+                        proficiencies.append((response.lower()).capitalize())
                 del proficiencies[-1]
                 break
             except ValueError:
@@ -257,10 +257,13 @@ class CharacterCommands(commands.Cog):
         if should_exit_command("!create", response):
             return
         response = response.split(' ')
+        weapon_dictionary=Weapons().weapon_dictionary
+        if not is_weapon_valid(response[1],weapon_dictionary):
+            raise ValueError
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
 
-        weapons = response[0] + " " + response[1].capitalize()
+        weapons = response[0] + " " + (response[1].lower()).capitalize()
         while "Dnd" not in weapons:
             await send_cancelable_message(ctx,
                                           f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
@@ -268,9 +271,11 @@ class CharacterCommands(commands.Cog):
             if should_exit_command("!create", response):
                 return
             response = response.split(' ')
+            if not is_weapon_valid(response[1], weapon_dictionary):
+                raise ValueError
             if len(response) == 1 or response[0].isnumeric() == False:
                 response.insert(0, "1")
-            weapons = weapons + "," + response[0] + " " + response[1].capitalize()
+            weapons = weapons + "," + response[0] + " " + (response[1].lower()).capitalize()
 
         weapons = weapons.replace("1 Dnd", "")
         weapons = weapons[:-1]
@@ -284,7 +289,7 @@ class CharacterCommands(commands.Cog):
         if len(response) == 1 or response[0].isnumeric() == False:
             response.insert(0, "1")
 
-        items = response[0] + " " + response[1].capitalize()
+        items = response[0] + " " + (response[1].lower()).capitalize()
         while "Dnd" not in items:
             await send_cancelable_message(ctx,
                                           f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
@@ -294,7 +299,7 @@ class CharacterCommands(commands.Cog):
             response = response.split(' ')
             if len(response) == 1 or response[0].isnumeric() == False:
                 response.insert(0, "1")
-            items = items + "," + response[0] + " " + response[1].capitalize()
+            items = items + "," + response[0] + " " + (response[1].lower()).capitalize()
 
         items = items.replace("1 Dnd", "")
         items = items[:-1]
@@ -375,7 +380,7 @@ class CharacterCommands(commands.Cog):
                             return
                         if not is_feat_valid(response):
                             raise ValueError
-                        feats = feats + "," + response.capitalize()
+                        feats = feats + "," + (response.lower()).capitalize()
                     while "Dnd" not in feats:
                         await send_cancelable_message(ctx,
                                                       f"``Do you know any other feat?? When finished type dnd (Example: War Caster)``")
@@ -384,10 +389,10 @@ class CharacterCommands(commands.Cog):
                             return
                         if not is_feat_valid(response):
                             raise ValueError
-                        if response.capitalize() in feats:
+                        if (response.lower()).capitalize() in feats:
                             None
                         else:
-                            feats = feats + "," + response.capitalize()
+                            feats = feats + "," + (response.lower()).capitalize()
                     feats = feats[:-4]
                     break
                 except ValueError:

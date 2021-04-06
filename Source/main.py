@@ -13,6 +13,7 @@ from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import is_spell_valid
 from Source.Utility.Utilities import separate_long_text
 from Source.Utility.Utilities import this_is_some_alien_bababouy
+from Source.Utility.ChecksAndHelp import is_weapon_valid
 
 bot = commands.Bot(command_prefix="!")
 
@@ -34,6 +35,10 @@ async def on_ready():
         print(bot.user.id)
     except Exception as e:
         print(e)
+
+@bot.command(name="test")
+async def test(ctx):
+    return True
 
 
 # Check if we want to cancel a command

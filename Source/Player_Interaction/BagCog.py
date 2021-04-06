@@ -1,9 +1,10 @@
 from discord.ext import commands
 
+from Source.Effects_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file
-from Source.Utility.ChecksAndHelp import should_exit_command
+from Source.Utility.ChecksAndHelp import should_exit_command, is_weapon_valid
 
 
 class Bag(commands.Cog):
@@ -55,6 +56,9 @@ class Bag(commands.Cog):
                             response = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", response):
                                 return
+                            weapon_dictionary=Weapons().weapon_dictionary
+                            if not is_weapon_valid(response, weapon_dictionary):
+                                raise ValueError
                             await send_cancelable_message(ctx, "In what quantity?")
                             quantity = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", quantity):
@@ -81,7 +85,7 @@ class Bag(commands.Cog):
                                 await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
 
                             else:
-                                response = str(quantity) + " " + response.capitalize()
+                                response = str(quantity) + " " + (response.lower()).capitalize()
                                 weapons = weapons + "," + response
                                 char_dictionary['weapons'] = weapons
                                 save_char_file(char_dictionary)
@@ -159,7 +163,7 @@ class Bag(commands.Cog):
                                 await ctx.send("```👜Current Items: " + items + "```")
 
                             else:
-                                response = str(quantity) + " " + response.capitalize()
+                                response = str(quantity) + " " + (response.lower()).capitalize()
                                 items = items + "," + response
                                 char_dictionary['items'] = items
                                 save_char_file(char_dictionary)
