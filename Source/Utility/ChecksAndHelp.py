@@ -100,7 +100,7 @@ def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
         newname=newname[:-1]
     else:
         newname=(name.lower()).capitalize()
-    if newname=="Dnd":
+    if "Dnd" in newname:
         return True
     if newname in weapon_dictionary.keys():
         return True

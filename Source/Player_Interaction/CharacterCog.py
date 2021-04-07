@@ -25,7 +25,7 @@ class CharacterCommands(commands.Cog):
             await ctx.send("``Send this command in our little private chit chat ;)``")
             await private_DM(ctx, "Please execute this command here.")
             return
-        """
+
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx, f"``Enter your character's name: ``")
         response = (await self.bot.wait_for("message", check=check)).content
@@ -250,39 +250,11 @@ class CharacterCommands(commands.Cog):
                 break
             except ValueError:
                 await ctx.send("``You must put a correct skillname!``")
-        """
+
         weapons = ""
         weapon_dictionary = Weapons().weapon_dictionary
         while True:
             try:
-                await send_cancelable_message(ctx,
-                                              f"``Enter your weapons if you have any and it's quantity, "
-                                              f"you will be prompted again if you have another weapon. "
-                                              f"When finished type dnd (example: 2 Mace): ``")
-                response = (await self.bot.wait_for("message", check=check)).content
-                if should_exit_command("!create", response):
-                    return
-
-                index = 0
-                quantity_index = []
-                quantity = 0
-                if not response[0].isnumeric():
-                    response = "1 " + response
-                while response[index].isnumeric():
-                    quantity_index.append(int(response[index]))
-                    index += 1
-
-                response = response[index + 1:]
-                for x in quantity_index:
-                    quantity = quantity + x * (10 ** (index - 1))
-                    index -= 1
-
-                print(response)
-                if not is_weapon_valid(response, weapon_dictionary):
-                    raise ValueError
-
-                weapons = str(quantity) + " " + (response.lower()).capitalize()
-
                 while "Dnd" not in weapons:
                     await send_cancelable_message(ctx,
                                                   f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
@@ -306,44 +278,42 @@ class CharacterCommands(commands.Cog):
                         quantity = quantity + x * (10 ** (index - 1))
                         index -= 1
 
-                    print(response)
                     if not is_weapon_valid(response, weapon_dictionary):
                         raise ValueError
+                    print(weapons)
 
                     if (response.lower()).capitalize() in weapons:
                         pivot_char = weapons.find(
                             (response.lower()).capitalize())  # pivot_char einai to m apo to "326 mace"
-                        last_int = pivot_char - 2 # last_int to prwto int pou sunandame to 6 apo to "3256 mace"
                         shift_char = []  # shift_char ta psifia pou theloyume na alla3oume
-                        old_quantity = int(response[0])
+                        old_quantity = 0
 
-                        temp_index = 1
-                        if last_int == 0:
-                            None
-                        else:
-                            search_int = weapons[pivot_char - 2 - temp_index]  # search_int 3ekiname me afto na
-                                                                               # phgainoume pros ta pisw sto string
-                            while search_int.isnumeric():
-                                shift_char.append(weapons[search_int])
-                                temp_index += 1
-                                if pivot_char - 2 -temp_index <0:
-                                    break
-                                search_int = weapons[pivot_char - 2 - temp_index]
+                        temp_index = 0
+                        search_int = weapons[pivot_char - 2 - temp_index]  # search_int 3ekiname me afto na
+                                                                            # phgainoume pros ta pisw sto string
+                        while search_int.isnumeric():
+                            shift_char.append(search_int)
+                            temp_index += 1
+                            if pivot_char - 2 - temp_index < 0:
+                                break
+                            search_int = weapons[pivot_char - 2 - temp_index]
                         shift_char.reverse()
 
-                        index=len(shift_char)
-                        for x in quantity_index:
-                            old_quantity = old_quantity + x * (10 ** (index-1))
+                        index = len(shift_char)
+                        for x in shift_char:
+                            old_quantity = old_quantity + int(x) * (10 ** (index-1))
                             index -= 1
-                        quantity=quantity+old_quantity
+                        quantity = quantity + old_quantity
+                        print(old_quantity)
+                        print(quantity)
 
-                        weapons = weapons[:pivot_char - 2 - temp_index] + str(quantity) + weapons[pivot_char:]
+                        weapons = weapons[:pivot_char - 1 - temp_index] + str(quantity) + weapons[pivot_char-1:]
 
                     else:
                         weapons = weapons + "," + str(quantity) + " " + (response.lower()).capitalize()
 
                 weapons = weapons.replace("1 Dnd", "")
-                weapons = weapons[:-1]
+                weapons = weapons[1:-1]
                 print(weapons)
                 break
             except ValueError:
