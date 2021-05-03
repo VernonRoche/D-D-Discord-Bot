@@ -145,11 +145,11 @@ class CharacterCommands(commands.Cog):
         await send_cancelable_message(ctx, f"``Enter your strength: ``")
         while True:
             try:
-                str = (await self.bot.wait_for("message", check=check)).content
-                if should_exit_command("!create", str):
+                strength = (await self.bot.wait_for("message", check=check)).content
+                if should_exit_command("!create", strength):
                     return
-                str = int(str)
-                if not is_value_valid(str, "attribute"):
+                strength = int(strength)
+                if not is_value_valid(strength, "attribute"):
                     raise ValueError
                 break
             except ValueError:
@@ -220,7 +220,7 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``Put a correct value!``")
 
-        attributes = [str, dex, con, intel, wis, cha]
+        attributes = [strength, dex, con, intel, wis, cha]
         proficiencies = []
 
         await send_cancelable_message(ctx,
@@ -307,7 +307,7 @@ class CharacterCommands(commands.Cog):
                         print(old_quantity)
                         print(quantity)
 
-                        weapons = weapons[:pivot_char - 1 - temp_index] + str(quantity) + weapons[pivot_char-1:]
+                        weapons = weapons[:pivot_char - 1 - temp_index] + str(quantity) + weapons[pivot_char - 1:]
 
                     else:
                         weapons = weapons + "," + str(quantity) + " " + (response.lower()).capitalize()
@@ -448,7 +448,8 @@ class CharacterCommands(commands.Cog):
             while True:
                 try:
                     await send_cancelable_message(ctx,
-                                                  "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots). When finished type dnd``")
+                                                  "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots). When finished type dnd``"
+                                                  "\n```Level | Slot```")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
@@ -495,14 +496,16 @@ class CharacterCommands(commands.Cog):
         attributes = char_dictionary['attributes']
         result = result + "💥Strength: " + str(attributes['strength']) + "\n🎯Dexterity: " \
                  + str(attributes['dexterity']) + "\n💖Constitution: " + \
-                 str(attributes['constitution']) + "\n💫Intelligence: " + str(attributes[
-                                                                                  'intelligence']) + "\n💡Wisdom: " + str(
-            attributes['wisdom']) + "\n🎭Charisma: " + \
+                 str(attributes['constitution']) + "\n💫Intelligence: " + str(attributes['intelligence']) + "\n💡Wisdom: " + \
+                 str(attributes['wisdom']) + "\n🎭Charisma: " + \
                  str(attributes['charisma']) + "\n"
         # Proficiencies
-        result = result + "🎲Proficiencies: " + char_dictionary['proficiencies'][
-                                                :-1] + "\n" + "🔍Passive Investigation: " + str(
-            passive_skills[1]) + "\n" + \
+        proficiencies=""
+        for i in char_dictionary['proficiencies']:
+            proficiencies=proficiencies+","+i
+        proficiencies=proficiencies[:-1]
+        result = result + "🎲Proficiencies: " + proficiencies + "\n" + "🔍Passive Investigation: " + \
+                 str(passive_skills[1]) + "\n" + \
                  "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \
                  "❗Passive Perception: " + str(passive_skills[0]) + "\n"
 

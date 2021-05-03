@@ -26,7 +26,8 @@ def should_exit_command(current_command, response):
         return True
     return False
 
-#verify if character class exists
+
+# verify if character class exists
 def is_class_valid(name):
     tempclasses = [f for f in glob.glob("../Character Classes/" + "*.txt")]
     classes = ""
@@ -41,15 +42,17 @@ def is_class_valid(name):
     return True
 
 
-#verify if character race exists
+# verify if character race exists
 def is_race_valid(name):
-    name=name.lower()
-    if (name=="human" or name=="orc" or name=="half elf" or name=="elf" or name=="dragonborn" or name=="aasimar" or
-        name == "halfling" or name=="dwarf" or name=="gnome" or name=="half orc" or name=="tiefling"):
+    name = name.lower()
+    if (
+            name == "human" or name == "orc" or name == "half elf" or name == "elf" or name == "dragonborn" or name == "aasimar" or
+            name == "halfling" or name == "dwarf" or name == "gnome" or name == "half orc" or name == "tiefling"):
         return True
     return False
 
-#verify if spell exists
+
+# verify if spell exists
 def is_spell_valid(name):
     tempspells = [f for f in glob.glob("../Spells/" + "*.txt")]
     spells = ""
@@ -57,20 +60,20 @@ def is_spell_valid(name):
         f = f.lower()
         spells = spells + "," + f[7:-4]
     spells = spells[1:]
-    if name.lower()=="dnd":
+    if name.lower() == "dnd":
         return True
     if name.lower() not in spells:
         return False
     return True
 
-#verify if feat exists
+
+# verify if feat exists
 def is_feat_valid(name):
     return True
 
 
-
-#verify if a numerical value is valid, depending on the category it is
-#name=type of value checked, arg=value to check
+# verify if a numerical value is valid, depending on the category it is
+# name=type of value checked, arg=value to check
 def is_value_valid(arg, name):
     if name == "hp" and arg <= 0:
         return False
@@ -89,20 +92,20 @@ def is_value_valid(arg, name):
         return False
     return True
 
-#verifies if weapon name exists in keys of the weapons dictionary
+
+# verifies if weapon name exists in keys of the weapons dictionary
 def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
     if " " in name:
-        name=name.split(' ')
-        newname=""
+        name = name.split(' ')
+        newname = ""
         for i in name:
-            i=(i.lower()).capitalize()
-            newname=newname+i+" "
-        newname=newname[:-1]
+            i = (i.lower()).capitalize()
+            newname = newname + i + " "
+        newname = newname[:-1]
     else:
-        newname=(name.lower()).capitalize()
+        newname = (name.lower()).capitalize()
     if "Dnd" in newname:
         return True
     if newname in weapon_dictionary.keys():
         return True
     return False
-
