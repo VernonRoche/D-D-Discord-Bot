@@ -26,6 +26,15 @@ class CharacterCommands(commands.Cog):
             await private_DM(ctx, "Please execute this command here.")
             return
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Name
+
         # checks name and capitalizes all words of the name
         await send_cancelable_message(ctx, f"``Enter your character's name: ``")
         response = (await self.bot.wait_for("message", check=check)).content
@@ -40,6 +49,15 @@ class CharacterCommands(commands.Cog):
             name = name[:-1]
         else:
             name = (response.lower()).capitalize()
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Race
 
         # checks race and capitalizes everything
         while True:
@@ -63,6 +81,15 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await send_cancelable_message(ctx, "``Enter a correct race!``")
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Class
+
         # checks class and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's class: ``")
         while True:
@@ -85,6 +112,15 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await send_cancelable_message(ctx, "``Enter a correct class!``")
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Level
+
         # takes and checks level
         await send_cancelable_message(ctx, f"``Enter your starting level: ``")
         while True:
@@ -98,6 +134,15 @@ class CharacterCommands(commands.Cog):
                 break
             except ValueError:
                 await ctx.send("``Put a correct level!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Initiative
 
         # takes and checks initiative
         await send_cancelable_message(ctx, f"``Enter your Initiative: ``")
@@ -113,6 +158,15 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``Put a correct initiative!``")
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Health Points
+
         # takes and checks hp
         await send_cancelable_message(ctx, f"``Enter your starting hp: ``")
         while True:
@@ -127,6 +181,15 @@ class CharacterCommands(commands.Cog):
             except ValueError:
                 await ctx.send("``Put a correct HP value!``")
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Money
+
         # takes and checks coins
         await send_cancelable_message(ctx, f"``Enter your starting coins: ``")
         while True:
@@ -140,6 +203,15 @@ class CharacterCommands(commands.Cog):
                 break
             except ValueError:
                 await ctx.send("``Put some correct coin amount!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Attributes
 
         # checks attributes
         await send_cancelable_message(ctx, f"``Enter your strength: ``")
@@ -221,8 +293,17 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("``Put a correct value!``")
 
         attributes = [strength, dex, con, intel, wis, cha]
-        proficiencies = []
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Proficiencies
+
+        proficiencies = []
         await send_cancelable_message(ctx,
                                       f"``Are you proficient with a skill?? When finished type dnd (Example: Acrobatics)``")
         while True:
@@ -250,6 +331,15 @@ class CharacterCommands(commands.Cog):
                 break
             except ValueError:
                 await ctx.send("``You must put a correct skillname!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Weapons
 
         weapons = ""
         weapon_dictionary = Weapons().weapon_dictionary
@@ -304,8 +394,6 @@ class CharacterCommands(commands.Cog):
                             old_quantity = old_quantity + int(x) * (10 ** (index-1))
                             index -= 1
                         quantity = quantity + old_quantity
-                        print(old_quantity)
-                        print(quantity)
 
                         weapons = weapons[:pivot_char - 1 - temp_index] + str(quantity) + weapons[pivot_char - 1:]
 
@@ -314,34 +402,89 @@ class CharacterCommands(commands.Cog):
 
                 weapons = weapons.replace("1 Dnd", "")
                 weapons = weapons[1:-1]
-                print(weapons)
                 break
             except ValueError:
                 await ctx.send("``You must enter a correct weapon!``")
 
-        await send_cancelable_message(ctx,
-                                      f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
-        response = (await self.bot.wait_for("message", check=check)).content
-        if should_exit_command("!create", response):
-            return
-        response = response.split(' ')
-        if len(response) == 1 or response[0].isnumeric() == False:
-            response.insert(0, "1")
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        #Items
+        items = ""
+        while True:
+            try:
+                while "Dnd" not in weapons:
+                    await send_cancelable_message(ctx,
+                                                  f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if should_exit_command("!create", response):
+                        return
 
-        items = response[0] + " " + (response[1].lower()).capitalize()
-        while "Dnd" not in items:
-            await send_cancelable_message(ctx,
-                                          f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another item. When finished type dnd (example: 5 Arrow): ``")
-            response = (await self.bot.wait_for("message", check=check)).content
-            if should_exit_command("!create", response):
-                return
-            response = response.split(' ')
-            if len(response) == 1 or response[0].isnumeric() == False:
-                response.insert(0, "1")
-            items = items + "," + response[0] + " " + (response[1].lower()).capitalize()
+                    index = 0
+                    quantity_index = []
+                    quantity = 0
 
-        items = items.replace("1 Dnd", "")
-        items = items[:-1]
+                    if not response[0].isnumeric():
+                        response = "1 " + response
+
+                    while response[index].isnumeric():
+                        quantity_index.append(int(response[index]))
+                        index += 1
+
+                    response = response[index + 1:]
+                    for x in quantity_index:
+                        quantity = quantity + x * (10 ** (index - 1))
+                        index -= 1
+
+                    if not is_item_valid():
+                        raise ValueError
+
+                    if (response.lower()).capitalize() in items:
+                        pivot_char = items.find(
+                            (response.lower()).capitalize())  # pivot_char einai to m apo to "326 mace"
+                        shift_char = []  # shift_char ta psifia pou theloyume na alla3oume
+                        old_quantity = 0
+
+                        temp_index = 0
+                        search_int = items[pivot_char - 2 - temp_index]  # search_int 3ekiname me afto na
+                        # phgainoume pros ta pisw sto string
+                        while search_int.isnumeric():
+                            shift_char.append(search_int)
+                            temp_index += 1
+                            if pivot_char - 2 - temp_index < 0:
+                                break
+                            search_int = items[pivot_char - 2 - temp_index]
+                        shift_char.reverse()
+
+                        index = len(shift_char)
+                        for x in shift_char:
+                            old_quantity = old_quantity + int(x) * (10 ** (index - 1))
+                            index -= 1
+                        quantity = quantity + old_quantity
+
+                        items = items[:pivot_char - 1 - temp_index] + str(quantity) + items[pivot_char - 1:]
+
+                    else:
+                        items = items + "," + str(quantity) + " " + (response.lower()).capitalize()
+
+                items = items.replace("1 Dnd", "")
+                items = items[1:-1]
+                break
+            except ValueError:
+                await ctx.send("``You must enter a correct item!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Spells
 
         # Checks if spell is in char_dictionary list, lowercases everything and capitalizes each separate word.
         await send_cancelable_message(ctx, f"``Do you know any spells? Yes/No``")
@@ -401,6 +544,15 @@ class CharacterCommands(commands.Cog):
                 spells = spells + i + ","
             spells = spells[:-1]
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Feats
+
         await send_cancelable_message(ctx, f"``Do you have any feat? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
         if should_exit_command("!create", response):
@@ -437,6 +589,15 @@ class CharacterCommands(commands.Cog):
                 except ValueError:
                     await ctx.send("``You must put a correct feat!``")
 
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Spell Slots
+
         spellslots = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         await send_cancelable_message(ctx, f"``Can you cast Level 1+ spells? Yes/No``")
         response = (await self.bot.wait_for("message", check=check)).content
@@ -467,6 +628,14 @@ class CharacterCommands(commands.Cog):
 
                 except ValueError:
                     await ctx.send("``Put a correct value!``")
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Save the character
 
         save_char_file(
             populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
