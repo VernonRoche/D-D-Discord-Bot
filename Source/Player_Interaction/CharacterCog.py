@@ -503,7 +503,7 @@ class CharacterCommands(commands.Cog):
         proficiencies=""
         for i in char_dictionary['proficiencies']:
             proficiencies=proficiencies+","+i
-        proficiencies=proficiencies[:-1]
+        proficiencies=proficiencies[1:]
         result = result + "🎲Proficiencies: " + proficiencies + "\n" + "🔍Passive Investigation: " + \
                  str(passive_skills[1]) + "\n" + \
                  "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \
