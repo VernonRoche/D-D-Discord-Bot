@@ -109,3 +109,6 @@ def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
     if newname in weapon_dictionary.keys():
         return True
     return False
+
+def is_item_valid():
+    return True

@@ -22,6 +22,7 @@ file (deprecated, moved to .json)
 Return order of passive skills: perception, investigation, insight
 
 @@@@@BUGFIXING@@@@@@
+-50 ft. rope seems to not work
 
 
 @@@@@VERIFICATION@@@@@
@@ -29,7 +30,8 @@ Return order of passive skills: perception, investigation, insight
 Verify values for:
 -Race (to be expanded)
 -Class (to be expanded)
--Weapon
+-Weapon (DONE!)
+-Items
 -Feat
 -Numerical values (DONE!)
 
@@ -41,6 +43,10 @@ Implement feats
 Add damage function
 -Show deal damage
 -Secret damage (backend)
+
+Add race ability-score improvements
+
+Implement backgrounds
 
 
 @@@@@VISUAL@@@@@
