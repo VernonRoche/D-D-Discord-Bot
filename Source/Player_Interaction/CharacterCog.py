@@ -417,9 +417,9 @@ class CharacterCommands(commands.Cog):
         items = ""
         while True:
             try:
-                while "Dnd" not in weapons:
+                while "Dnd" not in items:
                     await send_cancelable_message(ctx,
-                                                  f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+                                                  f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 5 Arrow): ``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
