@@ -44,4 +44,10 @@ stories_enum = {
     "WATERWIZARD": water_wizard,
     "IDENTITYTHEFT": identity_theft,
     "FRANCEBATHROOM": france_bathroom,
+    "WORTHLESS": worthless_character,
+    "BARBARIANROGUE":barbarian_rogue,
+    "NECROMANCERFAMILY":necromancer_family,
+    "ROGUEMETAL":rogue_metal,
+    "JUMPYORC":jumpy_orc,
+
 }
