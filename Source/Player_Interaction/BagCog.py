@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from Source.Effects_And_Actions.Weapon import Weapons
+from Source.Items_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file

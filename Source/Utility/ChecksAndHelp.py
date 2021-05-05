@@ -1,6 +1,6 @@
 import glob
 
-from Source.Effects_And_Actions.Weapon import Weapons
+from Source.Items_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
 from Source.Utility.Messaging import send_cancelable_message
 

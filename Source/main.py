@@ -10,7 +10,7 @@ from Player_Interaction.BagCog import Bag
 from Player_Interaction.BankCog import Bank
 from Player_Interaction.CharacterCog import CharacterCommands
 
-from Source.Effects_And_Actions.Weapon import WeaponCommands
+from Source.Items_And_Actions.Weapon import WeaponCommands
 
 from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import is_spell_valid
