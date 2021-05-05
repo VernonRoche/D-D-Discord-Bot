@@ -19,6 +19,8 @@ from Source.Utility.Utilities import this_is_some_alien_bababouy
 
 from Source.Story.StoryCog import Story
 
+from Source.Music.MusicCog import Music
+
 bot = commands.Bot(command_prefix="!")
 
 bot.add_cog(CharacterCommands(bot))
@@ -27,6 +29,7 @@ bot.add_cog(Bank(bot))
 bot.add_cog(Bag(bot))
 bot.add_cog(WeaponCommands(bot))
 bot.add_cog(Story(bot))
+bot.add_cog(Music(bot))
 
 bot.remove_command('help')
 

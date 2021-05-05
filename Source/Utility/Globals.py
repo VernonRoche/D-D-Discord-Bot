@@ -1,3 +1,5 @@
+import youtube_dl
+
 from Source.Story.StoryGenerator import *
 # Global variable to check if a command needs to be cancelled
 is_cancel_requested = False
@@ -32,8 +34,9 @@ bot_manual = ("```This is a list of possible commands:\n"
               "\n"
               "|||Brought to you by Alex Stergiou|||"
               "```")
-
-# Dictionary used to call functions related to story generation
+####
+#### Dictionary used to call functions related to story generation
+####
 stories_enum = {
     "CLUBPENGUIN": club_penguin,
     "HOLYWATER": holy_water,
@@ -44,4 +47,27 @@ stories_enum = {
     "WATERWIZARD": water_wizard,
     "IDENTITYTHEFT": identity_theft,
     "FRANCEBATHROOM": france_bathroom,
+}
+
+####
+#### Global variables for music functions
+####
+
+
+
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {
+    'options': '-vn'
 }
