@@ -1,6 +1,8 @@
+from Source.Story.StoryGenerator import *
 # Global variable to check if a command needs to be cancelled
 is_cancel_requested = False
 
+# A bot manual called by the help command
 bot_manual = ("```This is a list of possible commands:\n"
               "!help  |||  Bring up this panel\n"
               "\n"
@@ -30,3 +32,16 @@ bot_manual = ("```This is a list of possible commands:\n"
               "\n"
               "|||Brought to you by Alex Stergiou|||"
               "```")
+
+# Dictionary used to call functions related to story generation
+stories_enum = {
+    "CLUBPENGUIN": club_penguin,
+    "HOLYWATER": holy_water,
+    "MINORILLUSION": minor_illusion,
+    "FIENDZONE": fiend_zone,
+    "ABORTIONPREORDER": abortion_preorder,
+    "CHICKENROAD": chicken_road,
+    "WATERWIZARD": water_wizard,
+    "IDENTITYTHEFT": identity_theft,
+    "FRANCEBATHROOM": france_bathroom,
+}

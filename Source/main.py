@@ -5,15 +5,19 @@ from discord.ext import commands
 
 import Token
 from DiceCog import DiceRoller
+
 from Player_Interaction.BagCog import Bag
 from Player_Interaction.BankCog import Bank
 from Player_Interaction.CharacterCog import CharacterCommands
+
 from Source.Effects_And_Actions.Weapon import WeaponCommands
+
 from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import is_spell_valid
 from Source.Utility.Utilities import separate_long_text
 from Source.Utility.Utilities import this_is_some_alien_bababouy
-from Source.Utility.ChecksAndHelp import is_weapon_valid
+
+from Source.Story.StoryCog import Story
 
 bot = commands.Bot(command_prefix="!")
 
@@ -22,6 +26,7 @@ bot.add_cog(DiceRoller(bot))
 bot.add_cog(Bank(bot))
 bot.add_cog(Bag(bot))
 bot.add_cog(WeaponCommands(bot))
+bot.add_cog(Story(bot))
 
 bot.remove_command('help')
 

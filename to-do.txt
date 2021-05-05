@@ -43,7 +43,6 @@ Add damage function
 -Secret damage (backend)
 
 
-
 @@@@@VISUAL@@@@@
 Add colors to certain messages
 
