@@ -46,9 +46,9 @@ async def minor_illusion(ctx):
 
 
 async def fiend_zone(ctx):
-    await ctx.send("With which spell do you lure minors?")
+    await ctx.send("What happened to the demon when his girlfriend joined the Holy Order?")
     await asyncio.sleep(5)
-    await ctx.send("Minor Illusion.")
+    await ctx.send("He got FIEND-ZONED.")
     return
 
 
@@ -86,9 +86,9 @@ async def identity_theft(ctx):
     return
 
 
-async def france_bathroom(ctx):
+async def egypt_bathroom(ctx):
     embed_image = discord.Embed()
-    await ctx.send("What happens when you go to the bathroom in France?")
+    await ctx.send("What happens when you go to the bathroom in Egypt?")
     await asyncio.sleep(3)
     embed_image.set_thumbnail(url="https://media1.tenor.com/images/ce441e4f0e6f115e9eb1b321955c1b80/tenor.gif?itemid"
                                   "=5094560")

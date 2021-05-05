@@ -20,7 +20,6 @@ class Story(commands.Cog):
         # If no story is requested, pick a random from the enum
         else:
             story_name = random.choice(list(stories_enum))
-            print(story_name)
 
         # Generate the story
         await stories_enum[story_name](ctx)

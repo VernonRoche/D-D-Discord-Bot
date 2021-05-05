@@ -43,7 +43,7 @@ stories_enum = {
     "CHICKENROAD": chicken_road,
     "WATERWIZARD": water_wizard,
     "IDENTITYTHEFT": identity_theft,
-    "FRANCEBATHROOM": france_bathroom,
+    "EGYPTBATHROOM": egypt_bathroom,
     "WORTHLESS": worthless_character,
     "BARBARIANROGUE":barbarian_rogue,
     "NECROMANCERFAMILY":necromancer_family,
