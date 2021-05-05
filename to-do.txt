@@ -35,6 +35,8 @@ Verify values for:
 -Feat
 -Numerical values (DONE!)
 
+Verify starting equipment per class
+
 
 @@@@@EASY@@@@@
 
@@ -49,6 +51,12 @@ Add race ability-score improvements
 Implement backgrounds
 
 Expand weapon list
+
+
+@@@@@CLASS RELATED@@@@@
+-Add further class files (like warlock)
+-Implement each class feature
+---Finish implementing barbarian features
 
 
 @@@@@VISUAL@@@@@
