@@ -31,5 +31,9 @@ class Class(ABC):
     def to_string(self):
         return NotImplementedError
 
+    @abstractmethod
+    def initial_equipment(self):
+        return NotImplementedError
+
 
 

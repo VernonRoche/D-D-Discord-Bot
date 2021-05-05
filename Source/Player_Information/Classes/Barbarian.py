@@ -43,5 +43,9 @@ class Barbarian(Class):
     def get_levelup_hp(self, constitution):
         return self.hit_points + constitution
 
+    def initial_equipment(self):
+        # TO BE FURTHER IMPLEMENTED
+        return [["Greataxe", "Martial Weapon"], ["2 Handaxe", "Simple Weapon"]]
+
     def to_string(self):
         return "Barbarian"
