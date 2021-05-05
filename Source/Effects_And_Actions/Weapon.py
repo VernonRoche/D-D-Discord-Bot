@@ -4,6 +4,12 @@ from discord.ext import commands
 
 from Source.Utility.Utilities import separate_long_text
 
+martial_weapons=["Battleaxe","Flail","Glaive","Greataxe","Greatsword","Halberd","Lance",
+                 "Longsword","Maul","Morningstar","Pike","Rapier","Scimitar","Shortsword",
+                 "Trident","War Pick","Warhammer","Whip"]
+
+simple_weapons=["Club","Dagger","Greatclub","Handaxe","Javelin","Light Hammer","Mace","Quarterstaff",
+                "Sickle","Spear"]
 
 class Weapon:
     def __init__(self, name, cost, damage_die, damage_type, weight, properties):

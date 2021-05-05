@@ -48,6 +48,8 @@ Add race ability-score improvements
 
 Implement backgrounds
 
+Expand weapon list
+
 
 @@@@@VISUAL@@@@@
 Add colors to certain messages
