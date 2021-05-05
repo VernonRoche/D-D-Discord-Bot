@@ -49,6 +49,11 @@ Add race ability-score improvements
 Implement backgrounds
 
 
+@@@@@CLASS RELATED@@@@@
+-Add further class files (like warlock)
+-Implement each class feature
+
+
 @@@@@VISUAL@@@@@
 Add colors to certain messages
 
