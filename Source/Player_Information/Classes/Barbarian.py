@@ -25,9 +25,9 @@ class Barbarian(Class):
         'Feral Instinct': "",
         'Brutal Critical': "",
         'Relentless Rage': "",
-        'Brutal Critical': "",
-        'Persistent Rage': "",
         'Brutal Critical Upgrade': "",
+        'Persistent Rage': "",
+        'Brutal Critical Upgrade 2': "",
         'Indomitable Might': "",
         'Primal Champion': ""
     }
