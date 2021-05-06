@@ -428,7 +428,8 @@ class CharacterCommands(commands.Cog):
                         return
                     if not is_armor_valid(response):
                         raise ValueError
-                    new_armor = await Armors().search(response)
+                    new_armor = response.lower()
+                    new_armor = new_armor.title()
 
                     await send_cancelable_message(ctx, f"``Do you want to equip that armor? Yes/No``")
                     response = (await self.bot.wait_for("message", check=check)).content
@@ -682,7 +683,10 @@ class CharacterCommands(commands.Cog):
             if is_armor_equipped(x):
                 equipped_armor = x[0]
         # calculate
-        armor_class = calculate_armor_class(attributes[1], equipped_armor)
+        if equipped_armor is None:
+            armor_class=attributes[1]
+        else:
+            armor_class = calculate_armor_class(attributes[1], await Armors().search(equipped_armor))
 
         #################
         ###############
@@ -713,7 +717,7 @@ class CharacterCommands(commands.Cog):
                  + " " + char_dictionary['race'] + " " + char_dictionary['class'] + "\n"
 
         # Armor class
-        result= result+ "🛡️Armor Class: " + str(char_dictionary['armor_class'])+"\n"
+        result = result + "🛡️Armor Class: " + str(char_dictionary['armor_class']) + "\n"
         # HP, Initiative and Coins
         result = result + "🩸Current HP: " + str(char_dictionary['hp']) + "\n⚔️Initiative: " \
                  + str(char_dictionary['initiative']) + "\n💰Current Coins: " \
@@ -740,11 +744,11 @@ class CharacterCommands(commands.Cog):
         # Weapons and Items
         result = result + "🏹Weapons: " + char_dictionary['weapons'] + "\n👜Items: " + char_dictionary['items'] + "\n"
         # Armors
-        armor_list=""
+        armor_list = ""
         for x in char_dictionary['armors']:
-            armor_list=armor_list+" "+x[0].name
-        armor_list=armor_list[1:]
-        result = result+ "💠Armors: " + armor_list+"\n"
+            armor_list = armor_list + " " + x[0]
+        armor_list = armor_list[1:]
+        result = result + "💠Armors: " + armor_list + "\n"
         # Feats
         result = result + "🔰Feats: " + char_dictionary['feats'] + "```"
 
