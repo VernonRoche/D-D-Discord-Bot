@@ -37,10 +37,14 @@ Verify values for:
 
 Verify starting equipment per class
 
+Verify if roll has advantage or disadvantage
 
-@@@@@EASY@@@@@
+
+@@@@@GENERAL@@@@@
 
 Implement feats
+
+Implement armour class
 
 Add damage function
 -Show deal damage
@@ -50,26 +54,27 @@ Add race ability-score improvements
 
 Implement backgrounds
 
+Implement spellcasting
+-Temporary slots
+-Remove/add slots during spellcasting
+
 
 @@@@@CLASS RELATED@@@@@
--Add further class files (like warlock)
--Implement each class feature
+Add further class files (like warlock)
+
+Implement each class feature
 ---Finish implementing barbarian features
 
+Procedure to level up character
 
 @@@@@VISUAL@@@@@
 Add colors to certain messages
 
 
 
-@@@@@COMPLICATED@@@@@
-Procedure to level up character
+@@@@@ITEMS and CONSUMABLE@@@@@
 
-Add class functions (abilities etc.)
--Add subclass functions
--Add spellcaster functions
-
-Add weapon functions
+Add weapon functions (equip armor, attack with weapon)
 
 
 
