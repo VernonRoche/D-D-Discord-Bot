@@ -13,9 +13,17 @@ class BarbarianFeatures(ClassFeatures):
     def add_to_available_features(self, feature_dictionary):
         # get level
         # check current features
-        # add missing features
+        # add missing features from available_features and add them to player dictionary
+        # save character
         pass
 
     def available_features(self, level):
         # for each level where you gain a feature check the available ones and create a list
         return []
+
+    def to_string(self):
+        result=""
+        for x in self.feature_list:
+            result=result+" "+x
+        result=result[1:]
+        return result

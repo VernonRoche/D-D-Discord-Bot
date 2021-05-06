@@ -13,3 +13,7 @@ class ClassFeatures(ABC):
     @abstractmethod
     def available_features(self, level):
         return NotImplementedError
+
+    @abstractmethod
+    def to_string(self):
+        return NotImplementedError
