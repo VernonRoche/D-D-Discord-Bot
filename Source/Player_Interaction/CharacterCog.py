@@ -712,8 +712,10 @@ class CharacterCommands(commands.Cog):
         result = result + "     '" + char_dictionary['name'] + "'     \n" + "🔰Level " + str(char_dictionary['level']) \
                  + " " + char_dictionary['race'] + " " + char_dictionary['class'] + "\n"
 
+        # Armor class
+        result= result+ "🛡️Armor Class: " + str(char_dictionary['armor_class'])+"\n"
         # HP, Initiative and Coins
-        result = result + "🩸Current HP: " + str(char_dictionary['hp']) + "\n🔱Initiative: " \
+        result = result + "🩸Current HP: " + str(char_dictionary['hp']) + "\n⚔️Initiative: " \
                  + str(char_dictionary['initiative']) + "\n💰Current Coins: " \
                  + str(char_dictionary['coins']) + "\n"
 
@@ -737,7 +739,12 @@ class CharacterCommands(commands.Cog):
 
         # Weapons and Items
         result = result + "🏹Weapons: " + char_dictionary['weapons'] + "\n👜Items: " + char_dictionary['items'] + "\n"
-
+        # Armors
+        armor_list=""
+        for x in char_dictionary['armors']:
+            armor_list=armor_list+" "+x[0].name
+        armor_list=armor_list[1:]
+        result = result+ "💠Armors: " + armor_list+"\n"
         # Feats
         result = result + "🔰Feats: " + char_dictionary['feats'] + "```"
 
