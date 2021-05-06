@@ -44,7 +44,7 @@ Verify if roll has advantage or disadvantage
 
 Implement feats
 
-Implement armour class
+Implement armour class (display it)
 
 Add damage function
 -Show deal damage
@@ -75,7 +75,7 @@ Add colors to certain messages
 
 @@@@@ITEMS and CONSUMABLE@@@@@
 
-Add weapon functions (equip armor, attack with weapon)
+Add weapon functions (equip armor, attack with weapon, manage armors)
 
 
 

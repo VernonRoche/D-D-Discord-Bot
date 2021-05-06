@@ -2,7 +2,7 @@ import os
 
 from discord.ext import commands
 
-from Source.Player_Information.Skills import calculate_passive_skills
+from Source.Player_Information.Skills import calculate_passive_skills, calculate_armor_class
 from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file
@@ -380,7 +380,7 @@ class CharacterCommands(commands.Cog):
 
                         temp_index = 0
                         search_int = weapons[pivot_char - 2 - temp_index]  # search_int 3ekiname me afto na
-                                                                            # phgainoume pros ta pisw sto string
+                        # phgainoume pros ta pisw sto string
                         while search_int.isnumeric():
                             shift_char.append(search_int)
                             temp_index += 1
@@ -391,7 +391,7 @@ class CharacterCommands(commands.Cog):
 
                         index = len(shift_char)
                         for x in shift_char:
-                            old_quantity = old_quantity + int(x) * (10 ** (index-1))
+                            old_quantity = old_quantity + int(x) * (10 ** (index - 1))
                             index -= 1
                         quantity = quantity + old_quantity
 
@@ -413,7 +413,46 @@ class CharacterCommands(commands.Cog):
         ###########
         #########
         ########
-        #Items
+        # Armors
+        armors = []
+        while True:
+            try:
+                await send_cancelable_message(ctx, f"``Do you have any armor? Yes/No``")
+                response = (await self.bot.wait_for("message", check=check)).content
+                if should_exit_command("!create", response):
+                    return
+                if response.lower() == "yes":
+                    await send_cancelable_message(ctx, f"``What armor do you have?")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if should_exit_command("!create", response):
+                        return
+                    if not is_armor_valid(response):
+                        raise ValueError
+                    new_armor = await Armors().search(response)
+
+                    await send_cancelable_message(ctx, f"``Do you want to equip that armor? Yes/No``")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if should_exit_command("!create", response):
+                        return
+                    if response.lower() == "yes":
+                        armors.append([new_armor, True])
+                    else:
+                        armors.append([new_armor, False])
+
+                else:
+                    break
+
+            except ValueError:
+                await ctx.send("``You must enter a correct armor!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Items
         items = ""
         while True:
             try:
@@ -628,6 +667,23 @@ class CharacterCommands(commands.Cog):
 
                 except ValueError:
                     await ctx.send("``Put a correct value!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # calculate the character's armor class
+        # get equipped armor
+        equipped_armor = None
+        for x in armors:
+            if is_armor_equipped(x):
+                equipped_armor = x[0]
+        # calculate
+        armor_class = calculate_armor_class(attributes[1], equipped_armor)
+
         #################
         ###############
         #############
@@ -639,7 +695,7 @@ class CharacterCommands(commands.Cog):
 
         save_char_file(
             populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
-                                          proficiencies, spells, feats, spellslots))
+                                          proficiencies, spells, feats, spellslots, armor_class, armors))
         await self.char_display(ctx, name)
         return
 
@@ -665,14 +721,15 @@ class CharacterCommands(commands.Cog):
         attributes = char_dictionary['attributes']
         result = result + "💥Strength: " + str(attributes['strength']) + "\n🎯Dexterity: " \
                  + str(attributes['dexterity']) + "\n💖Constitution: " + \
-                 str(attributes['constitution']) + "\n💫Intelligence: " + str(attributes['intelligence']) + "\n💡Wisdom: " + \
+                 str(attributes['constitution']) + "\n💫Intelligence: " + str(
+            attributes['intelligence']) + "\n💡Wisdom: " + \
                  str(attributes['wisdom']) + "\n🎭Charisma: " + \
                  str(attributes['charisma']) + "\n"
         # Proficiencies
-        proficiencies=""
+        proficiencies = ""
         for i in char_dictionary['proficiencies']:
-            proficiencies=proficiencies+","+i
-        proficiencies=proficiencies[1:]
+            proficiencies = proficiencies + "," + i
+        proficiencies = proficiencies[1:]
         result = result + "🎲Proficiencies: " + proficiencies + "\n" + "🔍Passive Investigation: " + \
                  str(passive_skills[1]) + "\n" + \
                  "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \

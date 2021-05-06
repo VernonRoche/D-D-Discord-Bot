@@ -92,8 +92,8 @@ class ArmorCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["weapons"], help="Example: !weapons")
-    async def list_weapons(self, ctx):
+    @commands.command(aliases=["armors"], help="Example: !armors")
+    async def list_armors(self, ctx):
         armorlist = Armors().armor_dictionary
         result = ""
         for i in armorlist.values():
@@ -102,9 +102,10 @@ class ArmorCommands(commands.Cog):
         for i in result:
             await ctx.send(i)
 
-    @commands.command(aliases=["weapon"], help="Example: !weapon mace")
-    async def search_weapon(self, ctx, weapon):
+    @commands.command(aliases=["armor"], help="Example: !armor plate")
+    async def search_armor(self, ctx, armor):
         armorlist = Armors()
-        dict_entry = await armorlist.search(weapon)
+        dict_entry = await armorlist.search(armor)
         result = await dict_entry.to_string()
         await ctx.send(result)
+

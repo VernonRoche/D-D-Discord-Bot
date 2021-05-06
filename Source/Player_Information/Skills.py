@@ -1,3 +1,4 @@
+from Source.Items_And_Actions.Armor import *
 from Source.Utility.Utilities import open_character_file
 
 
@@ -85,3 +86,15 @@ def skill_modifier(character, skill, *args):
 
     else:
         return "error"
+
+
+def calculate_armor_class(dexterity, armor):
+    if armor is None:
+        return dexterity
+    if armor.name in medium_armors:
+        if dexterity > 2:
+            dexterity = 2
+        return armor.armor_class + dexterity
+    if armor.name in heavy_armors:
+        return armor.armor_class
+    return dexterity + armor.armor_class
