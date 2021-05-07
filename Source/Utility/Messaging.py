@@ -19,3 +19,10 @@ def is_private_channel(ctx):
     if isinstance(ctx.channel, discord.channel.DMChannel):
         return True
     return False
+
+
+async def redirect_to_private(ctx):
+    if not (is_private_channel(ctx)):
+        await ctx.send("``Send this command in our little private chit chat ;)``")
+        await private_DM(ctx, "Please execute this command here.")
+        return

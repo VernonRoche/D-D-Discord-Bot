@@ -54,13 +54,13 @@ async def display_character(ctx, character, *args):
     armor_list = armor_list[1:]
     result = result + "💠Armors: " + armor_list + "\n"
     # Feats
-    result = result + "🔰Feats: " + char_dictionary['feats'] + "```"
+    result = result + "🔰Feats: " + char_dictionary['feats'] + "\n"
     # Spell slots
     spellslots = "{"
     for x in char_dictionary['active_spellslots']:
         spellslots = spellslots + str(x) + ", "
     spellslots = spellslots[:-2] + "}"
-    result = result + "☄️Available Spell Slots: " + spellslots
+    result = result + "✨Available Spell Slots: " + spellslots +"```"
 
     await ctx.send(result)
     return
@@ -90,15 +90,20 @@ async def spell_book(ctx, character, *args):
     return
 
 
-# TO BE COMPLETED
-async def cast_spell(ctx, spellname, character, *args):
-    char_dictionary = open_character_file(character, *args)
-    char_dictionary['spells'] = char_dictionary['spells'].split(',')
-    is_owned = map(lambda i: i.lower(), char_dictionary['spells'])
+async def cast_with_level(ctx, char_dictionary, spellname, level_request):
+    # Check if the requested level exists
+    if 9 < level_request < 1:
+        await ctx.send(f"``That spell level does not exist``")
+        return
+
+    is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
+    # Check if spell is inside owned spells
     if spellname.lower() not in is_owned:
         await ctx.send("You do not have this spell!")
+        return
     else:
-        slots = char_dictionary['spellslots']
+        # Get spell's level and check if there are available spell slots of the requested level
+        slots = char_dictionary['active_spellslots']
         path = "../Spells/" + spellname + ".txt"
         ftemp = open(path, "r")
         tfile = ftemp.read()
@@ -107,24 +112,30 @@ async def cast_spell(ctx, spellname, character, *args):
         level = t2file[1][-3]
         if level.isnumeric():
             level = int(level) - 1
-            if slots[level] == 0:
-                while level <= 8:
-                    if slots[level] > 0:
-                        slots[level] = slots[level] - 1
-                        break
-                    level = level + 1
-            else:
-                slots[level] = slots[level] - 1
-            if level == 9:
-                await ctx.send("You can't use any spell slot to cast this spell!")
+
+            # Check if the spell is castable with the requested level
+            if level > level_request:
+                await ctx.send(f"``The spell you want to cast needs a higher lever spell slot``")
                 return
+            # See if there are spell slots of that level left
+            if slots[level_request] == 0:
+                await ctx.send(
+                    f"``There are not enough spell slots of the level you requested``")
+                return
+            await ctx.send(f"``You will cast this spell with a level " + str(level_request+1) + " slot``")
+            slots[level_request]=slots[level_request]-1
 
         # values are good and spell can be shown. Show new spell slots
-        char_dictionary['spellslots'] = slots
+        char_dictionary['active_spellslots'] = slots
+        string_slots = "```✨Current Spell Slots: {"
+        for x in slots:
+            string_slots = string_slots + str(x) + ", "
+        string_slots = string_slots[:-2] + "}```"
         save_char_file(char_dictionary)
         tfile = separate_long_text(tfile)
         for i in tfile:
             await ctx.send("```diff\n-" + i + "```")
+        await ctx.send(string_slots)
 
 
 def short_rest(character_dictionary, hit_dice):

@@ -137,10 +137,17 @@ def is_armor_valid(name, armor_dictionary=Armors().armor_dictionary):
 def is_armor_equipped(armor):
     return armor[1]
 
+
 # Checks if multiple armors are equipped. Does not count if it's a shield
 def are_multiple_armors_equipped(armors):
     return
 
+
 # Checks if there are enough available hit dice
 def can_throw_hit_dice(character_level, requested_dice):
     return True
+
+
+# Checks if message is sent by the owner in the same channel as before (usually when responding to a command)
+def is_message_by_owner(ctx, msg):
+    return msg.author == ctx.author and msg.channel == ctx.channel

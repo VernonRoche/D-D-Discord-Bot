@@ -22,10 +22,7 @@ class CharacterCommands(commands.Cog):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
         # Check if the command is called in the private discussion
-        if not (is_private_channel(ctx)):
-            await ctx.send("``Send this command in our little private chit chat ;)``")
-            await private_DM(ctx, "Please execute this command here.")
-            return
+        await redirect_to_private(ctx)
 
         #################
         ###############
@@ -729,9 +726,66 @@ class CharacterCommands(commands.Cog):
     async def char_spellbook(self, ctx, character, *args):
         await spell_book(ctx, character, *args)
 
-    @commands.command(aliases=["cast"], help="Example: !cast eldritch-blast Gandalf")
-    async def char_cast_spell(self, ctx, spellname, character, *args):
-        await cast_spell(ctx, spellname, character, *args)
+    @commands.command(aliases=["cast"], help="Example: !cast shield Gandalf 2 (spell slot level is optional)")
+    async def char_cast_spell(self, ctx, spellname, character, level_request=-1, *args):
+        def check(msg):
+            return msg.author == ctx.author and msg.channel == ctx.channel
+
+        print(level_request)
+        # Get known spells, lowercase them and put in a new list
+        char_dictionary = open_character_file(character, *args)
+
+        # Check if the user wants to cast a spell with a specific level
+        if level_request != -1:
+            await cast_with_level(ctx, char_dictionary, spellname, level_request-1)
+            return
+        # char_dictionary['spells'] = char_dictionary['spells'].split(',')
+        is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
+        # Check if spell is inside owned spells
+        if spellname.lower() not in is_owned:
+            await ctx.send("You do not have this spell!")
+        else:
+            # Get spell's level and check if there are available spell slots
+            slots = char_dictionary['active_spellslots']
+            path = "../Spells/" + spellname + ".txt"
+            ftemp = open(path, "r")
+            tfile = ftemp.read()
+            ftemp.close()
+            t2file = tfile.split('\n')
+            level = t2file[1][-3]
+            if level.isnumeric():
+                level = int(level) - 1
+                # See if there are spell slots for that spell left
+                if slots[level] == 0:
+                    await ctx.send(
+                        f"``There are not enough spell slots for the spell's level. Do you want to use a higher"
+                        f"level spell slot? Yes/No``")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if response.lower() == "no":
+                        return
+                    while level <= 8:
+                        if slots[level] > 0:
+                            slots[level] = slots[level] - 1
+                            await ctx.send(f"``You will cast this spell with a level " + str(level + 1) + " slot")
+                            break
+                        level = level + 1
+                else:
+                    slots[level] = slots[level] - 1
+                if level == 9:
+                    await ctx.send("You can't use any spell slot to cast this spell!")
+                    return
+
+            # values are good and spell can be shown. Show new spell slots
+            char_dictionary['active_spellslots'] = slots
+            string_slots = "```✨️Current Spell Slots: {"
+            for x in slots:
+                string_slots = string_slots + str(x) + ", "
+            string_slots = string_slots[:-2] + "}```"
+            save_char_file(char_dictionary)
+            tfile = separate_long_text(tfile)
+            for i in tfile:
+                await ctx.send("```diff\n-" + i + "```")
+            await ctx.send(string_slots)
 
     @commands.command(alises=["rest"], help="Example: !rest Bilbo")
     async def char_rest(self, ctx, character, *args):
