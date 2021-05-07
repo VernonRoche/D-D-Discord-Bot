@@ -51,7 +51,7 @@ stories_enum = {
     "JUMPYORC":jumpy_orc,
     "HOBBITSWORD":hobbit_sword,
     "PREGNANTORC":pregnant_orc,
-    "HOBBITCANDLE":hobbit_sword,
+    "HOBBITCANDLE":hobbit_candle,
     "ELFSWORD":elf_sword,
     "DEADHOBBITS":dead_hobbits,
     "HUMANDOOR":human_door,

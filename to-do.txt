@@ -23,6 +23,8 @@ Return order of passive skills: perception, investigation, insight
 
 @@@@@BUGFIXING@@@@@@
 
+-fix spellbook
+
 
 @@@@@VERIFICATION@@@@@
 
