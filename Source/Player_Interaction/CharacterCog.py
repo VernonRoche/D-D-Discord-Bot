@@ -736,4 +736,5 @@ class CharacterCommands(commands.Cog):
     @commands.command(alises=["rest"], help="Example: !rest Bilbo")
     async def char_rest(self, ctx, character, *args):
         # make the player choose if it's a short or long rest and call function accordingly
+        # if it's a short rest ask the number of hit dice to use, and check if that number is correct
         pass

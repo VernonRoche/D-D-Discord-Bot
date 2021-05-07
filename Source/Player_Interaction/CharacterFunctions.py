@@ -127,3 +127,17 @@ async def cast_spell(ctx, spellname, character, *args):
             await ctx.send("```diff\n-" + i + "```")
 
 
+def short_rest(character_dictionary, hit_dice):
+    # checks character class and constitution and number of hit_dice
+    # roll hit_dice*(class_dice+constitution)
+    # replenish some features/spells
+    pass
+
+
+def long_rest(character_dictionary):
+    pass
+
+
+# Induce damage to a target character
+def damage(damage_amount, target):
+    pass

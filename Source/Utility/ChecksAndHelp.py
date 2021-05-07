@@ -140,3 +140,7 @@ def is_armor_equipped(armor):
 # Checks if multiple armors are equipped. Does not count if it's a shield
 def are_multiple_armors_equipped(armors):
     return
+
+# Checks if there are enough available hit dice
+def can_throw_hit_dice(character_level, requested_dice):
+    return True
