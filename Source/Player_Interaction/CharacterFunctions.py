@@ -95,7 +95,7 @@ async def cast_with_level(ctx, char_dictionary, spellname, level_request):
     if 9 < level_request < 1:
         await ctx.send(f"``That spell level does not exist``")
         return
-
+    level_request=level_request-1
     is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
     # Check if spell is inside owned spells
     if spellname.lower() not in is_owned:

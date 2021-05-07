@@ -737,7 +737,7 @@ class CharacterCommands(commands.Cog):
 
         # Check if the user wants to cast a spell with a specific level
         if level_request != -1:
-            await cast_with_level(ctx, char_dictionary, spellname, level_request-1)
+            await cast_with_level(ctx, char_dictionary, spellname, level_request)
             return
         # char_dictionary['spells'] = char_dictionary['spells'].split(',')
         is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
