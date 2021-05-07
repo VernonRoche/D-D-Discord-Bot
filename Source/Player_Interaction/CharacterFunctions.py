@@ -2,16 +2,14 @@ import os
 
 from Source.Player_Information.SkillsArmor import calculate_passive_skills
 
-from Source.Utility.Utilities import open_character_file, save_char_file, separate_long_text
+from Source.Utility.Utilities import open_character_file, save_char_file, separate_long_text, merge_name
 
 
 ####
 #### Functions used by Character Cog
 ####
 async def display_character(ctx, character, *args):
-    for ar in args:
-        if ar != "":
-            character = character + " " + ar
+    character = merge_name(character, args)
     char_dictionary = open_character_file(character)
     result = f"```ml\n"
     passive_skills = calculate_passive_skills(character)
@@ -60,16 +58,14 @@ async def display_character(ctx, character, *args):
     for x in char_dictionary['active_spellslots']:
         spellslots = spellslots + str(x) + ", "
     spellslots = spellslots[:-2] + "}"
-    result = result + "✨Available Spell Slots: " + spellslots +"```"
+    result = result + "✨Available Spell Slots: " + spellslots + "```"
 
     await ctx.send(result)
     return
 
 
 async def delete_character(ctx, character, *args):
-    for ar in args:
-        if ar != "":
-            character = character + " " + ar
+    character = merge_name(character, args)
     if os.path.exists("../Characters/" + character + ".json"):
         os.remove("../Characters/" + character + ".json")
         await ctx.send("``Good riddance``")
@@ -95,7 +91,7 @@ async def cast_with_level(ctx, char_dictionary, spellname, level_request):
     if 9 < level_request < 1:
         await ctx.send(f"``That spell level does not exist``")
         return
-    level_request=level_request-1
+    level_request = level_request - 1
     is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
     # Check if spell is inside owned spells
     if spellname.lower() not in is_owned:
@@ -122,8 +118,8 @@ async def cast_with_level(ctx, char_dictionary, spellname, level_request):
                 await ctx.send(
                     f"``There are not enough spell slots of the level you requested``")
                 return
-            await ctx.send(f"``You will cast this spell with a level " + str(level_request+1) + " slot``")
-            slots[level_request]=slots[level_request]-1
+            await ctx.send(f"``You will cast this spell with a level " + str(level_request + 1) + " slot``")
+            slots[level_request] = slots[level_request] - 1
 
         # values are good and spell can be shown. Show new spell slots
         char_dictionary['active_spellslots'] = slots
@@ -138,6 +134,7 @@ async def cast_with_level(ctx, char_dictionary, spellname, level_request):
         await ctx.send(string_slots)
 
 
+# TO BE COMPLETED
 def short_rest(character_dictionary, hit_dice):
     # checks character class and constitution and number of hit_dice
     # roll hit_dice*(class_dice+constitution)
@@ -145,10 +142,12 @@ def short_rest(character_dictionary, hit_dice):
     pass
 
 
+# TO BE COMPLETED
 def long_rest(character_dictionary):
     pass
 
 
+# TO BE COMPLETED
 # Induce damage to a target character
 def damage(damage_amount, target):
     pass

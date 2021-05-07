@@ -68,6 +68,7 @@ def is_spell_valid(name):
     return True
 
 
+# TO BE COMPLETED
 # verify if feat exists
 def is_feat_valid(name):
     return True
@@ -112,6 +113,7 @@ def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
     return False
 
 
+# TO BE COMPLETED
 def is_item_valid():
     return True
 
@@ -133,16 +135,18 @@ def is_armor_valid(name, armor_dictionary=Armors().armor_dictionary):
     return False
 
 
-# Receives an armor tuple (name,bool) and sends if it's equipment
+# Receives an armor tuple (name,bool) and sends if it's equipped
 def is_armor_equipped(armor):
     return armor[1]
 
 
+# TO BE COMPLETED
 # Checks if multiple armors are equipped. Does not count if it's a shield
 def are_multiple_armors_equipped(armors):
     return
 
 
+# TO BE COMPLETED
 # Checks if there are enough available hit dice
 def can_throw_hit_dice(character_level, requested_dice):
     return True

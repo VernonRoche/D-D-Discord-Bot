@@ -703,6 +703,7 @@ class CharacterCommands(commands.Cog):
         await self.char_display(ctx, name)
         return
 
+    # TO BE COMPLETED
     @commands.command(aliases=["level-up", "levelup"], help="Example: !levelup Gandalf")
     async def char_levelup(self, ctx, character, *args):
         # TO BE IMPLEMENTED
@@ -787,6 +788,7 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("```diff\n-" + i + "```")
             await ctx.send(string_slots)
 
+    # TO BE COMPLETED
     @commands.command(alises=["rest"], help="Example: !rest Bilbo")
     async def char_rest(self, ctx, character, *args):
         # make the player choose if it's a short or long rest and call function accordingly

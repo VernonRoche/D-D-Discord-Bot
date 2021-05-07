@@ -75,6 +75,12 @@ def separate_long_text(text, look_for_format=False):
         return [text]
 
 
+def merge_name(character_name,args):
+    for ar in args:
+        if ar != "":
+            character_name = character_name + " " + ar
+    return character_name
+
 async def this_is_some_alien_bababouy(ctx):
     i = 0
     fuckfest = ""
