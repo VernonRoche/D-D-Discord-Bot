@@ -2,7 +2,8 @@ import os
 
 from discord.ext import commands
 
-from Source.Player_Information.Skills import calculate_passive_skills, calculate_armor_class
+from Source.Player_Information.SkillsArmor import calculate_passive_skills, calculate_armor_class
+from Source.Player_Interaction.CharacterFunctions import *
 from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file
@@ -668,6 +669,7 @@ class CharacterCommands(commands.Cog):
 
                 except ValueError:
                     await ctx.send("``Put a correct value!``")
+        active_spellslots = spellslots
 
         #################
         ###############
@@ -684,7 +686,7 @@ class CharacterCommands(commands.Cog):
                 equipped_armor = x[0]
         # calculate
         if equipped_armor is None:
-            armor_class=attributes[1]
+            armor_class = attributes[1]
         else:
             armor_class = calculate_armor_class(attributes[1], await Armors().search(equipped_armor))
 
@@ -699,115 +701,39 @@ class CharacterCommands(commands.Cog):
 
         save_char_file(
             populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
-                                          proficiencies, spells, feats, spellslots, armor_class, armors))
+                                          proficiencies, spells, feats, spellslots, armor_class, armors,
+                                          active_spellslots))
         await self.char_display(ctx, name)
         return
 
+    @commands.command(aliases=["level-up", "levelup"], help="Example: !levelup Gandalf")
+    async def char_levelup(self, ctx, character, *args):
+        # TO BE IMPLEMENTED
+        # get current level and see if he can levelup
+        # get his class
+        # see if he has an ability score improvement and if yes give him a choice to gain a feat or attribute increase
+        # increase his max hp depending on class and CON
+        # if he is a spellcaster, increase his spell slots accordingly and offer to add more spells
+        # add a class feature if needed
+        pass
+
     @commands.command(aliases=["show character", "show"], help="Example: !show character Sauron or !show Sauron")
     async def char_display(self, ctx, character, *args):
-        for ar in args:
-            if ar != "":
-                character = character + " " + ar
-        char_dictionary = open_character_file(character)
-        result = f"```ml\n"
-        passive_skills = calculate_passive_skills(character)
-
-        # Name level, race and class
-        result = result + "     '" + char_dictionary['name'] + "'     \n" + "🔰Level " + str(char_dictionary['level']) \
-                 + " " + char_dictionary['race'] + " " + char_dictionary['class'] + "\n"
-
-        # Armor class
-        result = result + "🛡️Armor Class: " + str(char_dictionary['armor_class']) + "\n"
-        # HP, Initiative and Coins
-        result = result + "🩸Current HP: " + str(char_dictionary['hp']) + "\n⚔️Initiative: " \
-                 + str(char_dictionary['initiative']) + "\n💰Current Coins: " \
-                 + str(char_dictionary['coins']) + "\n"
-
-        # Attributes and passive skills to the right side
-        attributes = char_dictionary['attributes']
-        result = result + "💥Strength: " + str(attributes['strength']) + "\n🎯Dexterity: " \
-                 + str(attributes['dexterity']) + "\n💖Constitution: " + \
-                 str(attributes['constitution']) + "\n💫Intelligence: " + str(
-            attributes['intelligence']) + "\n💡Wisdom: " + \
-                 str(attributes['wisdom']) + "\n🎭Charisma: " + \
-                 str(attributes['charisma']) + "\n"
-        # Proficiencies
-        proficiencies = ""
-        for i in char_dictionary['proficiencies']:
-            proficiencies = proficiencies + "," + i
-        proficiencies = proficiencies[1:]
-        result = result + "🎲Proficiencies: " + proficiencies + "\n" + "🔍Passive Investigation: " + \
-                 str(passive_skills[1]) + "\n" + \
-                 "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \
-                 "❗Passive Perception: " + str(passive_skills[0]) + "\n"
-
-        # Weapons and Items
-        result = result + "🏹Weapons: " + char_dictionary['weapons'] + "\n👜Items: " + char_dictionary['items'] + "\n"
-        # Armors
-        armor_list = ""
-        for x in char_dictionary['armors']:
-            armor_list = armor_list + " " + x[0]
-        armor_list = armor_list[1:]
-        result = result + "💠Armors: " + armor_list + "\n"
-        # Feats
-        result = result + "🔰Feats: " + char_dictionary['feats'] + "```"
-
-        await ctx.send(result)
+        await display_character(ctx, character, *args)
 
     @commands.command(aliases=["delete"], help="Example: !delete Gandalf")
-    async def delete_character(self, ctx, character, *args):
-        for ar in args:
-            if ar != "":
-                character = character + " " + ar
-        if os.path.exists("../Characters/" + character + ".json"):
-            os.remove("../Characters/" + character + ".json")
-            await ctx.send("``Good riddance``")
-        else:
-            await ctx.send("``This character does not exist``")
+    async def char_delete(self, ctx, character, *args):
+        await delete_character(ctx, character, *args)
 
     @commands.command(aliases=["spellbook"], help="Example: !spellbook Ulric")
-    async def spell_book(self, ctx, character, *args):
-        char_dictionary = open_character_file(character, *args)
-        result = "```\n"
-        result = result + char_dictionary['spells'] + "\n"
-        result = result + "Spell Slots: ["
-        for i in char_dictionary['spellslots']:
-            result = result + str(i) + ", "
-        result = result[:-2] + "]```\n"
-        await ctx.send(result)
+    async def char_spellbook(self, ctx, character, *args):
+        await spell_book(ctx, character, *args)
 
     @commands.command(aliases=["cast"], help="Example: !cast eldritch-blast Gandalf")
-    async def cast_spell(self, ctx, spellname, character, *args):
-        char_dictionary = open_character_file(character, *args)
-        char_dictionary['spells'] = char_dictionary['spells'].split(',')
-        is_owned = map(lambda i: i.lower(), char_dictionary['spells'])
-        if spellname.lower() not in is_owned:
-            await ctx.send("You do not have this spell!")
-        else:
-            slots = char_dictionary['spellslots']
-            path = "../Spells/" + spellname + ".txt"
-            ftemp = open(path, "r")
-            tfile = ftemp.read()
-            ftemp.close()
-            t2file = tfile.split('\n')
-            level = t2file[1][-3]
-            if level.isnumeric():
-                level = int(level) - 1
-                if slots[level] == 0:
-                    while level <= 8:
-                        if slots[level] > 0:
-                            slots[level] = slots[level] - 1
-                            break
-                        level = level + 1
-                else:
-                    slots[level] = slots[level] - 1
-                if level == 9:
-                    await ctx.send("You can't use any spell slot to cast this spell!")
-                    return
+    async def char_cast_spell(self, ctx, spellname, character, *args):
+        await cast_spell(ctx, spellname, character, *args)
 
-            # values are good and spell can be shown
-            char_dictionary['spellslots'] = slots
-            save_char_file(char_dictionary)
-            tfile = separate_long_text(tfile)
-            for i in tfile:
-                await ctx.send("```diff\n-" + i + "```")
+    @commands.command(alises=["rest"], help="Example: !rest Bilbo")
+    async def char_rest(self, ctx, character, *args):
+        # make the player choose if it's a short or long rest and call function accordingly
+        pass

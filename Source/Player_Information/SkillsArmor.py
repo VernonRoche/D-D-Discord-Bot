@@ -14,13 +14,13 @@ def calculate_passive_skills(character, *args):
 
 
 def calculate_level_proficiency(level):
-    if level >= 1 and level < 5:
+    if 1 <= level < 5:
         return 2
-    if level >= 5 and level < 9:
+    if 5 <= level < 9:
         return 3
-    if level >= 9 and level < 13:
+    if 9 <= level < 13:
         return 4
-    if level >= 13 and level < 17:
+    if 13 <= level < 17:
         return 5
     if level >= 17:
         return 6
@@ -44,7 +44,8 @@ def skill_modifier(character, skill, *args):
     proficiency = char_dictionary['proficiencies']
     prof = calculate_level_proficiency(char_dictionary['level'])
 
-    # check which skill is called and if it's in the proficiency array, used to show which proficiences the character has
+    # check which skill is called and if it's in the proficiency array, used to show which proficiencies the character
+    # has
     if skill.lower() == "athletics" and ("Athletics" in proficiency):
         return calculate_attribute_bonus(char_dictionary['attributes']['strength']) + prof
     if skill.lower() == "athletics":

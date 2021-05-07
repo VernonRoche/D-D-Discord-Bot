@@ -22,7 +22,7 @@ def save_char_file(char_dictionary):
 
 def populate_character_dictionary(name, race, myclass, level, hp, coins, attributes, weapons, items, initiative,
                                   proficiences
-                                  , spells, feats, spellslots, armor_class, armors):
+                                  , spells, feats, spellslots, armor_class, armors, active_spellslots):
     # convert array of attributes into dictionary
     attributes = [int(x) for x in attributes]
     attributes_dict = {'strength': attributes[0], 'dexterity': attributes[1], 'constitution': attributes[2],
@@ -32,7 +32,7 @@ def populate_character_dictionary(name, race, myclass, level, hp, coins, attribu
     char_dictionary = {'name': name, 'race': race, 'class': myclass, 'level': int(level), 'hp': int(hp),
                        'coins': int(coins), 'attributes': attributes_dict, 'weapons': weapons, 'items': items,
                        'initiative': int(initiative), 'proficiencies': proficiences, 'spells': spells, 'feats': feats,
-                       'spellslots': spellslots, 'armor_class': armor_class, 'armors': armors}
+                       'spellslots': spellslots, 'active_spellslots': active_spellslots, 'armor_class': armor_class, 'armors': armors}
     print(char_dictionary)
     return char_dictionary
 

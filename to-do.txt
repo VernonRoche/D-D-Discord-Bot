@@ -54,6 +54,8 @@ Add race ability-score improvements
 
 Implement backgrounds
 
+Implement short and long rests
+
 
 Implement spellcasting
 -Temporary slots
