@@ -150,3 +150,105 @@ async def jumpy_orc(ctx):
                                   "=12500626")
     await ctx.send(embed=embed_image)
     return
+
+async def hobbit_sword(ctx):
+    embed_image = discord.Embed()
+    await ctx.send("How many halflings does it take to sharpen a sword?")
+    await asyncio.sleep(3)
+    await ctx.send("Three. One to sharpen the sword and one to confuse the issue.")
+    embed_image.set_thumbnail(url="https://media.tenor.com/images/9f1ec45e5c7e29c169c888aad25aae42/tenor.gif")
+    await ctx.send(embed=embed_image)
+    return
+
+
+async def pregnant_orc(ctx):
+    embed_image = discord.Embed()
+    await ctx.send("What do you call an orc with two brain cells?")
+    await asyncio.sleep(3)
+    await ctx.send("Pregnant.")
+    embed_image.set_thumbnail(url="https://media1.tenor.com/images/0fe59983cdb075013377aaa4e904ce78/tenor.gif?itemid"
+                                  "=12083808")
+    await ctx.send(embed=embed_image)
+    return
+
+async def hobbit_candle(ctx):
+    await ctx.send("How many halflings does it take to light a candle?")
+    await asyncio.sleep(3)
+    await ctx.send("Surprisingly, only one. It turns out they’re good for something after all.")
+    return
+
+async def elf_sword(ctx):
+    await ctx.send("How many elves does it take to sharpen a sword?")
+    await asyncio.sleep(3)
+    await ctx.send("Three. One to sharpen the sword and two to write a song about it, so that when the first elf is "
+                   "done, 400 years later, they’ll remember whose sword it was.")
+    return
+
+async def dead_hobbits(ctx):
+    await ctx.send("What’s nine feet long, has six legs, and flies?")
+    await asyncio.sleep(5)
+    await ctx.send("Three dead halflings!")
+    return
+
+async def human_door(ctx):
+    embed_image = discord.Embed()
+    await ctx.send("How many humans does it take to replace a door?")
+    await asyncio.sleep(3)
+    await ctx.send("Three. The first two to argue about which way the door should open and the third to hire a dwarf "
+                   "to fix it properly.")
+    embed_image.set_thumbnail(url="https://media.tenor.com/images/1d427d993b55b86b269fb0f84423a6d1/tenor.gif")
+    await ctx.send(embed=embed_image)
+    return
+
+async def mimic(ctx):
+    await ctx.send("The barkeep asked why we carried weapons into his bar.")
+    await asyncio.sleep(3)
+    await ctx.send("I said, “Mimics.”")
+    await asyncio.sleep(2)
+    await ctx.send("The party laughed.")
+    await asyncio.sleep(2)
+    await ctx.send("The barkeep laughed.")
+    await asyncio.sleep(2)
+    await ctx.send("The table laughed.")
+    await asyncio.sleep(2)
+    await ctx.send("We killed the table. Good times.")
+    return
+
+async def dORd(ctx):
+    await ctx.send("Growing up, we were so poor we had to play Dungeons OR Dragons.")
+    return
+
+async def tinned_beef(ctx):
+    embed_image = discord.Embed()
+    await ctx.send("What does an ogre consider an armored knight?")
+    await asyncio.sleep(3)
+    await ctx.send("Tinned beef.")
+    embed_image.set_thumbnail(url="https://media1.tenor.com/images/f6b309d2cc832f6308cc46c330fdb25a/tenor.gif?itemid"
+                                  "=8130447")
+    await ctx.send(embed=embed_image)
+    return
+
+async def dwarf_cigar(ctx):
+    await ctx.send("A high elf, halfling and human are locked up in a dwarvish stronghold and are sentenced to one "
+                   "year in private cells. The dwarves, as an act of kindness, decide they should allow the prisoners "
+                   "one request before their long year in solitary.")
+    await asyncio.sleep(6)
+    await ctx.send("The high elf asks for a years supply of fine wine; the dwarves begrudgingly provide him with "
+                   "several hundred bottles. The halfing asks for a years supply of whisky; the dwarves provide him "
+                   "with thousands of bottles. The human asks for a years supply of fine cigars which the Dwarves "
+                   "gladly provide.")
+    await asyncio.sleep(6)
+    await ctx.send("After a year the prisoners are released. First, the door to the Elves cell is opened, he staggers "
+                   "out and, with the last bottle of wine in his hands collapses on the ground dead from alcohol "
+                   "poisoning.")
+    await asyncio.sleep(6)
+    await ctx.send("Then, they open the halflings cell to find that she has already met a similar fate. Now, "
+                   "by this time every dwarf in the whole mountain is excited to see what sort of state the human is"
+                   " in.")
+    await asyncio.sleep(6)
+    await ctx.send("After all the various bets have been made the door to the cell is opened. The human strides out "
+                   "and asks:")
+    await asyncio.sleep(5)
+    await ctx.send("Have any of you got a light?")
+    return
+
