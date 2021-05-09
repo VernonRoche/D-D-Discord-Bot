@@ -151,6 +151,7 @@ async def jumpy_orc(ctx):
     await ctx.send(embed=embed_image)
     return
 
+
 async def hobbit_sword(ctx):
     embed_image = discord.Embed()
     await ctx.send("How many halflings does it take to sharpen a sword?")
@@ -171,11 +172,13 @@ async def pregnant_orc(ctx):
     await ctx.send(embed=embed_image)
     return
 
+
 async def hobbit_candle(ctx):
     await ctx.send("How many halflings does it take to light a candle?")
     await asyncio.sleep(3)
     await ctx.send("Surprisingly, only one. It turns out they’re good for something after all.")
     return
+
 
 async def elf_sword(ctx):
     await ctx.send("How many elves does it take to sharpen a sword?")
@@ -184,11 +187,13 @@ async def elf_sword(ctx):
                    "done, 400 years later, they’ll remember whose sword it was.")
     return
 
+
 async def dead_hobbits(ctx):
     await ctx.send("What’s nine feet long, has six legs, and flies?")
     await asyncio.sleep(5)
     await ctx.send("Three dead halflings!")
     return
+
 
 async def human_door(ctx):
     embed_image = discord.Embed()
@@ -199,6 +204,7 @@ async def human_door(ctx):
     embed_image.set_thumbnail(url="https://media.tenor.com/images/1d427d993b55b86b269fb0f84423a6d1/tenor.gif")
     await ctx.send(embed=embed_image)
     return
+
 
 async def mimic(ctx):
     await ctx.send("The barkeep asked why we carried weapons into his bar.")
@@ -214,9 +220,11 @@ async def mimic(ctx):
     await ctx.send("We killed the table. Good times.")
     return
 
+
 async def dORd(ctx):
     await ctx.send("Growing up, we were so poor we had to play Dungeons OR Dragons.")
     return
+
 
 async def tinned_beef(ctx):
     embed_image = discord.Embed()
@@ -227,6 +235,7 @@ async def tinned_beef(ctx):
                                   "=8130447")
     await ctx.send(embed=embed_image)
     return
+
 
 async def dwarf_cigar(ctx):
     await ctx.send("A high elf, halfling and human are locked up in a dwarvish stronghold and are sentenced to one "
@@ -251,4 +260,3 @@ async def dwarf_cigar(ctx):
     await asyncio.sleep(5)
     await ctx.send("Have any of you got a light?")
     return
-
