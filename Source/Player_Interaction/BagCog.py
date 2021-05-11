@@ -3,7 +3,7 @@ from discord.ext import commands
 from Source.Items_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
-from Source.Utility.Utilities import open_character_file, save_char_file
+from Source.Utility.Utilities import open_character_file, save_char_file, merge_name
 from Source.Utility.ChecksAndHelp import should_exit_command, is_weapon_valid
 
 
@@ -17,14 +17,9 @@ class Bag(commands.Cog):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
         # Check if the command is called in the private discussion
-        if not (is_private_channel(ctx)):
-            await ctx.send("``Send this command in our little private chit chat ;)``")
-            await private_DM(ctx, "Please execute this command here.")
-            return
+        await redirect_to_private(ctx)
 
-        for ar in args:
-            if ar != "":
-                character = character + " " + ar
+        character = merge_name(character, args)
 
         char_dictionary = open_character_file(character)
         items = char_dictionary['items']
@@ -56,14 +51,14 @@ class Bag(commands.Cog):
                             response = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", response):
                                 return
-                            weapon_dictionary=Weapons().weapon_dictionary
+                            weapon_dictionary = Weapons().weapon_dictionary
                             if not is_weapon_valid(response, weapon_dictionary):
                                 raise ValueError
                             await send_cancelable_message(ctx, "In what quantity?")
                             quantity = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", quantity):
                                 return
-                            quantity=int(quantity)
+                            quantity = int(quantity)
                             if quantity == 0:
                                 return
                             if response.lower() in weapons.lower():
@@ -101,7 +96,7 @@ class Bag(commands.Cog):
                             quantity = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", quantity):
                                 return
-                            quantity=int(quantity)
+                            quantity = int(quantity)
                             if quantity == 0:
                                 return
                             if response.lower() in weapons.lower():
@@ -144,7 +139,7 @@ class Bag(commands.Cog):
                             quantity = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", quantity):
                                 return
-                            quantity=int(quantity)
+                            quantity = int(quantity)
                             if quantity == 0:
                                 return
                             if response.lower() in items.lower():
@@ -179,7 +174,7 @@ class Bag(commands.Cog):
                             quantity = (await self.bot.wait_for("message", check=check)).content
                             if should_exit_command("!bag", quantity):
                                 return
-                            quantity=int(quantity)
+                            quantity = int(quantity)
                             if quantity == 0:
                                 return
                             if response.lower() in items.lower():
@@ -215,3 +210,8 @@ class Bag(commands.Cog):
             except ValueError:
                 await ctx.send(
                     "``Something went wrong with your input! Are you sure you wrote one of the parameters asked?``")
+
+    @commands.command(aliases=["equip_armor", "manage_armor", "equip"], help="Example: !equip_armor Gimli or !equip "
+                                                                             "Gimli")
+    async def bag_armor_equip(self, ctx, character, *args):
+        pass

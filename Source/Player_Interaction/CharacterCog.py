@@ -2,7 +2,8 @@ import os
 
 from discord.ext import commands
 
-from Source.Player_Information.Skills import calculate_passive_skills
+from Source.Player_Information.SkillsArmor import calculate_passive_skills, calculate_armor_class
+from Source.Player_Interaction.CharacterFunctions import *
 from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file
@@ -21,10 +22,7 @@ class CharacterCommands(commands.Cog):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
         # Check if the command is called in the private discussion
-        if not (is_private_channel(ctx)):
-            await ctx.send("``Send this command in our little private chit chat ;)``")
-            await private_DM(ctx, "Please execute this command here.")
-            return
+        await redirect_to_private(ctx)
 
         #################
         ###############
@@ -380,7 +378,7 @@ class CharacterCommands(commands.Cog):
 
                         temp_index = 0
                         search_int = weapons[pivot_char - 2 - temp_index]  # search_int 3ekiname me afto na
-                                                                            # phgainoume pros ta pisw sto string
+                        # phgainoume pros ta pisw sto string
                         while search_int.isnumeric():
                             shift_char.append(search_int)
                             temp_index += 1
@@ -391,7 +389,7 @@ class CharacterCommands(commands.Cog):
 
                         index = len(shift_char)
                         for x in shift_char:
-                            old_quantity = old_quantity + int(x) * (10 ** (index-1))
+                            old_quantity = old_quantity + int(x) * (10 ** (index - 1))
                             index -= 1
                         quantity = quantity + old_quantity
 
@@ -413,7 +411,47 @@ class CharacterCommands(commands.Cog):
         ###########
         #########
         ########
-        #Items
+        # Armors
+        armors = []
+        while True:
+            try:
+                await send_cancelable_message(ctx, f"``Do you have any armor? Yes/No``")
+                response = (await self.bot.wait_for("message", check=check)).content
+                if should_exit_command("!create", response):
+                    return
+                if response.lower() == "yes":
+                    await send_cancelable_message(ctx, f"``What armor do you have?")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if should_exit_command("!create", response):
+                        return
+                    if not is_armor_valid(response):
+                        raise ValueError
+                    new_armor = response.lower()
+                    new_armor = new_armor.title()
+
+                    await send_cancelable_message(ctx, f"``Do you want to equip that armor? Yes/No``")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if should_exit_command("!create", response):
+                        return
+                    if response.lower() == "yes":
+                        armors.append([new_armor, True])
+                    else:
+                        armors.append([new_armor, False])
+
+                else:
+                    break
+
+            except ValueError:
+                await ctx.send("``You must enter a correct armor!``")
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # Items
         items = ""
         while True:
             try:
@@ -628,6 +666,27 @@ class CharacterCommands(commands.Cog):
 
                 except ValueError:
                     await ctx.send("``Put a correct value!``")
+        active_spellslots = spellslots
+
+        #################
+        ###############
+        #############
+        ############
+        ###########
+        #########
+        ########
+        # calculate the character's armor class
+        # get equipped armor
+        equipped_armor = None
+        for x in armors:
+            if is_armor_equipped(x):
+                equipped_armor = x[0]
+        # calculate
+        if equipped_armor is None:
+            armor_class = attributes[1]
+        else:
+            armor_class = calculate_armor_class(attributes[1], await Armors().search(equipped_armor))
+
         #################
         ###############
         #############
@@ -639,84 +698,56 @@ class CharacterCommands(commands.Cog):
 
         save_char_file(
             populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
-                                          proficiencies, spells, feats, spellslots))
+                                          proficiencies, spells, feats, spellslots, armor_class, armors,
+                                          active_spellslots))
         await self.char_display(ctx, name)
         return
 
+    # TO BE COMPLETED
+    @commands.command(aliases=["level-up", "levelup"], help="Example: !levelup Gandalf")
+    async def char_levelup(self, ctx, character, *args):
+        # TO BE IMPLEMENTED
+        # get current level and see if he can levelup
+        # get his class
+        # see if he has an ability score improvement and if yes give him a choice to gain a feat or attribute increase
+        # increase his max hp depending on class and CON
+        # if he is a spellcaster, increase his spell slots accordingly and offer to add more spells
+        # add a class feature if needed
+        pass
+
     @commands.command(aliases=["show character", "show"], help="Example: !show character Sauron or !show Sauron")
     async def char_display(self, ctx, character, *args):
-        for ar in args:
-            if ar != "":
-                character = character + " " + ar
-        char_dictionary = open_character_file(character)
-        result = f"```ml\n"
-        passive_skills = calculate_passive_skills(character)
-
-        # Name level, race and class
-        result = result + "     '" + char_dictionary['name'] + "'     \n" + "🔰Level " + str(char_dictionary['level']) \
-                 + " " + char_dictionary['race'] + " " + char_dictionary['class'] + "\n"
-
-        # HP, Initiative and Coins
-        result = result + "🩸Current HP: " + str(char_dictionary['hp']) + "\n🔱Initiative: " \
-                 + str(char_dictionary['initiative']) + "\n💰Current Coins: " \
-                 + str(char_dictionary['coins']) + "\n"
-
-        # Attributes and passive skills to the right side
-        attributes = char_dictionary['attributes']
-        result = result + "💥Strength: " + str(attributes['strength']) + "\n🎯Dexterity: " \
-                 + str(attributes['dexterity']) + "\n💖Constitution: " + \
-                 str(attributes['constitution']) + "\n💫Intelligence: " + str(attributes['intelligence']) + "\n💡Wisdom: " + \
-                 str(attributes['wisdom']) + "\n🎭Charisma: " + \
-                 str(attributes['charisma']) + "\n"
-        # Proficiencies
-        proficiencies=""
-        for i in char_dictionary['proficiencies']:
-            proficiencies=proficiencies+","+i
-        proficiencies=proficiencies[1:]
-        result = result + "🎲Proficiencies: " + proficiencies + "\n" + "🔍Passive Investigation: " + \
-                 str(passive_skills[1]) + "\n" + \
-                 "🗣️Passive Insight: " + str(passive_skills[0]) + "\n" + \
-                 "❗Passive Perception: " + str(passive_skills[0]) + "\n"
-
-        # Weapons and Items
-        result = result + "🏹Weapons: " + char_dictionary['weapons'] + "\n👜Items: " + char_dictionary['items'] + "\n"
-
-        # Feats
-        result = result + "🔰Feats: " + char_dictionary['feats'] + "```"
-
-        await ctx.send(result)
+        await display_character(ctx, character, *args)
 
     @commands.command(aliases=["delete"], help="Example: !delete Gandalf")
-    async def delete_character(self, ctx, character, *args):
-        for ar in args:
-            if ar != "":
-                character = character + " " + ar
-        if os.path.exists("../Characters/" + character + ".json"):
-            os.remove("../Characters/" + character + ".json")
-            await ctx.send("``Good riddance``")
-        else:
-            await ctx.send("``This character does not exist``")
+    async def char_delete(self, ctx, character, *args):
+        await delete_character(ctx, character, *args)
 
     @commands.command(aliases=["spellbook"], help="Example: !spellbook Ulric")
-    async def spell_book(self, ctx, character, *args):
-        char_dictionary = open_character_file(character, *args)
-        result = "```\n"
-        result = result + char_dictionary['spells'] + "\n"
-        result = result + "Spell Slots: ["
-        for i in char_dictionary['spellslots']:
-            result = result + str(i) + ", "
-        result = result[:-2] + "]```\n"
-        await ctx.send(result)
+    async def char_spellbook(self, ctx, character, *args):
+        await spell_book(ctx, character, *args)
 
-    @commands.command(aliases=["cast"], help="Example: !cast eldritch-blast Gandalf")
-    async def cast_spell(self, ctx, spellname, character, *args):
+    @commands.command(aliases=["cast"], help="Example: !cast shield Gandalf 2 (spell slot level is optional)")
+    async def char_cast_spell(self, ctx, spellname, character, level_request=-1, *args):
+        def check(msg):
+            return msg.author == ctx.author and msg.channel == ctx.channel
+
+        print(level_request)
+        # Get known spells, lowercase them and put in a new list
         char_dictionary = open_character_file(character, *args)
-        char_dictionary['spells'] = char_dictionary['spells'].split(',')
-        is_owned = map(lambda i: i.lower(), char_dictionary['spells'])
+
+        # Check if the user wants to cast a spell with a specific level
+        if level_request != -1:
+            await cast_with_level(ctx, char_dictionary, spellname, level_request)
+            return
+        # char_dictionary['spells'] = char_dictionary['spells'].split(',')
+        is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
+        # Check if spell is inside owned spells
         if spellname.lower() not in is_owned:
             await ctx.send("You do not have this spell!")
         else:
-            slots = char_dictionary['spellslots']
+            # Get spell's level and check if there are available spell slots
+            slots = char_dictionary['active_spellslots']
             path = "../Spells/" + spellname + ".txt"
             ftemp = open(path, "r")
             tfile = ftemp.read()
@@ -725,10 +756,18 @@ class CharacterCommands(commands.Cog):
             level = t2file[1][-3]
             if level.isnumeric():
                 level = int(level) - 1
+                # See if there are spell slots for that spell left
                 if slots[level] == 0:
+                    await ctx.send(
+                        f"``There are not enough spell slots for the spell's level. Do you want to use a higher"
+                        f"level spell slot? Yes/No``")
+                    response = (await self.bot.wait_for("message", check=check)).content
+                    if response.lower() == "no":
+                        return
                     while level <= 8:
                         if slots[level] > 0:
                             slots[level] = slots[level] - 1
+                            await ctx.send(f"``You will cast this spell with a level " + str(level + 1) + " slot")
                             break
                         level = level + 1
                 else:
@@ -737,9 +776,21 @@ class CharacterCommands(commands.Cog):
                     await ctx.send("You can't use any spell slot to cast this spell!")
                     return
 
-            # values are good and spell can be shown
-            char_dictionary['spellslots'] = slots
+            # values are good and spell can be shown. Show new spell slots
+            char_dictionary['active_spellslots'] = slots
+            string_slots = "```✨️Current Spell Slots: {"
+            for x in slots:
+                string_slots = string_slots + str(x) + ", "
+            string_slots = string_slots[:-2] + "}```"
             save_char_file(char_dictionary)
             tfile = separate_long_text(tfile)
             for i in tfile:
                 await ctx.send("```diff\n-" + i + "```")
+            await ctx.send(string_slots)
+
+    # TO BE COMPLETED
+    @commands.command(alises=["rest"], help="Example: !rest Bilbo")
+    async def char_rest(self, ctx, character, *args):
+        # make the player choose if it's a short or long rest and call function accordingly
+        # if it's a short rest ask the number of hit dice to use, and check if that number is correct
+        pass

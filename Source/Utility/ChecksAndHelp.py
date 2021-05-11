@@ -1,5 +1,6 @@
 import glob
 
+from Source.Items_And_Actions.Armor import Armors
 from Source.Items_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
 from Source.Utility.Messaging import send_cancelable_message
@@ -67,6 +68,7 @@ def is_spell_valid(name):
     return True
 
 
+# TO BE COMPLETED
 # verify if feat exists
 def is_feat_valid(name):
     return True
@@ -110,5 +112,46 @@ def is_weapon_valid(name, weapon_dictionary=Weapons().weapon_dictionary):
         return True
     return False
 
+
+# TO BE COMPLETED
 def is_item_valid():
     return True
+
+
+def is_armor_valid(name, armor_dictionary=Armors().armor_dictionary):
+    if " " in name:
+        name = name.split(' ')
+        newname = ""
+        for i in name:
+            i = (i.lower()).capitalize()
+            newname = newname + i + " "
+        newname = newname[:-1]
+    else:
+        newname = (name.lower()).capitalize()
+    if "Dnd" in newname:
+        return True
+    if newname in armor_dictionary.keys():
+        return True
+    return False
+
+
+# Receives an armor tuple (name,bool) and sends if it's equipped
+def is_armor_equipped(armor):
+    return armor[1]
+
+
+# TO BE COMPLETED
+# Checks if multiple armors are equipped. Does not count if it's a shield
+def are_multiple_armors_equipped(armors):
+    return
+
+
+# TO BE COMPLETED
+# Checks if there are enough available hit dice
+def can_throw_hit_dice(character_level, requested_dice):
+    return True
+
+
+# Checks if message is sent by the owner in the same channel as before (usually when responding to a command)
+def is_message_by_owner(ctx, msg):
+    return msg.author == ctx.author and msg.channel == ctx.channel

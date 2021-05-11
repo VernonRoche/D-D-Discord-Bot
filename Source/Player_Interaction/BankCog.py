@@ -2,7 +2,7 @@ from discord.ext import commands
 
 from Source.Utility import Globals
 from Source.Utility.Messaging import *
-from Source.Utility.Utilities import open_character_file, save_char_file
+from Source.Utility.Utilities import open_character_file, save_char_file, merge_name
 from Source.Utility.ChecksAndHelp import should_exit_command,is_value_valid
 
 
@@ -16,13 +16,8 @@ class Bank(commands.Cog):
             return msg.author == ctx.author and msg.channel == ctx.channel
 
         # Check if the command is called in the private discussion
-        if not (is_private_channel(ctx)):
-            await ctx.send("``Send this command in our little private chit chat ;)``")
-            await private_DM(ctx, "Please execute this command here.")
-            return
-        for ar in args:
-            if ar != "":
-                character = character + " " + ar
+        await redirect_to_private(ctx)
+        character=merge_name(character,args)
 
         char_dictionary = open_character_file(character)
         coins = char_dictionary['coins']

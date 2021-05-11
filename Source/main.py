@@ -11,6 +11,7 @@ from Player_Interaction.BankCog import Bank
 from Player_Interaction.CharacterCog import CharacterCommands
 
 from Source.Items_And_Actions.Weapon import WeaponCommands
+from Source.Items_And_Actions.Armor import ArmorCommands
 
 from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import is_spell_valid
@@ -26,6 +27,7 @@ bot.add_cog(DiceRoller(bot))
 bot.add_cog(Bank(bot))
 bot.add_cog(Bag(bot))
 bot.add_cog(WeaponCommands(bot))
+bot.add_cog(ArmorCommands(bot))
 bot.add_cog(Story(bot))
 
 bot.remove_command('help')
@@ -40,6 +42,7 @@ async def on_ready():
         print(bot.user.id)
     except Exception as e:
         print(e)
+
 
 @bot.command(name="test")
 async def test(ctx):

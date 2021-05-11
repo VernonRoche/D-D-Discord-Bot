@@ -1,25 +1,24 @@
-INFOINFOINFOINFO
+Information concerning json save format:
 
-file (deprecated, moved to .json)
-0:Name
-1:Race
-2:Class
-3:Level
-4:HP
-5:Coin
-6:Attributes ==> Strength, Dexterity, Constitution, Intellect, Wisdom, Charisma
-7:Weapons
-8:Items
-9:Initiative
-10:Proficiencies ==>array
-@
-11: spells
-12: feats
-13: spell slots ==>Level 1, Level 2....etc. up to 9
+name->string
+race->string
+class->string
+level->int
+hp->int
+coins->int
+attributes->dictionary->int
+weapons->string
+items->string
+initiative->int
+proficiencies->list of string
+spells->list of string
+feats->string
+spellslots->list of int
+active_spellslots->list of int
+armor_class->int
+armors->list of lists(pseudo-tuple)->first element is string, second is bool (representing if it's equipped
 
 
-
-Return order of passive skills: perception, investigation, insight
 
 @@@@@BUGFIXING@@@@@@
 -50 ft. rope seems to not work
@@ -46,8 +45,6 @@ Verify if roll has advantage or disadvantage
 
 Implement feats
 
-Implement armour class
-
 Add damage function
 -Show deal damage
 -Secret damage (backend)
@@ -56,10 +53,8 @@ Add race ability-score improvements
 
 Implement backgrounds
 
+Implement short and long rests
 
-Implement spellcasting
--Temporary slots
--Remove/add slots during spellcasting
 
 
 @@@@@CLASS RELATED@@@@@
@@ -77,7 +72,7 @@ Add colors to certain messages
 
 @@@@@ITEMS and CONSUMABLE@@@@@
 
-Add weapon functions (equip armor, attack with weapon)
+Add weapon functions (equip armor, attack with weapon, manage armors)
 
 
 
