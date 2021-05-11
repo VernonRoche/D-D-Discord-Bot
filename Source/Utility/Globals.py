@@ -49,5 +49,14 @@ stories_enum = {
     "NECROMANCERFAMILY":necromancer_family,
     "ROGUEMETAL":rogue_metal,
     "JUMPYORC":jumpy_orc,
-
+    "HOBBITSWORD":hobbit_sword,
+    "PREGNANTORC":pregnant_orc,
+    "HOBBITCANDLE":hobbit_candle,
+    "ELFSWORD":elf_sword,
+    "DEADHOBBITS":dead_hobbits,
+    "HUMANDOOR":human_door,
+    "MIMIC":mimic,
+    "DORD":dORd,
+    "TINNEDBEEF":tinned_beef,
+    "DWARFCIGAR":dwarf_cigar,
 }

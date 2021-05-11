@@ -24,6 +24,8 @@ Return order of passive skills: perception, investigation, insight
 @@@@@BUGFIXING@@@@@@
 -50 ft. rope seems to not work
 
+-fix spellbook
+
 
 @@@@@VERIFICATION@@@@@
 
