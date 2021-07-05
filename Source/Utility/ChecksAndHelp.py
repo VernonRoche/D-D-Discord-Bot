@@ -155,3 +155,11 @@ def can_throw_hit_dice(character_level, requested_dice):
 # Checks if message is sent by the owner in the same channel as before (usually when responding to a command)
 def is_message_by_owner(ctx, msg):
     return msg.author == ctx.author and msg.channel == ctx.channel
+
+
+# Checks if that string contains a valid type of coin
+def is_coin_valid(coin):
+    coin = coin.lower()
+    if coin != "copper" and coin != "silver" and coin != "gold" and coin != "electrum" and coin != "platinum":
+        return False
+    return True
