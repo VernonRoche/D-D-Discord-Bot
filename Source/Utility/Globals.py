@@ -22,7 +22,7 @@ bot_manual = ("```This is a list of possible commands:\n"
               "!spell <name of spell>  |||  Shows information on the asked spell\n"
               "!cast <spell> <character>  |||  Casts a given spell for the specific character. He must know it and have enough spell slots\n"
               "\n"
-              "Private Chat Player_Interaction: \n" \
+              "Private Chat Player_Interaction: \n"
               "!create  |||  Create a character\n"
               "!bag <character>  |||  Opens up the bag management tab for the character\n"
               "!bank <character> or !money <character> |||  Opens up the bank\n"

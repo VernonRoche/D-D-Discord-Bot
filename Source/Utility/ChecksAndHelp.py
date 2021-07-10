@@ -3,7 +3,6 @@ import glob
 from Source.Items_And_Actions.Armor import Armors
 from Source.Items_And_Actions.Weapon import Weapons
 from Source.Utility import Globals
-from Source.Utility.Messaging import send_cancelable_message
 
 
 # verify if the message received in chat is from the person that called the command
@@ -163,3 +162,29 @@ def is_coin_valid(coin):
     if coin != "copper" and coin != "silver" and coin != "gold" and coin != "electrum" and coin != "platinum":
         return False
     return True
+
+
+# Gets previous coin type
+def get_previous_coin_type(coin):
+    coin = coin.lower()
+    if coin == "copper" or coin == "silver":
+        return "copper"
+    elif coin == "electrum":
+        return "silver"
+    elif coin == "gold":
+        return "electrum"
+    else:
+        return "gold"
+
+
+# Gets next coin type
+def get_next_coin_type(coin):
+    coin = coin.lower()
+    if coin == "copper":
+        return "silver"
+    elif coin == "silver":
+        return "electrum"
+    elif coin == "electrum":
+        return "gold"
+    else:
+        return "platinum"
