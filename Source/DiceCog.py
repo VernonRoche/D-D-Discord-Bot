@@ -2,7 +2,7 @@ import random
 
 from discord.ext import commands
 
-from Player_Information.Skills import skill_modifier
+from Player_Information.SkillsArmor import skill_modifier
 from Source.Utility.Utilities import open_character_file
 from Source.Utility.Utilities import separate_long_text
 

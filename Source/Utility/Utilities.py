@@ -19,37 +19,22 @@ def save_char_file(char_dictionary):
     with open(filename, "w+") as output_file:
         json.dump(char_dictionary, output_file)
 
-def populate_character_dictionary(name,race,myclass,level,hp,coins,attributes,weapons,items,initiative,proficiences
-                                  ,spells,feats,spellslots):
-    #convert array of attributes into dictionary
-    attributes = [int(x) for x in attributes]
-    attributes_dict = {}
-    attributes_dict['strength']= attributes[0]
-    attributes_dict['dexterity']= attributes[1]
-    attributes_dict['constitution']= attributes[2]
-    attributes_dict['intelligence']= attributes[3]
-    attributes_dict['wisdom']= attributes[4]
-    attributes_dict['charisma']= attributes[5]
 
-    #populate dictionary
-    char_dictionary={}
-    char_dictionary['name']=name
-    char_dictionary['race']=race
-    char_dictionary['class']=myclass
-    char_dictionary['level']=int(level)
-    char_dictionary['hp']=int(hp)
-    char_dictionary['coins']=int(coins)
-    char_dictionary['attributes']=attributes_dict
-    char_dictionary['weapons']=weapons
-    char_dictionary['items']=items
-    char_dictionary['initiative']=int(initiative)
-    char_dictionary['proficiencies']=proficiences
-    char_dictionary['spells']=spells
-    char_dictionary['feats']=feats
-    char_dictionary['spellslots']=spellslots
+def populate_character_dictionary(name, race, myclass, level, hp, coins, attributes, weapons, items, initiative,
+                                  proficiences
+                                  , spells, feats, spellslots, armor_class, armors, active_spellslots):
+    # convert array of attributes into dictionary
+    attributes = [int(x) for x in attributes]
+    attributes_dict = {'strength': attributes[0], 'dexterity': attributes[1], 'constitution': attributes[2],
+                       'intelligence': attributes[3], 'wisdom': attributes[4], 'charisma': attributes[5]}
+
+    # populate dictionary
+    char_dictionary = {'name': name, 'race': race, 'class': myclass, 'level': int(level), 'hp': int(hp),
+                       'coins': int(coins), 'attributes': attributes_dict, 'weapons': weapons, 'items': items,
+                       'initiative': int(initiative), 'proficiencies': proficiences, 'spells': spells, 'feats': feats,
+                       'spellslots': spellslots, 'active_spellslots': active_spellslots, 'armor_class': armor_class, 'armors': armors}
     print(char_dictionary)
     return char_dictionary
-
 
 
 # checks if a text is too long for a single discord message
@@ -90,7 +75,11 @@ def separate_long_text(text, look_for_format=False):
         return [text]
 
 
-
+def merge_name(character_name,args):
+    for ar in args:
+        if ar != "":
+            character_name = character_name + " " + ar
+    return character_name
 
 async def this_is_some_alien_bababouy(ctx):
     i = 0
