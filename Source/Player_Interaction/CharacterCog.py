@@ -808,6 +808,29 @@ class CharacterCommands(commands.Cog):
                 await ctx.send("```diff\n-" + i + "```")
             await ctx.send(string_slots)
 
+    @commands.command(aliases=["cast special"], help="Example: !cast special shield Gandalf")
+    async def char_cast_spell_special(self, ctx, spellname, character, *args):
+        def check(msg):
+            return msg.author == ctx.author and msg.channel == ctx.channel
+
+        # Get known spells, lowercase them and put in a new list
+        char_dictionary = open_character_file(character, *args)
+
+        is_owned = map(lambda tmp: tmp.lower(), char_dictionary['spells'])
+        # Check if spell is inside owned spells
+        if spellname.lower() not in is_owned:
+            await ctx.send("You do not have this spell!")
+        else:
+            # Get spell's level and check if there are available spell slots
+            path = "../Spells/" + spellname + ".txt"
+            ftemp = open(path, "r")
+            tfile = ftemp.read()
+            ftemp.close()
+            # values are good and spell can be shown. Show new spell slots
+            tfile = separate_long_text(tfile)
+            for i in tfile:
+                await ctx.send("```diff\n-" + i + "```")
+
     # TO BE COMPLETED
     @commands.command(alises=["rest"], help="Example: !rest Bilbo")
     async def char_rest(self, ctx, character, *args):
