@@ -21,8 +21,7 @@ def save_char_file(char_dictionary):
 
 
 def populate_character_dictionary(name, race, myclass, level, hp, coins, attributes, weapons, items, initiative,
-                                  proficiences
-                                  , spells, feats, spellslots, armor_class, armors, active_spellslots):
+                                  proficiences, spells, feats, spellslots, armor_class, armors, active_spellslots):
     # convert array of attributes into dictionary
     attributes = [int(x) for x in attributes]
     attributes_dict = {'strength': attributes[0], 'dexterity': attributes[1], 'constitution': attributes[2],
@@ -32,7 +31,8 @@ def populate_character_dictionary(name, race, myclass, level, hp, coins, attribu
     char_dictionary = {'name': name, 'race': race, 'class': myclass, 'level': int(level), 'hp': int(hp),
                        'coins': int(coins), 'attributes': attributes_dict, 'weapons': weapons, 'items': items,
                        'initiative': int(initiative), 'proficiencies': proficiences, 'spells': spells, 'feats': feats,
-                       'spellslots': spellslots, 'active_spellslots': active_spellslots, 'armor_class': armor_class, 'armors': armors}
+                       'spellslots': spellslots, 'active_spellslots': active_spellslots, 'armor_class': armor_class,
+                       'armors': armors}
     print(char_dictionary)
     return char_dictionary
 
@@ -47,7 +47,7 @@ def is_long_text(text):
 # looks for the nearest text breaking character and returns it's location.
 # look_for_format indicates if it must search the end of ``` for text formatting
 def detect_endof_word(text, position, look_for_format):
-    if look_for_format == False:
+    if not look_for_format:
         counter = position
         for char in text[position:]:
             counter += 1
@@ -75,17 +75,18 @@ def separate_long_text(text, look_for_format=False):
         return [text]
 
 
-def merge_name(character_name,args):
+def merge_name(character_name, args):
     for ar in args:
         if ar != "":
             character_name = character_name + " " + ar
     return character_name
 
+
 async def this_is_some_alien_bababouy(ctx):
     i = 0
     fuckfest = ""
-    while (i < 25):
-        fuckfest = fuckfest + ("<a:emoji_1:746866499729489950>")
+    while i < 25:
+        fuckfest = fuckfest + "<a:emoji_1:746866499729489950>"
         i = i + 1
     tab = separate_long_text(fuckfest)
     for x in tab:
