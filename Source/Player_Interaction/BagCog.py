@@ -1,7 +1,6 @@
 from discord.ext import commands
 
 from Source.Items_And_Actions.Weapon import Weapons
-from Source.Utility import Globals
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file, merge_name
 from Source.Utility.ChecksAndHelp import should_exit_command, is_weapon_valid

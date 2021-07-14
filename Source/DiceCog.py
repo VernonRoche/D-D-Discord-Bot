@@ -1,4 +1,5 @@
-import random
+from numpy.random import seed
+from numpy.random import randint
 
 from discord.ext import commands
 
@@ -15,6 +16,7 @@ class DiceRoller(commands.Cog):
     @commands.command(aliases=["dice"],
                       help="Example: !dice 2d6. If you want to add a modifier use instead !dice 2d6 3. Default is 1d20.")
     async def dice_roll(self, ctx, dice="1d20", modifier=0):
+        seed(1)
         dice = dice.split('d')
         times = int(dice[0])
         roll = int(dice[1])
@@ -22,22 +24,21 @@ class DiceRoller(commands.Cog):
         if times <= 0 or roll <= 0:
             await ctx.send("``You creative muppet....check again your dice and enter a correct value!``")
             return
-        i = 0
         L = "🎲["
-        while i < times:
-            i += 1
-            outcome = random.randint(1, roll)
-            if outcome == roll:
+        rolls = randint(1, roll, times).tolist()
+        for i in rolls:
+            if i == roll:
                 L = L + "Critical!, "
 
-            elif outcome == 1:
+            elif i == 1:
                 L = L + "Critical Failure!, "
             else:
-                outcome = outcome + modifier
-                L = L + str(outcome) + ", "
+                i += modifier
+                L = L + str(i) + ", "
         L = L[:-2] + "]🎲"
 
-        # checks if length is supported for one Discord message. If not, it recursively splits the string by blocks of 1900 chars.
+        # checks if length is supported for one Discord message. If not, it recursively splits the string by blocks
+        # of 1900 chars.
         if len(L) <= 1900:
             L = "```" + L + "```"
             await ctx.send(L)

@@ -1,8 +1,6 @@
-import os
-
 from discord.ext import commands
 
-from Source.Player_Information.SkillsArmor import calculate_passive_skills, calculate_armor_class
+from Source.Player_Information.SkillsArmor import calculate_armor_class
 from Source.Player_Interaction.CharacterFunctions import *
 from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *
@@ -189,15 +187,26 @@ class CharacterCommands(commands.Cog):
         # Money
 
         # takes and checks coins
-        await send_cancelable_message(ctx, f"``Enter your starting coins: ``")
+        coins = {}
+        temp_coins_list = []
         while True:
             try:
-                coin = (await self.bot.wait_for("message", check=check)).content
-                if should_exit_command("!create", coin):
+                await send_cancelable_message(ctx, "f``Please enter your starting money. Copper Silver Electrum Gold "
+                                                   "Platinum. For example: 50 3 0 10 0")
+                response = (await self.bot.wait_for("message", check=check)).content.split(' ')
+                if should_exit_command("!create", response):
                     return
-                coin = int(coin)
-                if not is_value_valid(coin, "coins"):
-                    raise ValueError
+                for x in range(5):
+                    coin = int(response[x])
+                    if not is_value_valid(coin, "coins"):
+                        raise ValueError
+                    temp_coins_list[x] = coin
+                coins['copper'] = temp_coins_list[0]
+                coins['silver'] = temp_coins_list[1]
+                coins['electrum'] = temp_coins_list[2]
+                coins['gold'] = temp_coins_list[3]
+                coins['platinum'] = temp_coins_list[4]
+
                 break
             except ValueError:
                 await ctx.send("``Put some correct coin amount!``")
@@ -303,10 +312,11 @@ class CharacterCommands(commands.Cog):
 
         proficiencies = []
         await send_cancelable_message(ctx,
-                                      f"``Are you proficient with a skill?? When finished type dnd (Example: Acrobatics)``")
+                                      f"``Are you proficient with a skill?? When finished type dnd (Example: "
+                                      f"Acrobatics)``")
         while True:
             try:
-                if proficiencies == []:
+                if not proficiencies:
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
@@ -315,14 +325,15 @@ class CharacterCommands(commands.Cog):
                     proficiencies = [(response.lower()).capitalize()]
                 while proficiencies[-1] != "Dnd":
                     await send_cancelable_message(ctx,
-                                                  f"``Are you proficient with another skill?? When finished type dnd (Example: Acrobatics)``")
+                                                  f"``Are you proficient with another skill?? When finished type dnd "
+                                                  f"(Example: Acrobatics)``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
                     if not is_value_valid(response.lower(), "skill"):
                         raise ValueError
                     if (response.lower()).capitalize() in proficiencies:
-                        None
+                        pass
                     else:
                         proficiencies.append((response.lower()).capitalize())
                 del proficiencies[-1]
@@ -345,7 +356,9 @@ class CharacterCommands(commands.Cog):
             try:
                 while "Dnd" not in weapons:
                     await send_cancelable_message(ctx,
-                                                  f"``Enter your weapons if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 2 Mace): ``")
+                                                  f"``Enter your weapons if you have any and it's quantity, you will "
+                                                  f"be prompted again if you have another weapon. When finished type "
+                                                  f"dnd (example: 2 Mace): ``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
@@ -457,7 +470,9 @@ class CharacterCommands(commands.Cog):
             try:
                 while "Dnd" not in items:
                     await send_cancelable_message(ctx,
-                                                  f"``Enter your items if you have any and it's quantity, you will be prompted again if you have another weapon. When finished type dnd (example: 5 Arrow): ``")
+                                                  f"``Enter your items if you have any and it's quantity, you will be "
+                                                  f"prompted again if you have another weapon. When finished type dnd "
+                                                  f"(example: 5 Arrow): ``")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
                         return
@@ -532,13 +547,14 @@ class CharacterCommands(commands.Cog):
         listspells = []
         spells = ""
         if response.lower() == "no":
-            None
+            pass
         else:
             while True:
                 try:
-                    if listspells == []:
+                    if not listspells:
                         await send_cancelable_message(ctx,
-                                                      f"``Which spell do you know?? When finished type dnd (Example: Astral-Projection)``")
+                                                      f"``Which spell do you know?? When finished type dnd (Example: "
+                                                      f"Astral-Projection)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create", response):
                             return
@@ -555,14 +571,15 @@ class CharacterCommands(commands.Cog):
 
                     while "Dnd" not in listspells:
                         await send_cancelable_message(ctx,
-                                                      f"``Do you know any other spell?? When finished type dnd (Example: Aid)``")
+                                                      f"``Do you know any other spell?? When finished type dnd ("
+                                                      f"Example: Aid)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create", response):
                             return
                         if not is_spell_valid(response):
                             raise ValueError
                         if response.lower() in listspells:
-                            None
+                            pass
                         else:
                             if "-" not in response:
                                 listspells.append((response.lower()).capitalize())
@@ -597,13 +614,14 @@ class CharacterCommands(commands.Cog):
             return
         feats = ""
         if response.lower() == "no":
-            None
+            pass
         else:
             while True:
                 try:
                     if feats == "":
                         await send_cancelable_message(ctx,
-                                                      f"``Which feat do you have?? When finished type dnd (Example: Polearm Master)``")
+                                                      f"``Which feat do you have?? When finished type dnd (Example: "
+                                                      f"Polearm Master)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create", response):
                             return
@@ -612,14 +630,15 @@ class CharacterCommands(commands.Cog):
                         feats = feats + "," + (response.lower()).capitalize()
                     while "Dnd" not in feats:
                         await send_cancelable_message(ctx,
-                                                      f"``Do you know any other feat?? When finished type dnd (Example: War Caster)``")
+                                                      f"``Do you know any other feat?? When finished type dnd ("
+                                                      f"Example: War Caster)``")
                         response = (await self.bot.wait_for("message", check=check)).content
                         if should_exit_command("!create", response):
                             return
                         if not is_feat_valid(response):
                             raise ValueError
                         if (response.lower()).capitalize() in feats:
-                            None
+                            pass
                         else:
                             feats = feats + "," + (response.lower()).capitalize()
                     feats = feats[1:-4]
@@ -642,12 +661,13 @@ class CharacterCommands(commands.Cog):
         if should_exit_command("!create", response):
             return
         if response.lower() == "no":
-            None
+            pass
         else:
             while True:
                 try:
                     await send_cancelable_message(ctx,
-                                                  "``Enter the level and amount of slots (Levels are 1-9, max slots are 20). Example: 1 5 (5 Level 1 slots). When finished type dnd``"
+                                                  "``Enter the level and amount of slots (Levels are 1-9, max slots "
+                                                  "are 20). Example: 1 5 (5 Level 1 slots). When finished type dnd`` "
                                                   "\n```Level | Slot```")
                     response = (await self.bot.wait_for("message", check=check)).content
                     if should_exit_command("!create", response):
@@ -658,7 +678,7 @@ class CharacterCommands(commands.Cog):
                     response = [int(x) for x in response]
                     if not is_value_valid(response[1], "spellslot"):
                         raise ValueError
-                    if response[0] >= 1 and response[0] <= 9:
+                    if 1 <= response[0] <= 9:
                         spellslots[response[0] - 1] = response[1]
                     else:
                         await ctx.send("Enter a correct spell slot level!")
@@ -697,7 +717,7 @@ class CharacterCommands(commands.Cog):
         # Save the character
 
         save_char_file(
-            populate_character_dictionary(name, race, myclass, level, hp, coin, attributes, weapons, items, initiative,
+            populate_character_dictionary(name, race, myclass, level, hp, coins, attributes, weapons, items, initiative,
                                           proficiencies, spells, feats, spellslots, armor_class, armors,
                                           active_spellslots))
         await self.char_display(ctx, name)
