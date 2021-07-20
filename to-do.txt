@@ -25,6 +25,7 @@ armors->list of lists(pseudo-tuple)->first element is string, second is bool (re
 
 -fix spellbook
 
+-New dice method does not roll Criticals
 
 @@@@@VERIFICATION@@@@@
 
@@ -74,5 +75,28 @@ Add colors to certain messages
 
 Add weapon functions (equip armor, attack with weapon, manage armors)
 
+
+!!!@Domains and Subdomains to work upon@!!!
+Bugfixing/Optimisation:
+-Verify values for all user input values (class,race,weapon,items, numerical values etc.)
+-Do thorough tests and fix errors/bugs
+-Optimize current code and refactor code in big functions (notably character creation)
+-Set up non-relational database for spells and characters, and benchmark to see if it works faster than current raw filename search.
+Character Classes:
+-Create them
+-Create all their character features and apply their effects
+-Implement level up
+-Implement short/long rests
+Items and Consumables:
+-Create python class similar to Weapons and Armors to regroup and verify them
+-Add features such as weapon/armor equip, attacking with weapon, manage items easily
+-Add coin types and conversion functions
+Interface:
+-Convert all messages sent by the bot to embeds and make them better
+-Expand the "cancel command" system in place for long commands such as character creation
+-Add a PDF visualization/export
+-Add a PDF and D&D Beyond import feature
+User:
+-Implement user-specific character lists (now the character list is global for all users and servers)
 
 
