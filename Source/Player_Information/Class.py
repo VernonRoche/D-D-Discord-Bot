@@ -7,17 +7,19 @@ class Class(ABC):
 
     hit_points: int
 
-    proficiencies: dict
+    hit_dice: int
+    # The number of proficiencies they will be able to choose at level 1
+    proficiency_number: int
+
+    ability_score_improvement_levels: list
 
     spellcasting: bool
 
     spellcasting_ability: str
 
-    class_features: dict
+    proficiencies: dict
 
-    ability_score_improvement_levels: list
-# The number of proficiencies they will be able to choose at level 1
-    proficiency_number: int
+    class_features: dict
 
     @abstractmethod
     def get_spell_slots(self, level):
@@ -32,7 +34,7 @@ class Class(ABC):
         return NotImplementedError
 
     @abstractmethod
-    def initial_equipment(self):
+    def get_initial_equipment(self):
         return NotImplementedError
 
 
