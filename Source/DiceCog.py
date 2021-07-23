@@ -15,7 +15,7 @@ class DiceRoller(commands.Cog):
     # Roll a dice
     @commands.command(aliases=["dice"],
                       help="Example: !dice 2d6. If you want to add a modifier use instead !dice 2d6 3. Default is 1d20.")
-    async def dice_roll(self, ctx, dice="1d20", modifier=0):
+    async def dice_roll(self, ctx, dice="1d20", modifier=0, advantage=False):
         seed(1)
         dice = dice.split('d')
         times = int(dice[0])
@@ -25,7 +25,13 @@ class DiceRoller(commands.Cog):
             await ctx.send("``You creative muppet....check again your dice and enter a correct value!``")
             return
         L = "🎲["
-        rolls = randint(1, roll, times).tolist()
+        rolls = randint(1, roll + 1, times).tolist()
+        if advantage:
+            advantage_rolls = randint(1, roll + 1, times).tolist()
+            for i in range(times):
+                if rolls[i] < advantage_rolls[i]:
+                    rolls[i] = advantage_rolls[i]
+
         for i in rolls:
             if i == roll:
                 L = L + "Critical!, "

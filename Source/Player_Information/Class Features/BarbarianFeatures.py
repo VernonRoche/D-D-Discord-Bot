@@ -7,9 +7,6 @@ class BarbarianFeatures(ClassFeatures):
                     "Fast Movement", "Feral Instict", "Brutal Critical", "Relentless Rage", "Brutal Critical Upgrade 2",
                     "Indomitable Might", "Primal Champion"]
 
-    def __init__(self, name):
-        self.name = name
-
     def add_to_available_features(self, feature_dictionary):
         # get level
         # check current features
@@ -21,9 +18,13 @@ class BarbarianFeatures(ClassFeatures):
         # for each level where you gain a feature check the available ones and create a list
         return []
 
+    def to_dict(self):
+        # generate a key for each feature in feature_list and put it's corresponding function in the dict value
+        return {}
+
     def to_string(self):
-        result=""
+        result = ""
         for x in self.feature_list:
-            result=result+" "+x
-        result=result[1:]
+            result = result + " " + x
+        result = result[1:]
         return result

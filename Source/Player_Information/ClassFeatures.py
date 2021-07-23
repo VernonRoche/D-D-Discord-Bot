@@ -15,5 +15,9 @@ class ClassFeatures(ABC):
         return NotImplementedError
 
     @abstractmethod
+    def to_dict(self):
+        return NotImplementedError
+
+    @abstractmethod
     def to_string(self):
         return NotImplementedError
