@@ -25,7 +25,6 @@ armors->list of lists(pseudo-tuple)->first element is string, second is bool (re
 
 -fix spellbook
 
--New dice method does not roll Criticals
 
 @@@@@VERIFICATION@@@@@
 
