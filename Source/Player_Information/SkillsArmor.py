@@ -14,25 +14,12 @@ def calculate_passive_skills(character, *args):
 
 
 def calculate_level_proficiency(level):
-    if 1 <= level < 5:
-        return 2
-    if 5 <= level < 9:
-        return 3
-    if 9 <= level < 13:
-        return 4
-    if 13 <= level < 17:
-        return 5
-    if level >= 17:
-        return 6
+    return ((level - 1) // 4) + 2
 
 
 def calculate_attribute_bonus(attr):
-    if attr >= 10:
-        attr -= 10
-        return attr // 2
-    else:
-        attr -= 10
-        return attr // 2
+    attr -= 10
+    return attr // 2
 
 
 def skill_modifier(character, skill, *args):
