@@ -43,50 +43,24 @@ def skill_modifier(character, skill, *args):
     char_dictionary = open_character_file(character)
     proficiency = char_dictionary['proficiencies']
     prof = calculate_level_proficiency(char_dictionary['level'])
+    skill = skill.lower()
+    str_skills = ["strength", ["Athletics"]]
+    dex_skills = ["dexterity", ["Acrobatics", "Sleight of Hand", "Stealth"]]
+    int_skills = ["intelligence", ["Arcana", "History", "Investigation", "Nature", "Religion"]]
+    wis_skills = ["wisdom", ["Animal Handling", "Insight", "Medicine", "Perception", "Survival"]]
+    cha_skills = ["charisma", ["Deception", "Intimidation", "Persuasion", "Performance"]]
+    skills_list = [str_skills, dex_skills, int_skills, wis_skills, cha_skills]
 
     # check which skill is called and if it's in the proficiency array, used to show which proficiencies the character
     # has
-    if skill.lower() == "athletics" and ("Athletics" in proficiency):
-        return calculate_attribute_bonus(char_dictionary['attributes']['strength']) + prof
-    if skill.lower() == "athletics":
-        return calculate_attribute_bonus(char_dictionary['attributes']['strength'])
-
-    if (skill.lower() == "acrobatics" and ("Acrobatics" in proficiency)) or (skill.lower() == "sleight of hand" and (
-            ("Sleight of hand" in proficiency) or ("Sleight of Hand" in proficiency))) or (
-            skill.lower() == "stealth" and ("Stealth" in proficiency)):
-        return calculate_attribute_bonus(char_dictionary['attributes']['dexterity']) + prof
-    if skill.lower() == "acrobatics" or skill.lower() == "sleight of hand" or skill.lower() == "stealth":
-        return calculate_attribute_bonus(char_dictionary['attributes']['dexterity'])
-
-    if (skill.lower() == "arcana" and ("Arcana" in proficiency)) or (
-            skill.lower() == "history" and ("History" in proficiency)) or (
-            skill.lower() == "investigation" and ("Investigation" in proficiency)) or (
-            skill.lower() == "nature" and ("Nature" in proficiency)) or (
-            skill.lower() == "religion" and ("Religion" in proficiency)):
-        return calculate_attribute_bonus(char_dictionary['attributes']['intelligence']) + prof
-    if skill.lower() == "arcana" or skill.lower() == "history" or skill.lower() == "investigation" or skill.lower() == "nature" or skill.lower() == "religion":
-        return calculate_attribute_bonus(char_dictionary['attributes']['intelligence'])
-
-    if (skill.lower() == "animal handling" and (
-            ("Animal handling" in proficiency) or ("Animal Handling" in proficiency))) or (
-            skill.lower() == "insight" and ("Insight" in proficiency)) or (
-            skill.lower() == "medicine" and ("Medicine" in proficiency)) or (
-            skill.lower() == "perception" and ("Perception" in proficiency)) or (
-            skill.lower() == "survival" and ("Survival" in proficiency)):
-        return calculate_attribute_bonus(char_dictionary['attributes']['wisdom']) + prof
-    if skill.lower() == "animal handling" or skill.lower() == "insight" or skill.lower() == "medicine" or skill.lower() == "perception" or skill.lower() == "survival":
-        return calculate_attribute_bonus(char_dictionary['attributes']['wisdom'])
-
-    if (skill.lower() == "deception" and ("Deception" in proficiency)) or (
-            skill.lower() == "intimidation" and ("Intimidation" in proficiency)) or (
-            skill.lower() == "performance" and ("Performance" in proficiency)) or (
-            skill.lower() == "persuasion" and ("Persuasion" in proficiency)):
-        return calculate_attribute_bonus(char_dictionary['attributes']['charisma']) + prof
-    if skill.lower() == "deception" or skill.lower() == "intimidation" or skill.lower() == "performance" or skill.lower() == "persuasion":
-        return calculate_attribute_bonus(char_dictionary['attributes']['charisma'])
-
-    else:
-        return "error"
+    for skill_category in skills_list:
+        for x in skill_category[1]:
+            lower_x = x.lower()
+            if skill == lower_x and x in proficiency:
+                return calculate_attribute_bonus(char_dictionary['attributes'][skill_category[0]]) + prof
+            if skill == lower_x:
+                return calculate_attribute_bonus(char_dictionary['attributes'][skill_category[0]])
+    return "error"
 
 
 def calculate_armor_class(dexterity, armor):
