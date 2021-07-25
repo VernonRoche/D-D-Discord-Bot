@@ -1,11 +1,14 @@
 from Source.Player_Information.ClassFeatures import ClassFeatures
 
 
-class BarbarianFeatures(ClassFeatures):
-    classname = "Barbarian"
-    feature_list = ["Rage", "Unarmored Defense", "Reckless Attack", "Danger Sense", "Primal Path", "Extra Attack",
-                    "Fast Movement", "Feral Instict", "Brutal Critical", "Relentless Rage", "Brutal Critical Upgrade 2",
-                    "Indomitable Might", "Primal Champion"]
+class WizardFeatures(ClassFeatures):
+    classname = "Wizard"
+    feature_list = ["Spellbook",
+                    "Preparing and Casting Spells",
+                    "Arcane Recovery",
+                    "Arcane Tradition",
+                    "Spell Mastery",
+                    "Signature Spells"]
 
     def add_to_available_features(self, feature_dictionary):
         # get level
@@ -23,7 +26,7 @@ class BarbarianFeatures(ClassFeatures):
         return {}
 
     def to_string(self):
-        result = "Barbarian features: "
+        result = "Wizard features: "
         for x in self.feature_list:
             result = result + " " + x
         return result
