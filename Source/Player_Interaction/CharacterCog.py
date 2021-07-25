@@ -798,7 +798,7 @@ class CharacterCommands(commands.Cog):
 
             # values are good and spell can be shown. Show new spell slots
             char_dictionary['active_spellslots'] = slots
-            string_slots = "```✨️Current Spell Slots: {"
+            string_slots = "```"+emojis["STARS"]+"Current Spell Slots: {"
             for x in slots:
                 string_slots = string_slots + str(x) + ", "
             string_slots = string_slots[:-2] + "}```"

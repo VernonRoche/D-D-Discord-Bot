@@ -1,5 +1,6 @@
 from discord.ext import commands
 
+from Source.Utility.Globals import emojis
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file, merge_name
 from Source.Utility.ChecksAndHelp import should_exit_command, is_value_valid, is_coin_valid, get_next_coin_type, get_previous_coin_type
@@ -20,7 +21,7 @@ class Bank(commands.Cog):
 
         char_dictionary = open_character_file(character)
         coins = char_dictionary['coins']
-        await ctx.send("```💰Current Coins: " + str(coins) + "```")
+        await ctx.send("```"+ emojis["MONEY BAG"]+"Current Coins: " + str(coins) + "```")
 
         await ctx.send(f"``Do you want to deposit or withdraw coins? Yes/No``")
         while True:
@@ -39,7 +40,7 @@ class Bank(commands.Cog):
                             return
                         char_dictionary['coins'] = char_dictionary['coins'] + int(response)
                         save_char_file(char_dictionary)
-                        await ctx.send("```💰Current Coins: " + str(coins) + "```")
+                        await ctx.send("```"+emojis["MONEY BAG"]+"Current Coins: " + str(coins) + "```")
 
                     else:
                         await send_cancelable_message(ctx, f"``Enter the amount of coins you want to withdraw``")
@@ -51,7 +52,7 @@ class Bank(commands.Cog):
                             raise ValueError
                         char_dictionary['coins'] = char_dictionary['coins'] - int(response)
                         save_char_file(char_dictionary)
-                        await ctx.send("```💰Current Coins: " + str(coins) + "```")
+                        await ctx.send("```"+emojis["MONEY BAG"]+"Current Coins: " + str(coins) + "```")
 
                 else:
                     break
@@ -70,7 +71,7 @@ class Bank(commands.Cog):
 
         char_dictionary = open_character_file(character)
         coins = char_dictionary['coins']
-        await ctx.send("```💰Current Coins: " + str(coins) + "```")
+        await ctx.send("```"+emojis["MONEY BAG"]+"Current Coins: " + str(coins) + "```")
         await ctx.send_cancelable_message(
             f"``Do you want to convert to a higher type of coin or lower? Type higher/lower``")
         response = (await self.bot.wait_for("message", check=check)).content

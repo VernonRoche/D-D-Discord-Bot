@@ -4,6 +4,7 @@ from numpy.random import randint
 from discord.ext import commands
 
 from Player_Information.SkillsArmor import skill_modifier
+from Source.Utility.Globals import emojis
 from Source.Utility.Utilities import open_character_file
 from Source.Utility.Utilities import separate_long_text
 
@@ -24,7 +25,7 @@ class DiceRoller(commands.Cog):
         if times <= 0 or roll <= 0:
             await ctx.send("``You creative muppet....check again your dice and enter a correct value!``")
             return
-        L = "🎲["
+        L = emojis["DICE"]+"["
         rolls = randint(1, roll + 1, times).tolist()
         if advantage:
             advantage_rolls = randint(1, roll + 1, times).tolist()
@@ -41,7 +42,7 @@ class DiceRoller(commands.Cog):
             else:
                 i += modifier
                 L = L + str(i) + ", "
-        L = L[:-2] + "]🎲"
+        L = L[:-2] + "]"+emojis["DICE"]
 
         # checks if length is supported for one Discord message. If not, it recursively splits the string by blocks
         # of 1900 chars.

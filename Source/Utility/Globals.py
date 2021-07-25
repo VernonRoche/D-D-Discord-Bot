@@ -1,4 +1,6 @@
 from Source.Story.StoryGenerator import *
+from enum import Enum
+
 # Global variable to check if a command needs to be cancelled
 is_cancel_requested = False
 
@@ -45,18 +47,46 @@ stories_enum = {
     "IDENTITYTHEFT": identity_theft,
     "EGYPTBATHROOM": egypt_bathroom,
     "WORTHLESS": worthless_character,
-    "BARBARIANROGUE":barbarian_rogue,
-    "NECROMANCERFAMILY":necromancer_family,
-    "ROGUEMETAL":rogue_metal,
-    "JUMPYORC":jumpy_orc,
-    "HOBBITSWORD":hobbit_sword,
-    "PREGNANTORC":pregnant_orc,
-    "HOBBITCANDLE":hobbit_candle,
-    "ELFSWORD":elf_sword,
-    "DEADHOBBITS":dead_hobbits,
-    "HUMANDOOR":human_door,
-    "MIMIC":mimic,
-    "DORD":dORd,
-    "TINNEDBEEF":tinned_beef,
-    "DWARFCIGAR":dwarf_cigar,
+    "BARBARIANROGUE": barbarian_rogue,
+    "NECROMANCERFAMILY": necromancer_family,
+    "ROGUEMETAL": rogue_metal,
+    "JUMPYORC": jumpy_orc,
+    "HOBBITSWORD": hobbit_sword,
+    "PREGNANTORC": pregnant_orc,
+    "HOBBITCANDLE": hobbit_candle,
+    "ELFSWORD": elf_sword,
+    "DEADHOBBITS": dead_hobbits,
+    "HUMANDOOR": human_door,
+    "MIMIC": mimic,
+    "DORD": dORd,
+    "TINNEDBEEF": tinned_beef,
+    "DWARFCIGAR": dwarf_cigar,
+}
+
+emojis = {
+    "HAND STONE": "✊",
+    "HAND PAPER": "✋",
+    "HAND SCISSORS": "✌",
+    "HAND MIDDLE FINGER": "🖕",
+    "DICE": "🎲",
+    "DANCING PARROT": "<a:emoji_1:746866499729489950>",
+    "BOW": "🏹",
+    "BAG": "👜",
+    "MONEY BAG": "💰",
+    "STARS": "✨",
+    "SHIELD YELLOW GREEN": "🔰",
+    "SHIELD": "🛡",
+    "BLOOD": "🩸",
+    "SWORDS": "⚔",
+    "EXPLOSION ": "💥",
+    "ARROW TARGET": "🎯",
+    "HEART": "💖",
+    "ROTATING STAR": "💫",
+    "LIGHT BULB": "💡",
+    "MASKS": "🎭",
+    "ZOOM": "🔍",
+    "SPEECH": "🗣️",
+    "SHIELD BLUE": "💠",
+    "EXCLAMATION MARK": "❗",
+
 }
