@@ -86,18 +86,17 @@ def is_feat_valid(name):
 def is_value_valid(arg, name):
     if name == "hp" and arg <= 0:
         return False
-    if (name == "attribute" or name == "level" or name == "spellslot") and (arg <= 0 or arg > 20):
+    if (name in ("attribute", "level", "spellslot")) and not (0 < arg <= 20):
         return False
     if name == "coins" and arg < 0:
         return False
-    if name == "initiative" and (arg < -10 or arg > 10):
+    if name == "initiative" and not (-10 <= arg <= 10):
         return False
-    if name == "skill" and (arg != "dnd" and
-                            arg != "acrobatics" and arg != "athletics" and arg != "sleight of hand" and arg != "stealth" and
-                            arg != "arcana" and arg != "history" and arg != "investigation" and arg != "nature" and
-                            arg != "religion" and arg != "animal handling" and arg != "insight" and arg != "medicine" and
-                            arg != "perception" and arg != "survival" and arg != "deception" and arg != "intimidation" and
-                            arg != "performance" and arg != "persuasion"):
+    if name == "skill" and (arg not in ("dnd", "acrobatics", "athletics", "sleight of hand", "stealth"
+                                        , "arcana", "history", "investigation", "nature"
+                                        , "religion", "animal handling", "insight", "medicine"
+                                        , "perception", "survival", "deception", "intimidation", "performance",
+                                        "persuasion")):
         return False
     return True
 
