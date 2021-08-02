@@ -1,6 +1,7 @@
 from discord.ext import commands
 
 from Source.Items_And_Actions.Weapon import Weapons
+from Source.Utility.Globals import emojis
 from Source.Utility.Messaging import *
 from Source.Utility.Utilities import open_character_file, save_char_file, merge_name
 from Source.Utility.ChecksAndHelp import should_exit_command, is_weapon_valid
@@ -24,8 +25,8 @@ class Bag(commands.Cog):
         items = char_dictionary['items']
         weapons = char_dictionary['weapons']
 
-        await ctx.send("```🏹Current Weapons: " + weapons + "```")
-        await ctx.send("```👜Current Items: " + items + "```")
+        await ctx.send("```"+emojis["BOW"]+"Current Weapons: " + weapons + "```")
+        await ctx.send("```"+emojis["BAG"]+"Current Items: " + items + "```")
 
         await ctx.send(f"``Do you want to add or remove a weapon or item? Yes/No``")
         while True:
@@ -76,14 +77,14 @@ class Bag(commands.Cog):
                                     print(i)
                                 char_dictionary['weapons'] = result[1:]
                                 save_char_file(char_dictionary)
-                                await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
+                                await ctx.send("```"+emojis["BOW"]+"Current Weapons: " + weapons + "```")
 
                             else:
                                 response = str(quantity) + " " + (response.lower()).capitalize()
                                 weapons = weapons + "," + response
                                 char_dictionary['weapons'] = weapons
                                 save_char_file(char_dictionary)
-                                await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
+                                await ctx.send("```"+emojis["BOW"]+"Current Weapons: " + weapons + "```")
 
                         # remove weapon
                         elif response.lower() == "remove":
@@ -117,7 +118,7 @@ class Bag(commands.Cog):
                                 result = result + "," + i
                             char_dictionary['weapons'] = result[1:]
                             save_char_file(char_dictionary)
-                            await ctx.send("```🏹CCurrent Weapons: " + weapons + "```")
+                            await ctx.send("```"+emojis["BOW"]+"Current Weapons: " + weapons + "```")
                         else:
                             raise ValueError("bad entry")
 
@@ -154,14 +155,14 @@ class Bag(commands.Cog):
                                     result = result + "," + i
                                 char_dictionary['items'] = result[1:]
                                 save_char_file(char_dictionary)
-                                await ctx.send("```👜Current Items: " + items + "```")
+                                await ctx.send("```"+emojis["BAG"]+"Current Items: " + items + "```")
 
                             else:
                                 response = str(quantity) + " " + (response.lower()).capitalize()
                                 items = items + "," + response
                                 char_dictionary['items'] = items
                                 save_char_file(char_dictionary)
-                                await ctx.send("```👜Current Items: " + items + "```")
+                                await ctx.send("```"+emojis["BAG"]+"Current Items: " + items + "```")
 
                         # remove item
                         elif response.lower() == "remove":
@@ -195,7 +196,7 @@ class Bag(commands.Cog):
                                 result = result + "," + i
                             char_dictionary['items'] = result[1:]
                             save_char_file(char_dictionary)
-                            await ctx.send("```👜Current Items: " + items + "```")
+                            await ctx.send("```"+emojis["BAG"]+"Current Items: " + items + "```")
                         else:
                             raise ValueError("bad entry")
                     else:

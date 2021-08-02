@@ -43,13 +43,21 @@ def is_class_valid(name):
 
 
 # verify if character race exists
+# verify if character race exists
 def is_race_valid(name):
-    name = name.lower()
-    if (
-            name == "human" or name == "orc" or name == "half elf" or name == "elf" or name == "dragonborn" or name == "aasimar" or
-            name == "halfling" or name == "dwarf" or name == "gnome" or name == "half orc" or name == "tiefling"):
-        return True
-    return False
+    return name.lower() in {
+      'human',
+      'orc',
+      'half elf',
+      'elf',
+      'dragonborn',
+      'aasimar',
+      'halfling',
+      'dwarf',
+      'gnome',
+      'half orc',
+      'tiefling'
+    }
 
 
 # verify if spell exists

@@ -15,6 +15,7 @@ from Source.Items_And_Actions.Armor import ArmorCommands
 
 from Source.Utility import Globals
 from Source.Utility.ChecksAndHelp import is_spell_valid
+from Source.Utility.Globals import emojis
 from Source.Utility.Utilities import separate_long_text
 from Source.Utility.Utilities import this_is_some_alien_bababouy
 
@@ -74,14 +75,14 @@ async def shifoumi(ctx, finger=False):
     Lshif = ["", ""]
     for i in range(0, 2):
         if Lp[i] == 1:
-            Lshif[i] = "✊"
+            Lshif[i] = emojis["HAND STONE"]
         elif Lp[i] == 2:
-            Lshif[i] = "✋"
+            Lshif[i] = emojis["HAND PAPER"]
         else:
             if finger:
-                Lshif[i] = "🖕"
+                Lshif[i] = emojis["HAND MIDDLE FINGER"]
             else:
-                Lshif[i] = "✌️"
+                Lshif[i] = emojis["HAND SCISSORS"]
     await ctx.send("```Player 1: " + Lshif[0] + "\nPlayer 2: " + Lshif[1] + "```")
 
 

@@ -2,6 +2,9 @@ import json
 
 
 # pass character name to return a dictionary containing his information
+from Source.Utility.Globals import emojis
+
+
 def open_character_file(character, *args):
     for ar in args:
         if ar != "":
@@ -86,7 +89,7 @@ async def this_is_some_alien_bababouy(ctx):
     i = 0
     fuckfest = ""
     while i < 25:
-        fuckfest = fuckfest + "<a:emoji_1:746866499729489950>"
+        fuckfest = fuckfest + emojis["DANCING PARROT"]
         i = i + 1
     tab = separate_long_text(fuckfest)
     for x in tab:
