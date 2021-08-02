@@ -22,8 +22,6 @@ class Wizard(PlayerClass):
     # The number of proficiencies they will be able to choose at level 1
     proficiency_number: 2
 
-    ability_score_improvement_levels = [4, 8, 12, 16, 19]
-
     spellcasting = True
 
     spellcasting_ability = "Intelligence"
@@ -59,6 +57,9 @@ class Wizard(PlayerClass):
         "20": [4, 3, 3, 3, 3, 2, 2, 1, 1],
     }
 
+    def __init__(self, level):
+        super().__init__(level)
+
     def get_spell_slots(self):
         return self.spell_slots_per_level[self.level]
 
@@ -70,8 +71,7 @@ class Wizard(PlayerClass):
         return [["Quarterstaff", "Dagger"], ["Component Pouch", "Arcane Focus"], ["Scholar's Pack", "Explorer's Pack"],
                 "Spellbook"]
 
-    def __init__(self):
-        super().__init__()
+
 
     @feature("Ice Spell", cls=WizardFeatureTest)
     def spell(self):

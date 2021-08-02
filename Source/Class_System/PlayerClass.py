@@ -12,7 +12,7 @@ class PlayerClass(ABC):
     # The number of proficiencies they will be able to choose at level 1
     proficiency_number: int
 
-    ability_score_improvement_levels: list
+    ability_score_improvement_levels = [4, 8, 12, 16, 19]
 
     spellcasting: bool
 
@@ -20,8 +20,8 @@ class PlayerClass(ABC):
 
     proficiencies: dict
 
-    def __init__(self):
-        self.level = 1
+    def __init__(self, level):
+        self.level = level
 
     def on_level_up(self, new_level):
         """Updates the level attribute, prints and saves unlocked features"""

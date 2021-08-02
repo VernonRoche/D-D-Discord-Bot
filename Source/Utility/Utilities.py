@@ -88,13 +88,13 @@ def merge_name(character_name, args):
 #   This function takes a value, and check if it is in the bounds of inputs
 #   If yes then returns corresponding output, else just default
 ###
-def get_value_between_values(value, inputs, outputs, default):
-    if inputs[0] != (0 and 1):
+def get_value_between_values(value, inputs, outputs):
+    if len(inputs)-len(outputs) != 1:
         raise ValueError
     for i in range(len(inputs) - 1):
-        if inputs[i] < value < inputs[i + 1]:
+        if inputs[i] <= value < inputs[i + 1]:
             return outputs[i]
-    return default
+    raise ValueError
 
 
 async def this_is_some_alien_bababouy(ctx):
