@@ -84,7 +84,7 @@ class CharacterCommands(commands.Cog):
         ###########
         #########
         ########
-        # Class
+        # PlayerClass
 
         # checks class and capitalizes everything
         await send_cancelable_message(ctx, f"``Enter your character's class: ``")

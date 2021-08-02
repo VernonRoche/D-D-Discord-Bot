@@ -1,7 +1,7 @@
-from Source.Player_Information.ClassFeatures import ClassFeatures
+from Source.Player_Information.ClassFeature import ClassFeature
 
 
-class BarbarianFeatures(ClassFeatures):
+class BarbarianFeatureTest(ClassFeature):
     classname = "Barbarian"
     feature_list = ["Rage", "Unarmored Defense", "Reckless Attack", "Danger Sense", "Primal Path", "Extra Attack",
                     "Fast Movement", "Feral Instict", "Brutal Critical", "Relentless Rage", "Brutal Critical Upgrade 2",

@@ -1,8 +1,20 @@
-from Source.Player_Information.Class import Class
+from Source.Player_Information.Decorators import playable, feature
+from Source.Player_Information.PlayerClass import PlayerClass
+from Source.Player_Information.Class_Features import WizardFeatureTest
+
+wizard_class_features = {
+    'Spellbook': "",
+    'Preparing and Casting Spells': "",
+    'Arcane Recovery': "",
+    'Arcane Tradition': "",
+    'Spell Mastery': "",
+    'Signature Spells': "",
+}
 
 
-class Wizard(Class):
-    name = "Wizard"
+@playable
+class Wizard(PlayerClass):
+    class_name = "Wizard"
 
     hit_points = 4
 
@@ -22,16 +34,6 @@ class Wizard(Class):
         'Tools': [],
         'Saving Throws': ["Intelligence", "Wisdom"],
         'Skills': ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"]
-    }
-
-    # TO BE IMPLEMENTED
-    class_features = {
-        'Spellbook': "",
-        'Preparing and Casting Spells': "",
-        'Arcane Recovery': "",
-        'Arcane Tradition': "",
-        'Spell Mastery': "",
-        'Signature Spells': "",
     }
 
     spell_slots_per_level = {
@@ -57,8 +59,8 @@ class Wizard(Class):
         "20": [4, 3, 3, 3, 3, 2, 2, 1, 1],
     }
 
-    def get_spell_slots(self, level):
-        return self.spell_slots_per_level[str(level)]
+    def get_spell_slots(self):
+        return self.spell_slots_per_level[self.level]
 
     def get_levelup_hp(self, constitution):
         return self.hit_points + constitution
@@ -68,5 +70,9 @@ class Wizard(Class):
         return [["Quarterstaff", "Dagger"], ["Component Pouch", "Arcane Focus"], ["Scholar's Pack", "Explorer's Pack"],
                 "Spellbook"]
 
-    def to_string(self):
-        return "Wizard"
+    def __init__(self):
+        super().__init__()
+
+    @feature("Ice Spell", cls=WizardFeatureTest)
+    def spell(self):
+        print(f"Casted ice spell with damage of {self.spell.strength}")

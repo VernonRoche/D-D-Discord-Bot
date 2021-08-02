@@ -21,7 +21,7 @@ async def display_character(ctx, character, *args):
              + " " + char_dictionary['race'] + " " + char_dictionary['class'] + "\n"
 
     # Armor class
-    result = result + emojis["SHIELD"]+"Armor Class: " + str(char_dictionary['armor_class']) + "\n"
+    result = result + emojis["SHIELD"]+"Armor PlayerClass: " + str(char_dictionary['armor_class']) + "\n"
     # HP, Initiative and Coins
     result = result + emojis["BLOOD"] + "Current HP: " + str(char_dictionary['hp']) + emojis["SWORDS"]+"\n️Initiative: " \
              + str(char_dictionary['initiative']) + emojis["MONEY BAG"]+"\nCurrent Coins: " \
