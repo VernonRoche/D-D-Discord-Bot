@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from Source.Player_Information.SkillsArmor import calculate_armor_class
+from Source.Player_Information.Skills_AC import calculate_armor_class
 from Source.Player_Interaction.CharacterFunctions import *
 from Source.Utility.ChecksAndHelp import *
 from Source.Utility.Messaging import *

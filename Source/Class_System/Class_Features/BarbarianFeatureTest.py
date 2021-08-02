@@ -1,4 +1,4 @@
-from Source.Player_Information.ClassFeature import ClassFeature
+from Source.Class_System.ClassFeature import ClassFeature
 
 
 class BarbarianFeatureTest(ClassFeature):

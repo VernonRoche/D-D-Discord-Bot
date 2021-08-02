@@ -3,7 +3,7 @@ from numpy.random import randint
 
 from discord.ext import commands
 
-from Player_Information.SkillsArmor import skill_modifier
+from Source.Player_Information.Skills_AC import skill_modifier
 from Source.Utility.Globals import emojis
 from Source.Utility.Utilities import open_character_file
 from Source.Utility.Utilities import separate_long_text

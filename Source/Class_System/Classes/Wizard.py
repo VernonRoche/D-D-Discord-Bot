@@ -1,6 +1,6 @@
-from Source.Player_Information.Decorators import playable, feature
-from Source.Player_Information.PlayerClass import PlayerClass
-from Source.Player_Information.Class_Features import WizardFeatureTest
+from Source.Class_System.Decorators import playable, feature
+from Source.Class_System.PlayerClass import PlayerClass
+from Source.Class_System.Class_Features import WizardFeatureTest
 
 wizard_class_features = {
     'Spellbook': "",

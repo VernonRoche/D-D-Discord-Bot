@@ -1,6 +1,6 @@
 import os
 
-from Source.Player_Information.SkillsArmor import calculate_passive_skills
+from Source.Player_Information.Skills_AC import calculate_passive_skills
 
 from Source.Utility.Utilities import open_character_file, save_char_file, separate_long_text, merge_name
 

@@ -1,4 +1,4 @@
-from Source.Player_Information.ClassFeature import ClassFeature
+from Source.Class_System.ClassFeature import ClassFeature
 
 
 def feature(name: str, level: int = 1, cls=ClassFeature):

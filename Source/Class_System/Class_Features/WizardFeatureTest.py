@@ -1,7 +1,7 @@
 from math import floor, sqrt
 from typing import Any, Callable
 
-from Source.Player_Information.ClassFeature import ClassFeature
+from Source.Class_System.ClassFeature import ClassFeature
 
 
 class WizardFeatureTest(ClassFeature):

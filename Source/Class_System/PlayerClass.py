@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from Source.Player_Information.ClassFeature import ClassFeature
+from Source.Class_System.ClassFeature import ClassFeature
 
 
 class PlayerClass(ABC):

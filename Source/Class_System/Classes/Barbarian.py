@@ -1,5 +1,5 @@
-from Source.Player_Information.Decorators import feature, playable
-from Source.Player_Information.PlayerClass import PlayerClass
+from Source.Class_System.Decorators import feature, playable
+from Source.Class_System.PlayerClass import PlayerClass
 from Source.Utility.Utilities import get_value_between_values
 
 rage_per_level_in = [1, 2, 5, 12, 17, 20]
