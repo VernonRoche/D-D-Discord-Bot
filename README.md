@@ -21,22 +21,8 @@ First of all, the most basic usage of the bot is to roll different dice rolls.
 The syntax is "!roll <number of dice>d<type of dice>". Example: "!roll 3d20", "!roll 2d54".
 Upon calling the command a list of the die results will be shown. If a die hits the maximum value, "Critical!" will be shown, and if the die hits 1, "Critical Failure!" will appear.
 
-## Future Plans
-
-Something:
-
-- test
-
-
-
-## How it works
-
-
-
-```sh
-cd dillinger
-npm i
-node app
-```
+## Discontinued
+  
+  Unfortunately, due to a recent announcement that the Discord.py library will cease to be supported, the project is discontinued and development will move to a web-app based similar solution.
 
 
